@@ -1,0 +1,15 @@
+---
+description: Design-system rules for token-driven styling
+globs: Code/src/**, Code/**/styles/**, Code/**/tokens/**, Code/**/scripts/**
+alwaysApply: false
+---
+
+Auto-attaches when editing components, styles, or token pipeline files. Before editing,
+read the durable guidance:
+
+- Styling rules, token discovery, deviation handling, component variants:
+  `Agents/context/design-system.md`
+- Token pipeline and the alpha regression guard: `Agents/skills/design-tokens/SKILL.md`
+
+Keep this rule thin: put durable guidance in `Agents/` and reference it here rather than
+duplicating it.

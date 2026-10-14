@@ -1,0 +1,52 @@
+name: CI
+
+# Skeleton. Each step below is a placeholder named by role; replace its `run:` with the
+# real command from Code/README.md. Until then the placeholders only echo.
+
+on:
+  pull_request:
+    # The integration branch (default `main`). Add `staging` here if the project uses one.
+    branches: [main]
+  push:
+    branches: [main]
+
+# A newer push to the same PR makes the in-flight run obsolete.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Code
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # setup: install the toolchain and dependencies for the stack in Code/
+      # (a setup action for the language, then the install command).
+      - name: setup
+        run: echo "TODO: install toolchain and dependencies"
+
+      - name: lint
+        run: echo "TODO: <lint>"
+
+      - name: check
+        run: echo "TODO: <check>"
+
+      # `build` regenerates tokens first, so this also catches a token pipeline that no
+      # longer builds, a token that lost its alpha, and a dev-only page that leaked.
+      - name: build
+        run: echo "TODO: <build>"
+
+      # Prints the deviation summary. Deviations are warnings: this step exits 0 when any
+      # exist. `--strict` is a local-only flag and is not used here.
+      - name: validate
+        run: echo "TODO: <validate>"
+
+      # Build and validation regenerate tracked files (the unpacked Figma token JSON and
+      # the deviations backlog). A stale committed copy is what fails the job.
+      - name: tracked files are up to date
+        run: git diff --exit-code

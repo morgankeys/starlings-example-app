@@ -1,0 +1,21 @@
+# Prototyping kit: tracked folders, env files, editor cruft
+# Environment files: keep the example, ignore real values
+.env
+.env.*
+!.env.example
+
+# Dependencies and build output (Code/)
+node_modules/
+Code/dist/
+Code/coverage/
+*.tsbuildinfo
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+
+# Cursor: track shared project rules and skills, ignore everything else
+# (MCP configs and local state may contain tokens or machine-specific paths)
+.cursor/*
+!.cursor/rules/
+!.cursor/skills/

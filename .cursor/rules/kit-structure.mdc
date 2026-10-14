@@ -1,0 +1,22 @@
+---
+description: Prototyping kit structure and where agent material lives
+alwaysApply: true
+---
+
+This is a prototyping kit with four top-level, peer folders you may read and manage:
+
+- `Code/` — the full prototype codebase
+- `Docs/` — human-level documentation and resources
+- `Export/` — drop zone for built prototype artifacts (write, don't hand-edit)
+- `Agents/` — agent-facing skills, context, and prompts
+
+Before acting, consult the agent material — it is the source of truth:
+
+- Front door: `AGENTS.md` (repo root)
+- Index: `Agents/README.md`
+- Conventions & background: `Agents/context/`
+- Reusable capabilities: `Agents/skills/`
+- Task templates: `Agents/prompts/`
+
+Keep this rule thin: put durable guidance in `Agents/` and reference it here rather than
+duplicating it.

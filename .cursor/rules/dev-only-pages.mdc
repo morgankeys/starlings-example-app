@@ -1,0 +1,15 @@
+---
+description: Sandbox, test, and specimen pages render only in dev
+globs: Code/**/pages/**, Code/**/dev/**
+alwaysApply: false
+---
+
+Auto-attaches when editing pages. Sandbox, test, specimen, and sample pages render only on
+the local dev server, never in any build.
+
+- Put them under the single `dev/` folder; nowhere else.
+- Keep fictional or placeholder content in components only a dev route renders, never in a
+  page file. Real pages never import sample components.
+- Never weaken the build guard that fails when a `dev/` page reaches the build output.
+
+Full guidance: `Agents/context/dev-only-pages.md`.
