@@ -1,7 +1,6 @@
 name: CI
 
-# Skeleton. Each step below is a placeholder named by role; replace its `run:` with the
-# real command from Code/README.md. Until then the placeholders only echo.
+# Each step is named by role; Code/README.md maps roles to commands.
 
 on:
   pull_request:
@@ -25,26 +24,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # setup: install the toolchain and dependencies for the stack in Code/
-      # (a setup action for the language, then the install command).
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: Code/package-lock.json
+
       - name: setup
-        run: echo "TODO: install toolchain and dependencies"
+        run: npm ci
 
       - name: lint
-        run: echo "TODO: <lint>"
+        run: npm run lint
 
       - name: check
-        run: echo "TODO: <check>"
+        run: npm run check
 
       # `build` regenerates tokens first, so this also catches a token pipeline that no
       # longer builds, a token that lost its alpha, and a dev-only page that leaked.
       - name: build
-        run: echo "TODO: <build>"
+        run: npm run build
 
       # Prints the deviation summary. Deviations are warnings: this step exits 0 when any
       # exist. `--strict` is a local-only flag and is not used here.
       - name: validate
-        run: echo "TODO: <validate>"
+        run: npm run validate
+
+      - name: test
+        run: npm test
 
       # Build and validation regenerate tracked files (the unpacked Figma token JSON and
       # the deviations backlog). A stale committed copy is what fails the job.

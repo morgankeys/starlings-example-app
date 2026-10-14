@@ -1,8 +1,8 @@
 # Design system conventions
 
 Durable styling and component conventions for the prototype in `Code/`. Load this before
-editing components, styles, or anything that renders UI. Fill in the placeholders when the
-project starts; keep stack-specific detail in `Code/ARCHITECTURE.md`.
+editing components, styles, or anything that renders UI. Keep stack-specific detail in
+`Code/ARCHITECTURE.md`.
 
 For the token pipeline — how token CSS is generated from Figma exports, and the alpha
 transform — see [`Agents/skills/design-tokens/SKILL.md`](../skills/design-tokens/SKILL.md).
@@ -11,10 +11,28 @@ transform — see [`Agents/skills/design-tokens/SKILL.md`](../skills/design-toke
 
 Two files, two jobs:
 
-- **Site file** — the pages and features to implement: `<Figma link to the site file>`
-- **Library file** — core styles; tokens are exported from here: `<Figma link to the library file>`
+- **Site file** — the pages and features to implement: none yet. Birdy's screens were
+  designed in code; `Docs/Plan.md` lists the workflows.
+- **Library file** — core styles; tokens are exported from here: none yet. Until one
+  exists, the token source is written by hand in Figma's variables-export format under
+  `Docs/Design system/Figma tokens/unpacked/` (`Color/Light.tokens.json`,
+  `Color/Dark.tokens.json`, `Primitives/Baseline.tokens.json`). A real export replaces those
+  files; nothing downstream changes.
 
 List the same links for humans in `Docs/Design system/README.md`.
+
+## Where the look comes from
+
+- **Color:** the Starlings palette. Light is "drawing office" (paper `#f6f2ea`, ink
+  `#1d1b22`), dark is "field at dusk" (`#15141e`, apricot actions). Accents keep fixed jobs:
+  teal = done/success/focus, sky = in progress/info, violet = review and everything
+  AI, amber = due soon/high priority, rust = overdue/urgent/destructive. Rust is Birdy's
+  addition; Starlings has no red.
+- **Type:** Bricolage Grotesque for display (page titles, section headers, the greeting,
+  numerals), Instrument Sans for everything else.
+- **Elevation:** borders, not shadows, except floating layers (menus, popovers, dialogs,
+  docked panels on small screens), which use `--bd-color-shadow-overlay`.
+- **Density:** compact app UI, with 36px controls and 14px base text.
 
 ## Styling rules
 
@@ -23,14 +41,23 @@ No inline styles, and no global CSS outside the minimal global stylesheet and th
 token files.
 
 **Token variables only.** Every themed property uses a CSS custom property from the
-generated token files, under the project's namespace `--<prefix>-*`:
+generated token file (`Code/src/styles/tokens.generated.css`), under the namespace `--bd-*`:
 
-- **Color**: `--<prefix>-color-*`, including state-layer overlays
-- **Typography**: font family, size, weight, line-height, letter-spacing
-- **Shape**: border radius
-- **Spacing**: margin, padding, gap
+- **Color**: `--bd-color-*`. Groups: `bg-*` (app, raised, sunken, and the translucent
+  state layers `hover`, `pressed`, `selected`, `scrim`), `border-*`, `text-*`, `action-*`,
+  `focus-ring`, `link-default`, `accent-*` (teal, violet, amber, sky, rust, neutral, each
+  with a `-tint`), semantic `success-*`, `info-*`, `warning-*`, `danger-*`, `ai-*`,
+  `status-*` (todo, progress, review, done), `checkbox-*`, `shadow-overlay`
+- **Typography**: `--bd-font-family-{display,ui,mono}`, `--bd-font-size-{xs…4xl}`,
+  `--bd-font-weight-{regular,medium,semibold,bold}`, `--bd-font-line-height-{tight,snug,normal}`,
+  `--bd-font-letter-spacing-{tight,normal,wide}`
+- **Shape**: `--bd-radius-{xs,sm,md,lg,xl,pill}`
+- **Spacing**: `--bd-space-{0-5,1,1-5,2,2-5,3,4,5,6,8,10,12,16}` (4px scale)
+- **Sizes**: `--bd-size-*` for controls, icons, avatars and layout widths
+- **Motion**: `--bd-duration-{fast,normal,slow}`
 
-Record the real namespace and its groups here once the first export is in.
+Tints are for the fill behind their own accent (chips, badges, icon tiles) and never for
+large surfaces.
 
 **Discovering variable names: grep the generated CSS, never guess.** Search the generated
 token files for a likely name and confirm it exists before using it. If they are gitignored,
@@ -62,8 +89,8 @@ place to hide violations. Its contract is in
 
 Variant axes are exposed as `data-*` attributes on the component root, not as
 component-local custom properties (which the validator flags as outside the token
-namespace). Each combination is an explicit attribute-selector rule, for example
-`.icon-button[data-size="sm"] .icon-button__container`.
+namespace). Each combination is an explicit attribute-selector rule in the component's
+CSS Module, for example `.button[data-variant='primary']`.
 
 Every primitive carries `data-component="<Name>"` plus one `data-<axis>` per variant
 dimension (`data-variant`, `data-size`, and so on). Because these attributes are the
