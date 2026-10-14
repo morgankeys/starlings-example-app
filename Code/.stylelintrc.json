@@ -1,0 +1,47 @@
+{
+  "extends": ["stylelint-config-standard", "stylelint-config-css-modules"],
+  "plugins": ["stylelint-declaration-strict-value"],
+  "ignoreFiles": ["src/styles/tokens.generated.css", "dist/**"],
+  "rules": {
+    "selector-class-pattern": null,
+    "custom-property-pattern": ["^bd-[a-z0-9-]+$", { "message": "Custom properties use the --bd-* token namespace" }],
+    "value-keyword-case": ["lower", { "camelCaseSvgKeywords": false }],
+    "declaration-empty-line-before": null,
+    "no-descending-specificity": null,
+    "scale-unlimited/declaration-strict-value": [
+      [
+        "/color$/",
+        "background",
+        "fill",
+        "stroke",
+        "font-family",
+        "font-size",
+        "font-weight",
+        "line-height",
+        "letter-spacing",
+        "/^(margin|padding)/",
+        "gap",
+        "row-gap",
+        "column-gap",
+        "/radius$/"
+      ],
+      {
+        "ignoreValues": [
+          "inherit",
+          "initial",
+          "unset",
+          "transparent",
+          "currentcolor",
+          "currentColor",
+          "none",
+          "auto",
+          "0",
+          "normal",
+          "/^calc\\(/",
+          "/^var\\(/"
+        ],
+        "disableFix": true
+      }
+    ]
+  }
+}
