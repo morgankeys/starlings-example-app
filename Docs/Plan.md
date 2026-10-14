@@ -242,3 +242,26 @@ big numbers). Instrument Sans is the utility face (everything else).
 | 4. People and teams | Workflows 17–19 |
 | 5. Ask Birdy | Workflows 20–22 |
 | 6. Cross-cutting and docs | ⌘K, states, `Code/README.md`, `Code/ARCHITECTURE.md`, `Agents/context`, tests, CI |
+
+---
+
+## 8. Status
+
+**Built (first pass):** every ★ workflow above, plus:
+
+- A dev-only component specimen page (`/dev/components`).
+- Unit tests for permissions, the assistant engine, quick-add parsing and the answer
+  renderer.
+- CI wired to `lint`, `check`, `build`, `validate` and `test`.
+
+**Not built yet (stretch):** board view, bulk actions, an activity feed on Home, creating
+tasks from assistant answers, assistant thread history, notifications, org settings for
+admins, and a Playwright smoke test in CI.
+
+**Known limits:**
+
+- One browser is one simulated session; there's no real multi-user sync.
+- Uploads keep only a record, not the file's contents.
+- Image and PDF files have no preview.
+- On screens narrower than 1100px, the task or file panel and Ask Birdy overlap when both
+  are open.

@@ -1,0 +1,42 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bd-space-2);
+}
+
+.mark {
+  width: var(--bd-size-avatar-sm);
+  height: var(--bd-size-avatar-sm);
+}
+
+.logo[data-size='lg'] .mark {
+  width: var(--bd-size-control-lg);
+  height: var(--bd-size-control-lg);
+}
+
+.tile {
+  fill: var(--bd-color-action-bg);
+}
+
+.bird {
+  fill: var(--bd-color-action-text);
+}
+
+.wordmark {
+  font-family: var(--bd-font-family-display);
+  font-size: var(--bd-font-size-xl);
+  font-weight: var(--bd-font-weight-bold);
+  letter-spacing: var(--bd-font-letter-spacing-tight);
+}
+
+.logo[data-size='lg'] .wordmark {
+  font-size: var(--bd-font-size-3xl);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}

@@ -29,5 +29,5 @@ npm install
 npm run dev        # http://localhost:5173
 ```
 
-Sign in as anyone at Meridian. The **Demo** button (bottom left) switches people, simulates
+Sign in as anyone at Meridian. The **Demo** button (bottom of the sidebar) switches people, simulates
 slow or failing requests, and resets the data.

@@ -11,7 +11,7 @@ The repo-root `AGENTS.md` is the entry point agents load first; it points here.
 ```
 Agents/
 ├── skills/        Reusable capabilities, one folder per skill (design-tokens/, pr/, example-skill/)
-├── context/       Conventions and background (kit-structure, git-workflow, design-system, dev-only-pages)
+├── context/       Conventions and background (kit-structure, git-workflow, design-system, dev-only-pages, mock-backend)
 │   └── troubleshooting/  Tips, tricks, and gotchas, indexed by symptom (load as needed)
 ├── prompts/       Task templates (review-drift, regenerate-tokens, example-task)
 └── README.md      This index

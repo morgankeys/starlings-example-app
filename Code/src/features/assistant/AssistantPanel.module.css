@@ -1,0 +1,200 @@
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bd-space-1-5);
+  color: var(--bd-color-ai-default);
+  font-size: var(--bd-font-size-md);
+  font-weight: var(--bd-font-weight-semibold);
+}
+
+.title svg {
+  width: var(--bd-size-icon-md);
+  height: var(--bd-size-icon-md);
+}
+
+.scroll {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--bd-space-2);
+  padding: var(--bd-space-8) var(--bd-space-5);
+}
+
+.welcomeIcon {
+  display: grid;
+  place-items: center;
+  width: var(--bd-size-control-lg);
+  height: var(--bd-size-control-lg);
+  margin-bottom: var(--bd-space-2);
+  border-radius: var(--bd-radius-md);
+  background: var(--bd-color-ai-tint);
+  color: var(--bd-color-ai-default);
+}
+
+.welcomeIcon svg {
+  width: var(--bd-size-icon-lg);
+  height: var(--bd-size-icon-lg);
+}
+
+.welcomeTitle {
+  font-size: var(--bd-font-size-xl);
+}
+
+.welcomeText {
+  color: var(--bd-color-text-muted);
+}
+
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bd-space-2);
+  width: 100%;
+  margin-top: var(--bd-space-3);
+  list-style: none;
+}
+
+.suggestion {
+  width: 100%;
+  padding: var(--bd-space-2-5) var(--bd-space-3);
+  border: 1px solid var(--bd-color-border-default);
+  border-radius: var(--bd-radius-md);
+  background: var(--bd-color-bg-raised);
+  text-align: left;
+  cursor: pointer;
+}
+
+.suggestion:hover {
+  border-color: var(--bd-color-ai-default);
+  color: var(--bd-color-ai-default);
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bd-space-5);
+  padding: var(--bd-space-5);
+  list-style: none;
+}
+
+.message[data-role='user'] {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 85%;
+  padding: var(--bd-space-2) var(--bd-space-3);
+  border-radius: var(--bd-radius-lg);
+  background: var(--bd-color-action-bg);
+  color: var(--bd-color-action-text);
+  white-space: pre-wrap;
+}
+
+.message[data-status='error'] {
+  color: var(--bd-color-danger-default);
+}
+
+.thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bd-space-2);
+  color: var(--bd-color-text-muted);
+  font-size: var(--bd-font-size-sm);
+}
+
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bd-space-2);
+  padding: var(--bd-space-3) var(--bd-space-4) var(--bd-space-2);
+}
+
+.context {
+  display: flex;
+  align-items: center;
+  gap: var(--bd-space-2);
+  font-size: var(--bd-font-size-xs);
+}
+
+.contextLabel {
+  color: var(--bd-color-text-muted);
+}
+
+.contextChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bd-space-1);
+  min-width: 0;
+  padding: var(--bd-space-0-5) var(--bd-space-0-5) var(--bd-space-0-5) var(--bd-space-1-5);
+  border-radius: var(--bd-radius-xs);
+  background: var(--bd-color-ai-tint);
+  color: var(--bd-color-ai-default);
+  font-weight: var(--bd-font-weight-medium);
+}
+
+.contextChip svg {
+  width: var(--bd-size-icon-sm);
+  height: var(--bd-size-icon-sm);
+}
+
+.contextText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contextClear {
+  display: inline-grid;
+  place-items: center;
+  padding: var(--bd-space-0-5);
+  border: 0;
+  border-radius: var(--bd-radius-xs);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.contextClear:hover {
+  background: var(--bd-color-bg-hover);
+}
+
+.inputRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--bd-space-2);
+  padding: var(--bd-space-1-5);
+  border: 1px solid var(--bd-color-border-default);
+  border-radius: var(--bd-radius-md);
+  background: var(--bd-color-bg-app);
+}
+
+.inputRow:focus-within {
+  border-color: var(--bd-color-ai-default);
+}
+
+.input {
+  flex: 1;
+  min-height: var(--bd-size-control-md);
+  max-height: calc(var(--bd-size-control-lg) * 4);
+  padding: var(--bd-space-2);
+  border: 0;
+  background: transparent;
+  outline: none;
+  resize: none;
+  field-sizing: content;
+}
+
+.input::placeholder {
+  color: var(--bd-color-text-placeholder);
+}
+
+.disclaimer {
+  color: var(--bd-color-text-muted);
+  font-size: var(--bd-font-size-xs);
+  text-align: center;
+}

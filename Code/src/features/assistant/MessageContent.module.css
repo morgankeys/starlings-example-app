@@ -1,0 +1,66 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bd-space-2-5);
+  line-height: var(--bd-font-line-height-normal);
+}
+
+.paragraph strong,
+.list strong {
+  font-weight: var(--bd-font-weight-semibold);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bd-space-1-5);
+  padding-left: var(--bd-space-5);
+}
+
+.sub {
+  color: var(--bd-color-text-muted);
+  font-size: var(--bd-font-size-sm);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bd-space-1);
+  max-width: 100%;
+  margin: 0 var(--bd-space-0-5);
+  padding: 0 var(--bd-space-1-5);
+  border: 1px solid var(--bd-color-border-default);
+  border-radius: var(--bd-radius-xs);
+  background: var(--bd-color-bg-raised);
+  font-size: var(--bd-font-size-sm);
+  font-weight: var(--bd-font-weight-medium);
+  line-height: var(--bd-font-line-height-snug);
+  vertical-align: baseline;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--bd-color-ai-default);
+}
+
+.chip svg {
+  width: var(--bd-size-icon-sm);
+  height: var(--bd-size-icon-sm);
+  color: var(--bd-color-text-muted);
+}
+
+.chipText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pending {
+  display: inline-block;
+  width: var(--bd-space-16);
+  height: var(--bd-space-3);
+  border-radius: var(--bd-radius-xs);
+  background: var(--bd-color-bg-pressed);
+  vertical-align: middle;
+  animation: bd-pulse 1.4s ease-in-out infinite;
+}

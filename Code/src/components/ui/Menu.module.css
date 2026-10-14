@@ -1,0 +1,96 @@
+.content {
+  z-index: 60;
+  min-width: calc(var(--bd-size-sidebar) - var(--bd-space-8));
+  max-height: 70vh;
+  padding: var(--bd-space-1);
+  overflow-y: auto;
+  border: 1px solid var(--bd-color-border-default);
+  border-radius: var(--bd-radius-md);
+  background: var(--bd-color-bg-raised);
+  box-shadow: 0 8px 24px var(--bd-color-shadow-overlay);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--bd-space-2);
+  min-height: var(--bd-size-control-sm);
+  padding: var(--bd-space-1) var(--bd-space-2);
+  border-radius: var(--bd-radius-xs);
+  color: var(--bd-color-text-default);
+  font-size: var(--bd-font-size-md);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+.item[data-highlighted] {
+  background: var(--bd-color-bg-hover);
+}
+
+.item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.item[data-variant='danger'] {
+  color: var(--bd-color-danger-default);
+}
+
+.icon {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--bd-size-icon-md);
+  color: var(--bd-color-text-muted);
+}
+
+.item[data-variant='danger'] .icon {
+  color: inherit;
+}
+
+.icon svg,
+.check svg {
+  width: var(--bd-size-icon-md);
+  height: var(--bd-size-icon-md);
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shortcut {
+  color: var(--bd-color-text-muted);
+  font-size: var(--bd-font-size-xs);
+}
+
+.check {
+  display: inline-grid;
+  color: var(--bd-color-success-default);
+}
+
+.separator {
+  height: 1px;
+  margin: var(--bd-space-1) 0;
+  background: var(--bd-color-border-default);
+}
+
+.label {
+  padding: var(--bd-space-1-5) var(--bd-space-2) var(--bd-space-1);
+  color: var(--bd-color-text-muted);
+  font-size: var(--bd-font-size-xs);
+  font-weight: var(--bd-font-weight-semibold);
+  letter-spacing: var(--bd-font-letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+/* Animate in only: Radix unmounts closed content as soon as no animation is running. */
+.content[data-state='open'],
+.content[data-state='delayed-open'],
+.content[data-state='instant-open'] {
+  animation: bd-pop-in var(--bd-duration-fast) ease-out;
+}
