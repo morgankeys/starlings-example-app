@@ -1,0 +1,47 @@
+.iconButton {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--bd-size-control-md);
+  height: var(--bd-size-control-md);
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--bd-radius-sm);
+  background: transparent;
+  color: var(--bd-color-text-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--bd-duration-fast),
+    color var(--bd-duration-fast);
+}
+
+.iconButton svg {
+  width: var(--bd-size-icon-md);
+  height: var(--bd-size-icon-md);
+}
+
+.iconButton:hover:not(:disabled),
+.iconButton[data-state='open'] {
+  background: var(--bd-color-bg-hover);
+  color: var(--bd-color-text-default);
+}
+
+.iconButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.iconButton[data-size='sm'] {
+  width: var(--bd-size-control-sm);
+  height: var(--bd-size-control-sm);
+}
+
+.iconButton[data-size='sm'] svg {
+  width: var(--bd-size-icon-sm);
+  height: var(--bd-size-icon-sm);
+}
+
+.iconButton[data-variant='secondary'] {
+  border-color: var(--bd-color-border-default);
+  background: var(--bd-color-bg-raised);
+}

@@ -1,0 +1,33 @@
+.nav {
+  min-width: 0;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bd-space-1);
+  list-style: none;
+  color: var(--bd-color-text-muted);
+  font-size: var(--bd-font-size-sm);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bd-space-1);
+}
+
+.link:hover {
+  color: var(--bd-color-text-default);
+  text-decoration: underline;
+}
+
+.current {
+  color: var(--bd-color-text-default);
+}
+
+.separator {
+  width: var(--bd-size-icon-sm);
+  height: var(--bd-size-icon-sm);
+}

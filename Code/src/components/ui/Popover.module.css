@@ -1,0 +1,16 @@
+.content {
+  z-index: 60;
+  min-width: var(--bd-size-sidebar);
+  padding: var(--bd-space-3);
+  border: 1px solid var(--bd-color-border-default);
+  border-radius: var(--bd-radius-md);
+  background: var(--bd-color-bg-raised);
+  box-shadow: 0 8px 24px var(--bd-color-shadow-overlay);
+}
+
+/* Animate in only: Radix unmounts closed content as soon as no animation is running. */
+.content[data-state='open'],
+.content[data-state='delayed-open'],
+.content[data-state='instant-open'] {
+  animation: bd-pop-in var(--bd-duration-fast) ease-out;
+}
