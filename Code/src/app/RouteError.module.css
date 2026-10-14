@@ -1,0 +1,19 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bd-space-3);
+  min-height: 100vh;
+  padding: var(--bd-space-6);
+  text-align: center;
+}
+
+.message {
+  color: var(--bd-color-text-muted);
+}
+
+.link {
+  color: var(--bd-color-link-default);
+  text-decoration: underline;
+}

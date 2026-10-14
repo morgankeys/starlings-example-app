@@ -1,0 +1,26 @@
+// Query keys in one place, so invalidation is predictable.
+import type { FileView, TaskFilters } from '@/domain/types';
+
+export const keys = {
+  session: ['session'] as const,
+  signInPeople: ['session', 'people'] as const,
+  demo: ['demo'] as const,
+  users: ['users'] as const,
+  user: (id: string) => ['users', id] as const,
+  teams: (mine = false) => ['teams', { mine }] as const,
+  team: (id: string) => ['teams', id] as const,
+  projects: ['projects'] as const,
+  project: (id: string) => ['projects', id] as const,
+  tasks: (filters: TaskFilters = {}) => ['tasks', 'list', filters] as const,
+  allTasks: ['tasks'] as const,
+  task: (id: string) => ['tasks', 'detail', id] as const,
+  folder: (id: string) => ['folders', id] as const,
+  folderTree: ['folders', 'tree'] as const,
+  allFolders: ['folders'] as const,
+  files: (view: FileView, limit?: number) => ['files', 'list', view, limit] as const,
+  allFiles: ['files'] as const,
+  file: (id: string) => ['files', 'detail', id] as const,
+  share: (type: 'file' | 'folder', id: string) => ['shares', type, id] as const,
+  search: (q: string) => ['search', q] as const,
+  focus: ['assistant', 'focus'] as const,
+};

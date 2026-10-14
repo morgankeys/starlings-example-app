@@ -1,0 +1,111 @@
+.page {
+  display: grid;
+  min-height: 100vh;
+  padding: var(--bd-space-10) var(--bd-space-4);
+  place-items: start center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bd-space-6);
+  width: min(var(--bd-size-dialog-md), 100%);
+  padding: var(--bd-space-10);
+  border: 1px solid var(--bd-color-border-default);
+  border-radius: var(--bd-radius-xl);
+  background: var(--bd-color-bg-raised);
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bd-space-2);
+}
+
+.title {
+  font-size: var(--bd-font-size-3xl);
+}
+
+.subtitle {
+  color: var(--bd-color-text-muted);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bd-space-3);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--bd-space-3);
+  color: var(--bd-color-text-muted);
+  font-size: var(--bd-font-size-sm);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--bd-color-border-default);
+}
+
+.people {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bd-space-1);
+  list-style: none;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: var(--bd-space-3);
+  width: 100%;
+  padding: var(--bd-space-2) var(--bd-space-3);
+  border: 1px solid transparent;
+  border-radius: var(--bd-radius-md);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.person:hover {
+  border-color: var(--bd-color-border-default);
+  background: var(--bd-color-bg-app);
+}
+
+.personText {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.personName {
+  font-weight: var(--bd-font-weight-medium);
+}
+
+.personRole {
+  color: var(--bd-color-text-muted);
+  font-size: var(--bd-font-size-sm);
+}
+
+.personArrow {
+  width: var(--bd-size-icon-md);
+  height: var(--bd-size-icon-md);
+  color: var(--bd-color-text-muted);
+  opacity: 0;
+}
+
+.person:hover .personArrow,
+.person:focus-visible .personArrow {
+  opacity: 1;
+}
+
+@media (width <= 560px) {
+  .card {
+    padding: var(--bd-space-6);
+  }
+}
