@@ -1,6 +1,12 @@
 // Shared plumbing for the mock API: simulated latency and failures (from the demo panel),
 // the signed-in user, and consistent JSON errors.
-import { HttpResponse, delay, type DefaultBodyType, type PathParams, type StrictRequest } from 'msw';
+import {
+  HttpResponse,
+  delay,
+  type DefaultBodyType,
+  type PathParams,
+  type StrictRequest,
+} from 'msw';
 import type { User } from '@/domain/types';
 import { getDb, save } from './db';
 import type { Database } from './db-types';
@@ -65,15 +71,15 @@ type Result = Response | object | null | undefined;
  */
 export function route<P extends PathParams = PathParams>(
   fn: (ctx: RouteContext<P>) => Result | Promise<Result>,
-  opts: { auth?: boolean; demo?: boolean } = {},
+  opts: { auth?: boolean; demo?: boolean; failable?: boolean } = {},
 ) {
-  const { auth = true, demo = false } = opts;
+  const { auth = true, demo = false, failable = true } = opts;
   return async ({ request, params }: { request: StrictRequest<DefaultBodyType>; params: P }) => {
     const settings = getDemoSettings();
     if (!demo) {
       const [min, max] = LATENCY_MS[settings.latency];
       if (max) await delay(min + Math.random() * (max - min));
-      if (settings.failRequests) {
+      if (settings.failRequests && failable) {
         return HttpResponse.json(
           { error: { code: 'server_error', message: 'The server had a problem. Try again.' } },
           { status: 500 },
@@ -89,14 +95,17 @@ export function route<P extends PathParams = PathParams>(
       );
     }
     try {
-      const result = await fn({ request, params, url: new URL(request.url), db, user: user!, });
+      const result = await fn({ request, params, url: new URL(request.url), db, user: user! });
       if (request.method !== 'GET') save();
       if (result instanceof Response) return result;
       if (result === null || result === undefined) return new HttpResponse(null, { status: 204 });
       return HttpResponse.json(result);
     } catch (err) {
       if (err instanceof HttpError) {
-        return HttpResponse.json({ error: { code: err.code, message: err.message } }, { status: err.status });
+        return HttpResponse.json(
+          { error: { code: err.code, message: err.message } },
+          { status: err.status },
+        );
       }
       console.error('[mock api]', err);
       return HttpResponse.json(

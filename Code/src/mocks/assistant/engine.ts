@@ -5,13 +5,7 @@
 // **bold**, and citation tokens like [[task:t_123]] that the UI turns into chips.
 // To swap in a real model, replace `answer()` behind the same endpoint.
 import { differenceInCalendarDays, format, parseISO } from 'date-fns';
-import type {
-  AssistantRequest,
-  Citation,
-  FocusSummary,
-  ID,
-  User,
-} from '@/domain/types';
+import type { AssistantRequest, Citation, FocusSummary, ID, User } from '@/domain/types';
 import { canSeeTask, fileAccess, teamIdsOf, toTask, visibleFiles } from '../access';
 import type { Database, FileRecord, TaskRecord } from '../db-types';
 
@@ -37,6 +31,13 @@ function duePhrase(date: string | null): string {
   if (d < 7) return `due ${format(parseISO(date), 'EEEE')}`;
   return `due ${format(parseISO(date), 'MMM d')}`;
 }
+
+const STATUS_TEXT = {
+  todo: 'to do',
+  in_progress: 'in progress',
+  in_review: 'in review',
+  done: 'done',
+} as const;
 
 const isOpen = (t: TaskRecord) => t.status !== 'done' && !t.deletedAt;
 
@@ -69,12 +70,18 @@ function visibleTasks(db: Database, user: User) {
 function blockedBy(db: Database, user: User, t: TaskRecord): TaskRecord[] {
   const stem = t.title.toLowerCase().split(' ').slice(0, 4).join(' ');
   return visibleTasks(db, user).filter(
-    (o) => o.id !== t.id && isOpen(o) && o.labels.includes('blocked') && o.description.toLowerCase().includes(stem),
+    (o) =>
+      o.id !== t.id &&
+      isOpen(o) &&
+      o.labels.includes('blocked') &&
+      o.description.toLowerCase().includes(stem),
   );
 }
 
 function blockersOf(db: Database, user: User, t: TaskRecord): TaskRecord[] {
-  return visibleTasks(db, user).filter((o) => o.id !== t.id && isOpen(o) && blockedBy(db, user, o).some((b) => b.id === t.id));
+  return visibleTasks(db, user).filter(
+    (o) => o.id !== t.id && isOpen(o) && blockedBy(db, user, o).some((b) => b.id === t.id),
+  );
 }
 
 // ---- Focus -----------------------------------------------------------------------------
@@ -102,7 +109,10 @@ function focusScore(db: Database, user: User, t: TaskRecord): { score: number; r
     reasons.push('others are waiting on it');
   }
   const recent = db.comments.filter(
-    (c) => c.taskId === t.id && c.authorId !== user.id && differenceInCalendarDays(new Date(), new Date(c.createdAt)) <= 1,
+    (c) =>
+      c.taskId === t.id &&
+      c.authorId !== user.id &&
+      differenceInCalendarDays(new Date(), new Date(c.createdAt)) <= 1,
   );
   if (recent.length) reasons.push(plural(recent.length, 'new comment'));
   return { score, reason: reasons.join(' · ') };
@@ -120,7 +130,9 @@ export function focus(db: Database, user: User): FocusSummary {
   let headline: string;
   if (mine.length === 0) headline = "You're all caught up. Nothing is assigned to you.";
   else if (overdue || dueToday) {
-    const parts = [overdue && `${overdue} overdue`, dueToday && `${dueToday} due today`].filter(Boolean);
+    const parts = [overdue && `${overdue} overdue`, dueToday && `${dueToday} due today`].filter(
+      Boolean,
+    );
     headline = `You have ${parts.join(' and ')}. Start with “${ranked[0].t.title}”.`;
   } else headline = `Nothing is overdue. “${ranked[0].t.title}” is the best place to start.`;
 
@@ -148,8 +160,15 @@ function parseDoc(text: string) {
     else sections[sections.length - 1].lines.push(line);
   }
   const bullets = (pred: (s: string) => boolean) =>
-    sections.flatMap((s) => s.lines.filter((l) => l.startsWith('- ')).map((l) => l.slice(2)).filter(pred));
-  const decisions = bullets((l) => /^decision:/i.test(l)).map((l) => l.replace(/^decision:\s*/i, ''));
+    sections.flatMap((s) =>
+      s.lines
+        .filter((l) => l.startsWith('- '))
+        .map((l) => l.slice(2))
+        .filter(pred),
+    );
+  const decisions = bullets((l) => /^decision:/i.test(l)).map((l) =>
+    l.replace(/^decision:\s*/i, ''),
+  );
   const actions = bullets((l) => /^action:/i.test(l)).map((l) => l.replace(/^action:\s*/i, ''));
   const paragraphs = sections.flatMap((s) => s.lines.filter((l) => !l.startsWith('- ')));
   const preferred = /finding|goal|must|risk|status|recommend|milestone|quote|theme|shoot|channel/i;
@@ -180,9 +199,12 @@ function summarizeFile(ctx: Ctx, f: FileRecord): string {
   const doc = parseDoc(f.contentText);
   const out = [`Here's the short version of ${ref}:`];
   if (doc.paragraphs.length) out.push(doc.paragraphs.slice(0, 2).join(' '));
-  if (doc.highlights.length) out.push(`**Key points**\n${doc.highlights.map((h) => `- ${h}`).join('\n')}`);
-  if (doc.decisions.length) out.push(`**Decisions**\n${doc.decisions.map((d) => `- ${d}`).join('\n')}`);
-  if (doc.actions.length) out.push(`**Action items**\n${doc.actions.map((a) => `- ${a}`).join('\n')}`);
+  if (doc.highlights.length)
+    out.push(`**Key points**\n${doc.highlights.map((h) => `- ${h}`).join('\n')}`);
+  if (doc.decisions.length)
+    out.push(`**Decisions**\n${doc.decisions.map((d) => `- ${d}`).join('\n')}`);
+  if (doc.actions.length)
+    out.push(`**Action items**\n${doc.actions.map((a) => `- ${a}`).join('\n')}`);
   return out.join('\n\n') + linkedLine;
 }
 
@@ -193,8 +215,12 @@ function decisionsIn(ctx: Ctx, f: FileRecord): string {
     return `${ref} doesn't record any decisions or action items. Want a summary instead?`;
   }
   const out: string[] = [];
-  if (doc.decisions.length) out.push(`${ref} records ${plural(doc.decisions.length, 'decision')}:\n${doc.decisions.map((d) => `- ${d}`).join('\n')}`);
-  if (doc.actions.length) out.push(`**Action items**\n${doc.actions.map((a) => `- ${a}`).join('\n')}`);
+  if (doc.decisions.length)
+    out.push(
+      `${ref} records ${plural(doc.decisions.length, 'decision')}:\n${doc.decisions.map((d) => `- ${d}`).join('\n')}`,
+    );
+  if (doc.actions.length)
+    out.push(`**Action items**\n${doc.actions.map((a) => `- ${a}`).join('\n')}`);
   return out.join('\n\n');
 }
 
@@ -209,20 +235,44 @@ function scopedTasks(ctx: Ctx): { tasks: TaskRecord[]; scope: string; mine: bool
   const all = visibleTasks(db, user).filter(isOpen);
   const mine = /\b(my|me|i)\b/.test(q) && !/\bmy teams?\b/.test(q);
   if (req.context?.type === 'team') {
-    return { tasks: all.filter((t) => t.teamId === req.context!.id), scope: req.context.label, mine: false };
+    return {
+      tasks: all.filter((t) => t.teamId === req.context!.id),
+      scope: req.context.label,
+      mine: false,
+    };
   }
   if (req.context?.type === 'project') {
-    return { tasks: all.filter((t) => t.projectId === req.context!.id), scope: req.context.label, mine: false };
+    return {
+      tasks: all.filter((t) => t.projectId === req.context!.id),
+      scope: req.context.label,
+      mine: false,
+    };
   }
   if (req.context?.type === 'person') {
-    return { tasks: all.filter((t) => t.assigneeId === req.context!.id), scope: req.context.label, mine: false };
+    return {
+      tasks: all.filter((t) => t.assigneeId === req.context!.id),
+      scope: req.context.label,
+      mine: false,
+    };
   }
-  const project = db.projects.find((p) => q.includes(p.name.toLowerCase().replace(/'/g, '')) || q.includes(p.name.toLowerCase()));
-  if (project) return { tasks: all.filter((t) => t.projectId === project.id), scope: project.name, mine: false };
-  if (mine) return { tasks: all.filter((t) => t.assigneeId === user.id), scope: 'your tasks', mine: true };
+  const project = db.projects.find(
+    (p) => q.includes(p.name.toLowerCase().replace(/'/g, '')) || q.includes(p.name.toLowerCase()),
+  );
+  if (project)
+    return {
+      tasks: all.filter((t) => t.projectId === project.id),
+      scope: project.name,
+      mine: false,
+    };
+  if (mine)
+    return { tasks: all.filter((t) => t.assigneeId === user.id), scope: 'your tasks', mine: true };
   if (/\bteams?\b/.test(q)) {
     const myTeams = teamIdsOf(db, user.id);
-    return { tasks: all.filter((t) => t.teamId && myTeams.includes(t.teamId)), scope: 'your teams', mine: false };
+    return {
+      tasks: all.filter((t) => t.teamId && myTeams.includes(t.teamId)),
+      scope: 'your teams',
+      mine: false,
+    };
   }
   return { tasks: all.filter((t) => t.assigneeId === user.id), scope: 'your tasks', mine: true };
 }
@@ -261,7 +311,11 @@ function answerDue(ctx: Ctx): string {
 function answerWorkload(ctx: Ctx): string {
   const { db, user, req, cite } = ctx;
   const teamIds = req.context?.type === 'team' ? [req.context.id] : teamIdsOf(db, user.id);
-  const members = [...new Set(db.teams.filter((t) => teamIds.includes(t.id)).flatMap((t) => t.members.map((m) => m.userId)))];
+  const members = [
+    ...new Set(
+      db.teams.filter((t) => teamIds.includes(t.id)).flatMap((t) => t.members.map((m) => m.userId)),
+    ),
+  ];
   if (!members.length) return "You're not on a team yet, so there's no workload to compare.";
   const open = visibleTasks(db, user).filter(isOpen);
   const rows = members
@@ -275,7 +329,8 @@ function answerWorkload(ctx: Ctx): string {
   const heavy = rows.filter((r) => r.week >= 4 || r.overdue >= 2);
   const scope = req.context?.type === 'team' ? req.context.label : 'your teams';
   const lines = rows.map(
-    (r) => `- ${cite.user(r.id)} — ${plural(r.week, 'task')} due this week${r.overdue ? ` (${r.overdue} overdue)` : ''}, ${r.open} open in total`,
+    (r) =>
+      `- ${cite.user(r.id)} — ${plural(r.week, 'task')} due this week${r.overdue ? ` (${r.overdue} overdue)` : ''}, ${r.open} open in total`,
   );
   const verdict = heavy.length
     ? `${heavy.map((r) => cite.user(r.id)).join(' and ')} ${heavy.length === 1 ? 'looks' : 'look'} stretched this week.`
@@ -286,24 +341,32 @@ function answerWorkload(ctx: Ctx): string {
 function explainTask(ctx: Ctx, t: TaskRecord): string {
   const { db, user, cite } = ctx;
   const parts = [
-    `${cite.task(t)} is **${t.status.replace('_', ' ')}**, ${duePhrase(t.dueDate)}, ${t.priority} priority, assigned to ${t.assigneeId ? cite.user(t.assigneeId) : 'nobody yet'}.`,
+    `${cite.task(t)} is **${STATUS_TEXT[t.status]}**, ${duePhrase(t.dueDate)}, ${t.priority} priority, assigned to ${t.assigneeId ? cite.user(t.assigneeId) : 'nobody yet'}.`,
   ];
   if (t.description) parts.push(t.description);
   const blockers = blockersOf(db, user, t);
   const blocking = blockedBy(db, user, t);
   if (blockers.length) {
-    parts.push(`**Blocked by**\n${blockers.map((b) => taskLine(ctx, b, { who: true })).join('\n')}`);
+    parts.push(
+      `**Blocked by**\n${blockers.map((b) => taskLine(ctx, b, { who: true })).join('\n')}`,
+    );
   } else if (t.labels.includes('blocked')) {
-    parts.push('It is labeled **blocked**, but no task in Birdy is marked as the blocker. Check the comments.');
+    parts.push(
+      'It is labeled **blocked**, but no task in Birdy is marked as the blocker. Check the comments.',
+    );
   }
   if (blocking.length) {
     parts.push(`**Blocking**\n${blocking.map((b) => taskLine(ctx, b, { who: true })).join('\n')}`);
   }
   const comments = db.comments.filter((c) => c.taskId === t.id).slice(-2);
   if (comments.length) {
-    parts.push(`**Latest comments**\n${comments.map((c) => `- ${firstName(db, c.authorId)}: “${c.body}”`).join('\n')}`);
+    parts.push(
+      `**Latest comments**\n${comments.map((c) => `- ${firstName(db, c.authorId)}: “${c.body}”`).join('\n')}`,
+    );
   }
-  const files = db.files.filter((f) => t.fileIds.includes(f.id) && !f.deletedAt && fileAccess(db, user, f));
+  const files = db.files.filter(
+    (f) => t.fileIds.includes(f.id) && !f.deletedAt && fileAccess(db, user, f),
+  );
   if (files.length) parts.push(`Linked files: ${files.map((f) => cite.file(f)).join(' ')}`);
   return parts.join('\n\n');
 }
@@ -315,10 +378,11 @@ function answerBlocked(ctx: Ctx): string {
     if (t) return explainTask(ctx, t);
   }
   const { tasks, scope } = scopedTasks({ ...ctx, q: ctx.q.replace(/\b(my|me|i)\b/g, '') });
-  const blocked = (scope === 'your tasks' ? visibleTasks(db, user).filter(isOpen) : tasks).filter((t) =>
-    t.labels.includes('blocked'),
+  const blocked = (scope === 'your tasks' ? visibleTasks(db, user).filter(isOpen) : tasks).filter(
+    (t) => t.labels.includes('blocked'),
   );
-  if (!blocked.length) return `Nothing is marked as blocked in ${scope === 'your tasks' ? 'the workspace' : scope}.`;
+  if (!blocked.length)
+    return `Nothing is marked as blocked in ${scope === 'your tasks' ? 'the workspace' : scope}.`;
   const lines = blocked.map((t) => {
     const by = blockersOf(db, user, t);
     return `${taskLine(ctx, t, { who: true })}${by.length ? `\n  Waiting on ${by.map((b) => `${ctx.cite.task(b)} (${firstName(db, b.assigneeId)})`).join(', ')}` : ''}`;
@@ -330,7 +394,9 @@ function answerStatus(ctx: Ctx): string {
   const { db, user, req, q, cite } = ctx;
   const project =
     (req.context?.type === 'project' && db.projects.find((p) => p.id === req.context!.id)) ||
-    db.projects.find((p) => q.includes(p.name.toLowerCase()) || q.includes(p.name.toLowerCase().split(' ')[0]));
+    db.projects.find(
+      (p) => q.includes(p.name.toLowerCase()) || q.includes(p.name.toLowerCase().split(' ')[0]),
+    );
   if (!project) return answerFocus(ctx);
   const tasks = visibleTasks(db, user).filter((t) => t.projectId === project.id);
   const open = tasks.filter(isOpen);
@@ -340,13 +406,22 @@ function answerStatus(ctx: Ctx): string {
     .filter((t) => t.dueDate && daysUntil(t.dueDate) >= 0)
     .sort((a, b) => a.dueDate!.localeCompare(b.dueDate!))
     .slice(0, 3);
-  const verdict = overdue.length >= 3 ? 'at risk' : overdue.length ? 'mostly on track, with a few slips' : 'on track';
+  const verdict =
+    overdue.length >= 3
+      ? 'at risk'
+      : overdue.length
+        ? 'mostly on track, with a few slips'
+        : 'on track';
   const parts = [
     `**${project.name}** looks ${verdict}: ${done} of ${tasks.length} tasks are done and ${plural(overdue.length, 'is', 'are')} overdue.`,
   ];
-  if (overdue.length) parts.push(`**Overdue**\n${overdue.map((t) => taskLine(ctx, t, { who: true })).join('\n')}`);
-  if (next.length) parts.push(`**Coming up**\n${next.map((t) => taskLine(ctx, t, { who: true })).join('\n')}`);
-  const plan = db.files.find((f) => f.folderId === project.folderId && /plan|brief/i.test(f.name) && fileAccess(db, user, f));
+  if (overdue.length)
+    parts.push(`**Overdue**\n${overdue.map((t) => taskLine(ctx, t, { who: true })).join('\n')}`);
+  if (next.length)
+    parts.push(`**Coming up**\n${next.map((t) => taskLine(ctx, t, { who: true })).join('\n')}`);
+  const plan = db.files.find(
+    (f) => f.folderId === project.folderId && /plan|brief/i.test(f.name) && fileAccess(db, user, f),
+  );
   if (plan) parts.push(`The plan of record is ${cite.file(plan)}.`);
   return parts.join('\n\n');
 }
@@ -372,24 +447,37 @@ function answerFind(ctx: Ctx): string {
     .map(([f]) => {
       const name = f.name.toLowerCase();
       const body = f.contentText.toLowerCase();
-      const score = words.reduce((s, w) => s + (name.includes(w) ? 3 : 0) + (body.includes(w) ? 1 : 0), 0);
+      const score = words.reduce(
+        (s, w) => s + (name.includes(w) ? 3 : 0) + (body.includes(w) ? 1 : 0),
+        0,
+      );
       return { f, score };
     })
     .filter((x) => x.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, 5);
-  if (!scored.length) return `I couldn't find any files you can open that mention “${words.join(' ')}”.`;
+  if (!scored.length)
+    return `I couldn't find any files you can open that mention “${words.join(' ')}”.`;
   return `I found ${plural(scored.length, 'file')} about “${words.join(' ')}”:\n\n${scored
-    .map(({ f }) => `- ${cite.file(f)} — updated ${format(new Date(f.updatedAt), 'MMM d')} by ${firstName(db, f.updatedById)}`)
+    .map(
+      ({ f }) =>
+        `- ${cite.file(f)} — updated ${format(new Date(f.updatedAt), 'MMM d')} by ${firstName(db, f.updatedById)}`,
+    )
     .join('\n')}`;
 }
 
 function answerWho(ctx: Ctx): string {
   const { db, user, q, cite } = ctx;
-  const words = keywords(q.replace(/\bwho('s| is)?\b|working|owns|owner|responsible|assigned/g, ''));
+  const words = keywords(
+    q.replace(/\bwho('s| is)?\b|working|owns|owner|responsible|assigned/g, ''),
+  );
   const matches = visibleTasks(db, user)
     .filter(isOpen)
-    .filter((t) => words.some((w) => t.title.toLowerCase().includes(w) || t.description.toLowerCase().includes(w)))
+    .filter((t) =>
+      words.some(
+        (w) => t.title.toLowerCase().includes(w) || t.description.toLowerCase().includes(w),
+      ),
+    )
     .slice(0, 6);
   if (!matches.length) return `I couldn't find open work about “${words.join(' ')}”.`;
   const people = [...new Set(matches.map((t) => t.assigneeId).filter(Boolean))] as ID[];
@@ -422,26 +510,37 @@ export function answer(db: Database, user: User, req: AssistantRequest): Assista
   const ctx: Ctx = { db, user, req, q, cite: new Cites(db) };
   const has = (re: RegExp) => re.test(q);
   const file = contextFile(ctx);
-  const task = req.context?.type === 'task' ? db.tasks.find((t) => t.id === req.context!.id && canSeeTask(db, user, t)) : undefined;
+  const task =
+    req.context?.type === 'task'
+      ? db.tasks.find((t) => t.id === req.context!.id && canSeeTask(db, user, t))
+      : undefined;
 
   let text: string;
-  if (file && has(/decision|decided|action item|next step|follow.?up/)) text = decisionsIn(ctx, file);
-  else if (file && (has(/summar|tl;?dr|overview|gist|what('s| is) (this|in)|key points|explain|about/) || req.context?.type === 'file'))
+  if (file && has(/decision|decided|action item|next step|follow.?up/))
+    text = decisionsIn(ctx, file);
+  else if (
+    file &&
+    (has(/summar|tl;?dr|overview|gist|what('s| is) (this|in)|key points|explain|about/) ||
+      req.context?.type === 'file')
+  )
     text = summarizeFile(ctx, file);
   else if (has(/block|stuck|waiting on|depend/)) text = answerBlocked(ctx);
   else if (has(/overload|workload|capacity|busy|bandwidth|stretched/)) text = answerWorkload(ctx);
-  else if (has(/focus|priorit|what should i|start with|most important|work on (next|today)/)) text = answerFocus(ctx);
+  else if (has(/focus|priorit|what should i|start with|most important|work on (next|today)/))
+    text = answerFocus(ctx);
   else if (has(/overdue|late|behind|slipp/)) text = answerOverdue(ctx);
   else if (has(/due|this week|today|tomorrow|deadline/)) text = answerDue(ctx);
   else if (has(/status|progress|how is|how's|on track|at risk/)) text = answerStatus(ctx);
-  else if (has(/^who|who('s| is) (working|on|doing|responsible)|owns|assigned to/)) text = answerWho(ctx);
-  else if (has(/find|where('s| is)|search|look for|files? (about|on|for)|docs? about/)) text = answerFind(ctx);
+  else if (has(/^who|who('s| is) (working|on|doing|responsible)|owns|assigned to/))
+    text = answerWho(ctx);
+  else if (has(/find|where('s| is)|search|look for|files? (about|on|for)|docs? about/))
+    text = answerFind(ctx);
   else if (task) text = explainTask(ctx, task);
   else if (file) text = summarizeFile(ctx, file);
-  else if (req.context?.type === 'team' || req.context?.type === 'person') text = answerDue({ ...ctx, q: `${q} this week` });
+  else if (req.context?.type === 'team' || req.context?.type === 'person')
+    text = answerDue({ ...ctx, q: `${q} this week` });
   else if (req.context?.type === 'project') text = answerStatus(ctx);
   else text = help(ctx);
 
   return { text, citations: ctx.cite.list() };
 }
-

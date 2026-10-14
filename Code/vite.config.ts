@@ -10,6 +10,19 @@ export default defineConfig({
   },
   server: { port: 5173 },
   preview: { port: 4173 },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-router-dom'],
+          query: ['@tanstack/react-query'],
+          radix: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-popover', '@radix-ui/react-tooltip'],
+          msw: ['msw', 'msw/browser'],
+          icons: ['lucide-react'],
+        },
+      },
+    },
+  },
   css: {
     modules: { localsConvention: 'camelCaseOnly' },
   },

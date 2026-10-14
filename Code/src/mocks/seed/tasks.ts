@@ -67,7 +67,7 @@ const TASKS: TaskSeed[] = [
     files: ['fl_payment_explorations'],
     createdBy: 'u_ines',
     description:
-      "Walk Raj and Chloé through options A–C and confirm option A (wallets first) is feasible for April.",
+      'Walk Raj and Chloé through options A–C and confirm option A (wallets first) is feasible for April.',
   },
   {
     id: 't_apple_pay',
@@ -81,7 +81,8 @@ const TASKS: TaskSeed[] = [
     labels: ['design'],
     files: ['fl_spec'],
     createdBy: 'u_maya',
-    description: 'From the design review: express wallets move above the card form. Document the Apple Pay sheet, failure states and the fallback to card.',
+    description:
+      'From the design review: express wallets move above the card form. Document the Apple Pay sheet, failure states and the fallback to card.',
   },
   {
     id: 't_shipping_copy',
@@ -95,7 +96,8 @@ const TASKS: TaskSeed[] = [
     labels: ['content'],
     files: ['fl_spec'],
     createdBy: 'u_maya',
-    description: 'Labels and helper text for standard, express and store pickup, with delivery estimates.',
+    description:
+      'Labels and helper text for standard, express and store pickup, with delivery estimates.',
   },
   {
     id: 't_guest_proto',
@@ -108,7 +110,8 @@ const TASKS: TaskSeed[] = [
     due: 4,
     labels: ['design', 'prototype'],
     createdBy: 'u_maya',
-    description: 'Clickable prototype of the guest path for round 3 testing, with the account offer on the confirmation page.',
+    description:
+      'Clickable prototype of the guest path for round 3 testing, with the account offer on the confirmation page.',
   },
   {
     id: 't_funnel_events',
@@ -122,7 +125,8 @@ const TASKS: TaskSeed[] = [
     labels: ['analytics'],
     files: ['fl_spec', 'fl_funnel'],
     createdBy: 'u_raj',
-    description: 'Add events for each step, plus error-shown events per address field so we can measure the new error states.',
+    description:
+      'Add events for each step, plus error-shown events per address field so we can measure the new error states.',
   },
   {
     id: 't_safari_autocomplete',
@@ -149,7 +153,8 @@ const TASKS: TaskSeed[] = [
     due: -2,
     labels: ['access'],
     createdBy: 'u_raj',
-    description: 'Request a production key from the address-service vendor and share it through the secrets manager.',
+    description:
+      'Request a production key from the address-service vendor and share it through the secrets manager.',
   },
   {
     id: 't_a11y_audit',
@@ -162,7 +167,8 @@ const TASKS: TaskSeed[] = [
     due: 9,
     labels: ['accessibility'],
     createdBy: 'u_maya',
-    description: 'Keyboard path, focus order, error announcements and contrast across all four steps.',
+    description:
+      'Keyboard path, focus order, error announcements and contrast across all four steps.',
   },
   {
     id: 't_round3_plan',
@@ -188,7 +194,8 @@ const TASKS: TaskSeed[] = [
     labels: ['research'],
     files: ['fl_findings'],
     createdBy: 'u_maya',
-    description: 'One page: what we learned in rounds 1 and 2, what changed in v2, and the abandonment target.',
+    description:
+      'One page: what we learned in rounds 1 and 2, what changed in v2, and the abandonment target.',
   },
   {
     id: 't_design_review',
@@ -228,7 +235,8 @@ const TASKS: TaskSeed[] = [
     labels: ['photography', 'approval'],
     files: ['fl_shot_list', 'fl_shoot_brief'],
     createdBy: 'u_ava',
-    description: 'Check the shot list for design fit (crop room for headlines, landscape vs portrait) so Ava can book the shoot.',
+    description:
+      'Check the shot list for design fit (crop room for headlines, landscape vs portrait) so Ava can book the shoot.',
   },
   {
     id: 't_page_map',
@@ -344,7 +352,8 @@ const TASKS: TaskSeed[] = [
     labels: ['design'],
     files: ['fl_page_map'],
     createdBy: 'u_julia',
-    description: 'Depends on the product-grid component. Spec needs to be final by Friday for engineering to ship it next sprint.',
+    description:
+      'Depends on the product-grid component. Spec needs to be final by Friday for engineering to ship it next sprint.',
   },
   {
     id: 't_launch_agenda',
@@ -644,25 +653,71 @@ const TASKS: TaskSeed[] = [
     due: 3,
     labels: ['design-system'],
     createdBy: 'u_raj',
-    description: 'Needed for the catalog landing page. Engineering can ship it next sprint if the spec is final by Friday.',
+    description:
+      'Needed for the catalog landing page. Engineering can ship it next sprint if the spec is final by Friday.',
   },
 ];
 
 const COMMENTS: Array<[taskId: string, authorId: string, daysAgo: number, body: string]> = [
-  ['t_error_states', 'u_chloe', 1, "Once these are final I can start the address step. Will the 'use as entered' option need a confirm step?"],
-  ['t_error_states', 'u_maya', 1, "No confirm step: a one-line notice under the field is enough. I'll have the final states up today."],
-  ['t_error_states', 'u_theo', 0, 'Draft wording for postcode: "Postcodes have 5 digits. Check for spaces or letters."'],
-  ['t_safari_autocomplete', 'u_chloe', 2, "Still blocked on the address-service key. @Ben, any update?"],
+  [
+    't_error_states',
+    'u_chloe',
+    1,
+    "Once these are final I can start the address step. Will the 'use as entered' option need a confirm step?",
+  ],
+  [
+    't_error_states',
+    'u_maya',
+    1,
+    "No confirm step: a one-line notice under the field is enough. I'll have the final states up today.",
+  ],
+  [
+    't_error_states',
+    'u_theo',
+    0,
+    'Draft wording for postcode: "Postcodes have 5 digits. Check for spaces or letters."',
+  ],
+  [
+    't_safari_autocomplete',
+    'u_chloe',
+    2,
+    'Still blocked on the address-service key. @Ben, any update?',
+  ],
   ['t_safari_autocomplete', 'u_raj', 1, 'Escalated. Ben is chasing the vendor.'],
   ['t_api_key', 'u_ben', 1, 'Vendor says the production key will be issued within 24 hours.'],
-  ['t_shot_list', 'u_ava', 1, 'Elena added the repair-program shot (06). We need approval before booking the weather day.'],
+  [
+    't_shot_list',
+    'u_ava',
+    1,
+    'Elena added the repair-program shot (06). We need approval before booking the weather day.',
+  ],
   ['t_shot_list', 'u_elena', 0, 'Cover frame works landscape or portrait. Happy to shoot both.'],
   ['t_tent_copy', 'u_julia', 1, 'How close are we? Copy lock moves if this slips past Friday.'],
-  ['t_tent_copy', 'u_noah', 0, 'Four of eight done. The Alpine 3 needs specs from Hugo before I can write it.'],
-  ['t_synth_r2', 'u_sam', 0, 'Themes are drafted; I need half a day to write it up. Error message wording is the biggest theme again.'],
+  [
+    't_tent_copy',
+    'u_noah',
+    0,
+    'Four of eight done. The Alpine 3 needs specs from Hugo before I can write it.',
+  ],
+  [
+    't_synth_r2',
+    'u_sam',
+    0,
+    'Themes are drafted; I need half a day to write it up. Error message wording is the biggest theme again.',
+  ],
   ['t_payment_review', 'u_ines', 2, 'Deck is updated with the decision from the design review.'],
-  ['t_freight_quotes', 'u_dana', 0, 'Third quote should land this morning. Leaning toward Summit Freight.'],
-  ['t_landing_layout', 'u_leo', 1, "I can't lay out product rows until the product-grid spec exists. Who owns it?"],
+  [
+    't_freight_quotes',
+    'u_dana',
+    0,
+    'Third quote should land this morning. Leaning toward Summit Freight.',
+  ],
+  [
+    't_landing_layout',
+    'u_leo',
+    1,
+    "I can't lay out product rows until the product-grid spec exists. Who owns it?",
+  ],
 ];
 
 export function buildTasks(c: SeedClock): {

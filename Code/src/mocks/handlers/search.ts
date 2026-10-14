@@ -3,7 +3,12 @@ import type { SearchResult } from '@/domain/types';
 import { canSeeTask, folderAccess, visibleFiles } from '../access';
 import { API, route } from '../http';
 
-const STATUS_LABEL = { todo: 'To do', in_progress: 'In progress', in_review: 'In review', done: 'Done' };
+const STATUS_LABEL = {
+  todo: 'To do',
+  in_progress: 'In progress',
+  in_review: 'In review',
+  done: 'Done',
+};
 
 export const searchHandlers = [
   http.get(
@@ -17,7 +22,12 @@ export const searchHandlers = [
 
       for (const t of db.tasks) {
         if (canSeeTask(db, user, t) && match(t.title, t.labels.join(' '))) {
-          results.push({ type: 'task', id: t.id, title: t.title, subtitle: `${STATUS_LABEL[t.status]} · ${name(t.assigneeId)}` });
+          results.push({
+            type: 'task',
+            id: t.id,
+            title: t.title,
+            subtitle: `${STATUS_LABEL[t.status]} · ${name(t.assigneeId)}`,
+          });
         }
       }
       for (const [f] of visibleFiles(db, user)) {
@@ -32,14 +42,22 @@ export const searchHandlers = [
         }
       }
       for (const u of db.users) {
-        if (match(u.name, u.title, u.email)) results.push({ type: 'user', id: u.id, title: u.name, subtitle: u.title });
+        if (match(u.name, u.title, u.email))
+          results.push({ type: 'user', id: u.id, title: u.name, subtitle: u.title });
       }
       if (user.role !== 'guest') {
         for (const t of db.teams) {
-          if (match(t.name)) results.push({ type: 'team', id: t.id, title: t.name, subtitle: `${t.members.length} members` });
+          if (match(t.name))
+            results.push({
+              type: 'team',
+              id: t.id,
+              title: t.name,
+              subtitle: `${t.members.length} members`,
+            });
         }
         for (const p of db.projects) {
-          if (match(p.name)) results.push({ type: 'project', id: p.id, title: p.name, subtitle: 'Project' });
+          if (match(p.name))
+            results.push({ type: 'project', id: p.id, title: p.name, subtitle: 'Project' });
         }
       }
       return results.slice(0, 30);

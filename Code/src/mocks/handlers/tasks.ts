@@ -50,19 +50,39 @@ function detail(db: Database, user: User, task: TaskRecord): TaskDetail {
   };
 }
 
-function log(db: Database, task: TaskRecord, actor: User, kind: ActivityKind, from: string | null = null, to: string | null = null) {
-  const event: ActivityEvent = { id: newId('ev'), taskId: task.id, actorId: actor.id, kind, from, to, createdAt: now() };
+function log(
+  db: Database,
+  task: TaskRecord,
+  actor: User,
+  kind: ActivityKind,
+  from: string | null = null,
+  to: string | null = null,
+) {
+  const event: ActivityEvent = {
+    id: newId('ev'),
+    taskId: task.id,
+    actorId: actor.id,
+    kind,
+    from,
+    to,
+    createdAt: now(),
+  };
   db.activity.push(event);
 }
 
 function validate(db: Database, input: TaskPatch) {
   if (input.title !== undefined && !input.title.trim()) throw badRequest('A task needs a title');
   if (input.status && !TASK_STATUSES.includes(input.status)) throw badRequest('Unknown status');
-  if (input.priority && !TASK_PRIORITIES.includes(input.priority)) throw badRequest('Unknown priority');
-  if (input.assigneeId && !db.users.some((u) => u.id === input.assigneeId)) throw badRequest('Unknown assignee');
-  if (input.teamId && !db.teams.some((t) => t.id === input.teamId)) throw badRequest('Unknown team');
-  if (input.projectId && !db.projects.some((p) => p.id === input.projectId)) throw badRequest('Unknown project');
-  if (input.dueDate && !/^\d{4}-\d{2}-\d{2}$/.test(input.dueDate)) throw badRequest('Due date must be YYYY-MM-DD');
+  if (input.priority && !TASK_PRIORITIES.includes(input.priority))
+    throw badRequest('Unknown priority');
+  if (input.assigneeId && !db.users.some((u) => u.id === input.assigneeId))
+    throw badRequest('Unknown assignee');
+  if (input.teamId && !db.teams.some((t) => t.id === input.teamId))
+    throw badRequest('Unknown team');
+  if (input.projectId && !db.projects.some((p) => p.id === input.projectId))
+    throw badRequest('Unknown project');
+  if (input.dueDate && !/^\d{4}-\d{2}-\d{2}$/.test(input.dueDate))
+    throw badRequest('Due date must be YYYY-MM-DD');
 }
 
 export const taskHandlers = [
@@ -73,7 +93,9 @@ export const taskHandlers = [
       const today = format(new Date(), 'yyyy-MM-dd');
       const assignee = p.get('assignee');
       const statuses = p.get('status')?.split(',').filter(Boolean) as TaskStatus[] | undefined;
-      const priorities = p.get('priority')?.split(',').filter(Boolean) as TaskPriority[] | undefined;
+      const priorities = p.get('priority')?.split(',').filter(Boolean) as
+        | TaskPriority[]
+        | undefined;
       const due = p.get('due');
       const q = p.get('q')?.toLowerCase().trim();
       const includeDone = p.get('includeDone') !== 'false';
@@ -83,7 +105,8 @@ export const taskHandlers = [
         .filter((t) => {
           if (assignee === 'me' && t.assigneeId !== user.id) return false;
           if (assignee === 'unassigned' && t.assigneeId !== null) return false;
-          if (assignee && !['me', 'unassigned'].includes(assignee) && t.assigneeId !== assignee) return false;
+          if (assignee && !['me', 'unassigned'].includes(assignee) && t.assigneeId !== assignee)
+            return false;
           if (p.get('team') && t.teamId !== p.get('team')) return false;
           if (p.get('project') && t.projectId !== p.get('project')) return false;
           if (statuses?.length && !statuses.includes(t.status)) return false;
@@ -97,7 +120,8 @@ export const taskHandlers = [
             if (due === 'today' && d !== 0) return false;
             if (due === 'week' && d > 6) return false;
           }
-          if (q && !`${t.title} ${t.description} ${t.labels.join(' ')}`.toLowerCase().includes(q)) return false;
+          if (q && !`${t.title} ${t.description} ${t.labels.join(' ')}`.toLowerCase().includes(q))
+            return false;
           return true;
         })
         .sort(byDueThenPriority)
@@ -147,7 +171,8 @@ export const taskHandlers = [
     `${API}/tasks/:id`,
     route(async ({ db, user, params, request }) => {
       const task = findTask(db, user, params.id);
-      if (!canEditTask(db, user, task)) throw forbidden('You can only update tasks assigned to you');
+      if (!canEditTask(db, user, task))
+        throw forbidden('You can only update tasks assigned to you');
       const patch = await body<TaskPatch>(request);
       validate(db, patch);
       const tracked: Array<[keyof TaskPatch, ActivityKind]> = [
@@ -159,7 +184,14 @@ export const taskHandlers = [
       ];
       for (const [field, kind] of tracked) {
         if (patch[field] !== undefined && patch[field] !== task[field]) {
-          log(db, task, user, kind, (task[field] as string | null) ?? null, (patch[field] as string | null) ?? null);
+          log(
+            db,
+            task,
+            user,
+            kind,
+            (task[field] as string | null) ?? null,
+            (patch[field] as string | null) ?? null,
+          );
         }
       }
       if (patch.status && patch.status !== task.status) {
@@ -197,7 +229,13 @@ export const taskHandlers = [
       const task = findTask(db, user, params.id);
       const { body: text } = await body<{ body: string }>(request);
       if (!text?.trim()) throw badRequest('Write a comment first');
-      db.comments.push({ id: newId('cm'), taskId: task.id, authorId: user.id, body: text.trim(), createdAt: now() });
+      db.comments.push({
+        id: newId('cm'),
+        taskId: task.id,
+        authorId: user.id,
+        body: text.trim(),
+        createdAt: now(),
+      });
       task.updatedAt = now();
       return detail(db, user, task);
     }),

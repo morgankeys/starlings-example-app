@@ -30,7 +30,11 @@ describe('answer', () => {
   it('finds the blocker for the Safari fix', () => {
     const res = answer(db, maya, {
       message: "What's blocking this?",
-      context: { type: 'task', id: 't_safari_autocomplete', label: 'Fix address autocomplete on Safari' },
+      context: {
+        type: 'task',
+        id: 't_safari_autocomplete',
+        label: 'Fix address autocomplete on Safari',
+      },
     });
     expect(res.text).toMatch(/Blocked by/);
     expect(res.citations.map((c) => c.id)).toContain('t_api_key');
@@ -43,7 +47,9 @@ describe('answer', () => {
 
   it('only cites files the asker can open', () => {
     const res = answer(db, elena, { message: 'find files about checkout', context: null });
-    expect(res.citations.filter((c) => c.type === 'file').map((c) => c.id)).not.toContain('fl_spec');
+    expect(res.citations.filter((c) => c.type === 'file').map((c) => c.id)).not.toContain(
+      'fl_spec',
+    );
   });
 
   it('falls back to help', () => {

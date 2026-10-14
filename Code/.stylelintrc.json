@@ -4,7 +4,10 @@
   "ignoreFiles": ["src/styles/tokens.generated.css", "dist/**"],
   "rules": {
     "selector-class-pattern": null,
-    "custom-property-pattern": ["^bd-[a-z0-9-]+$", { "message": "Custom properties use the --bd-* token namespace" }],
+    "custom-property-pattern": [
+      "^bd-[a-z0-9-]+$",
+      { "message": "Custom properties use the --bd-* token namespace" }
+    ],
     "value-keyword-case": ["lower", { "camelCaseSvgKeywords": false }],
     "declaration-empty-line-before": null,
     "no-descending-specificity": null,

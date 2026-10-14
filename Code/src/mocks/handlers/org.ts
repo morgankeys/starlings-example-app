@@ -24,7 +24,11 @@ import {
 import { newId } from '../db';
 
 function session(db: Database, user: User): Session {
-  return { user, org: db.org, teams: db.teams.filter((t) => t.members.some((m) => m.userId === user.id)) };
+  return {
+    user,
+    org: db.org,
+    teams: db.teams.filter((t) => t.members.some((m) => m.userId === user.id)),
+  };
 }
 
 function teamSummary(db: Database, user: User, teamId: string): TeamSummary {
@@ -55,12 +59,16 @@ function projectSummary(db: Database, user: User, projectId: string): ProjectSum
 
 export const orgHandlers = [
   // ---- Session ------------------------------------------------------------------------
-  http.get(`${API}/session`, route(({ db, user }) => session(db, user))),
+  // Exempt from simulated failures so the app (and its demo panel) can always load.
+  http.get(
+    `${API}/session`,
+    route(({ db, user }) => session(db, user), { failable: false }),
+  ),
 
   /** Public: the people you can sign in as (the prototype has no passwords). */
   http.get(
     `${API}/session/people`,
-    route(({ db }) => ({ org: db.org, users: db.users }), { auth: false }),
+    route(({ db }) => ({ org: db.org, users: db.users }), { auth: false, failable: false }),
   ),
 
   http.post(
@@ -89,7 +97,10 @@ export const orgHandlers = [
   ),
 
   // ---- People -------------------------------------------------------------------------
-  http.get(`${API}/users`, route(({ db }) => db.users)),
+  http.get(
+    `${API}/users`,
+    route(({ db }) => db.users),
+  ),
 
   http.get<{ id: string }>(
     `${API}/users/:id`,
@@ -105,7 +116,8 @@ export const orgHandlers = [
     `${API}/teams`,
     route(({ db, user, url }) => {
       const mine = url.searchParams.get('mine') === 'true';
-      const ids = mine || user.role === 'guest' ? teamIdsOf(db, user.id) : db.teams.map((t) => t.id);
+      const ids =
+        mine || user.role === 'guest' ? teamIdsOf(db, user.id) : db.teams.map((t) => t.id);
       return ids.map((id) => teamSummary(db, user, id));
     }),
   ),
@@ -122,7 +134,9 @@ export const orgHandlers = [
     `${API}/teams`,
     route(async ({ db, user, request }) => {
       if (user.role === 'guest') throw forbidden('Guests cannot create teams');
-      const input = await body<{ name: string; description?: string; color?: AccentColor }>(request);
+      const input = await body<{ name: string; description?: string; color?: AccentColor }>(
+        request,
+      );
       const name = input.name?.trim();
       if (!name) throw badRequest('Give the team a name');
       if (db.teams.some((t) => t.name.toLowerCase() === name.toLowerCase())) {
@@ -145,7 +159,8 @@ export const orgHandlers = [
     route(async ({ db, user, params, request }) => {
       const team = db.teams.find((t) => t.id === params.id);
       if (!team) throw notFound('Team');
-      if (!canManageTeam(db, user, team.id)) throw forbidden('Only team leads and admins can add members');
+      if (!canManageTeam(db, user, team.id))
+        throw forbidden('Only team leads and admins can add members');
       const { userId, role = 'member' } = await body<{ userId: string; role?: TeamRole }>(request);
       const member = db.users.find((u) => u.id === userId);
       if (!member) throw badRequest('Unknown person');
@@ -164,7 +179,11 @@ export const orgHandlers = [
       const { role } = await body<{ role: TeamRole }>(request);
       const member = team.members.find((m) => m.userId === params.userId);
       if (!member) throw notFound('Member');
-      if (role === 'member' && member.role === 'lead' && team.members.filter((m) => m.role === 'lead').length === 1) {
+      if (
+        role === 'member' &&
+        member.role === 'lead' &&
+        team.members.filter((m) => m.role === 'lead').length === 1
+      ) {
         throw badRequest('A team needs at least one lead');
       }
       member.role = role;
@@ -177,7 +196,8 @@ export const orgHandlers = [
     route(({ db, user, params }) => {
       const team = db.teams.find((t) => t.id === params.id);
       if (!team) throw notFound('Team');
-      if (!canManageTeam(db, user, team.id)) throw forbidden('Only team leads and admins can remove members');
+      if (!canManageTeam(db, user, team.id))
+        throw forbidden('Only team leads and admins can remove members');
       const member = team.members.find((m) => m.userId === params.userId);
       if (member?.role === 'lead' && team.members.filter((m) => m.role === 'lead').length === 1) {
         throw badRequest('A team needs at least one lead');
@@ -199,7 +219,10 @@ export const orgHandlers = [
   ),
 
   // ---- Demo panel (no latency or forced failures, so it can always recover) -----------
-  http.get(`${API}/__demo/settings`, route(() => getDemoSettings(), { auth: false, demo: true })),
+  http.get(
+    `${API}/__demo/settings`,
+    route(() => getDemoSettings(), { auth: false, demo: true }),
+  ),
 
   http.put(
     `${API}/__demo/settings`,

@@ -237,7 +237,7 @@ export interface ShareSettings {
   canManage: boolean;
 }
 
-export type FileView = 'recent' | 'shared' | 'starred';
+export type FileView = 'recent' | 'shared' | 'starred' | 'all';
 
 // ---- Search -----------------------------------------------------------------------------
 

@@ -9,7 +9,10 @@ import { GENERATED_CSS, isDarkMode, readSources, varName } from './lib/tokens-so
 const root = postcss.parse(fs.readFileSync(GENERATED_CSS, 'utf8'));
 const emitted = { base: new Map(), dark: new Map() };
 root.walkRules((rule) => {
-  const scope = rule.selector.includes('dark') || rule.selector.includes(":not([data-theme='light'])") ? 'dark' : 'base';
+  const scope =
+    rule.selector.includes('dark') || rule.selector.includes(":not([data-theme='light'])")
+      ? 'dark'
+      : 'base';
   rule.walkDecls((decl) => emitted[scope].set(decl.prop, decl.value));
 });
 
@@ -24,7 +27,9 @@ for (const source of readSources()) {
     const name = varName(token);
     const value = emitted[scope].get(name);
     if (!value || !hasAlpha(value)) {
-      failures.push(`${source.file} ${name}: alpha ${token.value.alpha}, emitted ${value ?? '(missing)'}`);
+      failures.push(
+        `${source.file} ${name}: alpha ${token.value.alpha}, emitted ${value ?? '(missing)'}`,
+      );
     }
   }
 }

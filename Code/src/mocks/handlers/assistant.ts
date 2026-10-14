@@ -8,7 +8,10 @@ const tokenize = (text: string) => text.match(/\[\[[^\]]+\]\]|\S+\s*|\s+/g) ?? [
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export const assistantHandlers = [
-  http.get(`${API}/assistant/focus`, route(({ db, user }) => focus(db, user))),
+  http.get(
+    `${API}/assistant/focus`,
+    route(({ db, user }) => focus(db, user)),
+  ),
 
   /** Streams the answer as text/event-stream: token events, then citations, then done. */
   http.post(

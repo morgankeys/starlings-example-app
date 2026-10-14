@@ -67,7 +67,12 @@ function folderView(db: Database, user: User, id: string): FolderView {
     .filter(([, a]) => a)
     .map(([f, a]) => toFile(db, user, f, a))
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
-  return { folder: toFolder(db, user, folder, access), path: visiblePath(db, user, folder.id), folders, files };
+  return {
+    folder: toFolder(db, user, folder, access),
+    path: visiblePath(db, user, folder.id),
+    folders,
+    files,
+  };
 }
 
 function fileDetail(db: Database, user: User, file: FileRecord): FileDetail {
@@ -91,9 +96,18 @@ function isDescendant(db: Database, folderId: string, ancestorId: string): boole
   return false;
 }
 
-function shareSettings(db: Database, user: User, type: 'file' | 'folder', resource: FileRecord | FolderRecord): ShareSettings {
-  const parentId = type === 'file' ? (resource as FileRecord).folderId : (resource as FolderRecord).parentId;
-  const access = type === 'file' ? fileAccess(db, user, resource as FileRecord) : folderAccess(db, user, resource as FolderRecord);
+function shareSettings(
+  db: Database,
+  user: User,
+  type: 'file' | 'folder',
+  resource: FileRecord | FolderRecord,
+): ShareSettings {
+  const parentId =
+    type === 'file' ? (resource as FileRecord).folderId : (resource as FolderRecord).parentId;
+  const access =
+    type === 'file'
+      ? fileAccess(db, user, resource as FileRecord)
+      : folderAccess(db, user, resource as FolderRecord);
   return {
     resourceType: type,
     resourceId: resource.id,
@@ -107,11 +121,26 @@ function shareSettings(db: Database, user: User, type: 'file' | 'folder', resour
 }
 
 const KIND_BY_EXT: Record<string, FileKind> = {
-  doc: 'doc', docx: 'doc', txt: 'doc', md: 'doc', pages: 'doc',
-  xls: 'sheet', xlsx: 'sheet', csv: 'sheet', numbers: 'sheet',
-  ppt: 'slides', pptx: 'slides', key: 'slides',
+  doc: 'doc',
+  docx: 'doc',
+  txt: 'doc',
+  md: 'doc',
+  pages: 'doc',
+  xls: 'sheet',
+  xlsx: 'sheet',
+  csv: 'sheet',
+  numbers: 'sheet',
+  ppt: 'slides',
+  pptx: 'slides',
+  key: 'slides',
   pdf: 'pdf',
-  png: 'image', jpg: 'image', jpeg: 'image', gif: 'image', webp: 'image', svg: 'image', heic: 'image',
+  png: 'image',
+  jpg: 'image',
+  jpeg: 'image',
+  gif: 'image',
+  webp: 'image',
+  svg: 'image',
+  heic: 'image',
 };
 
 export const fileHandlers = [
@@ -126,7 +155,10 @@ export const fileHandlers = [
     ),
   ),
 
-  http.get<{ id: string }>(`${API}/folders/:id`, route(({ db, user, params }) => folderView(db, user, params.id))),
+  http.get<{ id: string }>(
+    `${API}/folders/:id`,
+    route(({ db, user, params }) => folderView(db, user, params.id)),
+  ),
 
   http.post(
     `${API}/folders`,
@@ -167,7 +199,8 @@ export const fileHandlers = [
       if (patch.parentId) {
         const { access: targetAccess } = findFolder(db, user, patch.parentId);
         if (!canEdit(targetAccess)) throw forbidden("You can't add to that folder");
-        if (isDescendant(db, patch.parentId, folder.id)) throw badRequest("A folder can't move inside itself");
+        if (isDescendant(db, patch.parentId, folder.id))
+          throw badRequest("A folder can't move inside itself");
         folder.parentId = patch.parentId;
       }
       folder.updatedAt = now();
@@ -179,7 +212,8 @@ export const fileHandlers = [
     `${API}/folders/:id`,
     route(({ db, user, params }) => {
       const { folder, access } = findFolder(db, user, params.id);
-      if (!canEdit(access) || folder.id === ROOT_ID) throw forbidden("You can't delete this folder");
+      if (!canEdit(access) || folder.id === ROOT_ID)
+        throw forbidden("You can't delete this folder");
       folder.deletedAt = now();
       return null;
     }),
@@ -211,12 +245,15 @@ export const fileHandlers = [
         );
 
       let result: Array<[FileRecord, ReturnType<typeof fileAccess>]>;
-      if (view === 'starred') {
+      if (view === 'all') {
+        result = files;
+      } else if (view === 'starred') {
         const stars = db.stars[user.id] ?? [];
         result = files.filter(([f]) => stars.includes(f.id));
       } else if (view === 'shared') {
         // Shared with me: a grant names me or my team, on the file or any folder above it.
         result = files.filter(([f]) => {
+          if (f.ownerId === user.id) return false;
           if (sharedDirectly(f)) return true;
           let folder = liveFolder(db, f.folderId);
           while (folder) {
@@ -227,7 +264,8 @@ export const fileHandlers = [
         });
       } else {
         const opens = db.opens[user.id] ?? {};
-        const touched = (f: FileRecord) => opens[f.id] ?? (f.updatedById === user.id ? f.updatedAt : '');
+        const touched = (f: FileRecord) =>
+          opens[f.id] ?? (f.updatedById === user.id ? f.updatedAt : '');
         result = files
           .filter(([f]) => touched(f) || user.role === 'guest')
           .sort(([a], [b]) => (touched(b) || b.updatedAt).localeCompare(touched(a) || a.updatedAt));
@@ -335,7 +373,10 @@ export const fileHandlers = [
   http.get<{ type: 'file' | 'folder'; id: string }>(
     `${API}/shares/:type/:id`,
     route(({ db, user, params }) => {
-      const resource = params.type === 'file' ? findFile(db, user, params.id).file : findFolder(db, user, params.id).folder;
+      const resource =
+        params.type === 'file'
+          ? findFile(db, user, params.id).file
+          : findFolder(db, user, params.id).folder;
       return shareSettings(db, user, params.type, resource);
     }),
   ),
@@ -343,12 +384,16 @@ export const fileHandlers = [
   http.put<{ type: 'file' | 'folder'; id: string }>(
     `${API}/shares/:type/:id`,
     route(async ({ db, user, params, request }) => {
-      const resource = params.type === 'file' ? findFile(db, user, params.id).file : findFolder(db, user, params.id).folder;
+      const resource =
+        params.type === 'file'
+          ? findFile(db, user, params.id).file
+          : findFolder(db, user, params.id).folder;
       if (!shareSettings(db, user, params.type, resource).canManage) {
         throw forbidden('Only people who can edit can change sharing');
       }
       const input = await body<{ generalAccess: GeneralAccess; grants: ShareGrant[] }>(request);
-      if (!['restricted', 'org_view', 'org_edit'].includes(input.generalAccess)) throw badRequest('Unknown access');
+      if (!['restricted', 'org_view', 'org_edit'].includes(input.generalAccess))
+        throw badRequest('Unknown access');
       resource.generalAccess = input.generalAccess;
       resource.grants = input.grants.filter(
         (g) => !(g.principalType === 'user' && g.principalId === resource.ownerId),

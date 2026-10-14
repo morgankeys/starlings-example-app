@@ -36,7 +36,9 @@ describe('task visibility', () => {
   it('shows guests only their own tasks', () => {
     const elena = user('u_elena');
     const visible = db.tasks.filter((t) => canSeeTask(db, elena, t));
-    expect(visible.every((t) => t.assigneeId === 'u_elena' || t.createdById === 'u_elena')).toBe(true);
+    expect(visible.every((t) => t.assigneeId === 'u_elena' || t.createdById === 'u_elena')).toBe(
+      true,
+    );
     expect(visible.length).toBeGreaterThan(0);
   });
 });

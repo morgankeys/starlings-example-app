@@ -94,7 +94,9 @@ ${block(dark).replace(/^ {2}/gm, '    ')}
   const previous = fs.existsSync(GENERATED_CSS) ? fs.readFileSync(GENERATED_CSS, 'utf8') : '';
   if (previous !== css) {
     fs.writeFileSync(GENERATED_CSS, css);
-    console.log(`tokens: wrote ${path.relative(process.cwd(), GENERATED_CSS)} (${base.size} base, ${dark.size} dark)`);
+    console.log(
+      `tokens: wrote ${path.relative(process.cwd(), GENERATED_CSS)} (${base.size} base, ${dark.size} dark)`,
+    );
   } else {
     console.log('tokens: up to date');
   }

@@ -121,7 +121,12 @@ export function accessEntries(
   ];
   const push = (r: Resource, from: Breadcrumb | null) => {
     for (const g of r.grants) {
-      entries.push({ principalType: g.principalType, principalId: g.principalId, level: g.level, inheritedFrom: from });
+      entries.push({
+        principalType: g.principalType,
+        principalId: g.principalId,
+        level: g.level,
+        inheritedFrom: from,
+      });
     }
     if (r.generalAccess !== 'restricted') {
       entries.push({
@@ -149,7 +154,12 @@ export function toTask(db: Database, t: TaskRecord): Task {
   return { ...task, commentCount: db.comments.filter((c) => c.taskId === t.id).length };
 }
 
-export function toFolder(db: Database, user: User, f: FolderRecord, access?: Access | null): Folder {
+export function toFolder(
+  db: Database,
+  user: User,
+  f: FolderRecord,
+  access?: Access | null,
+): Folder {
   const { deletedAt: _deletedAt, ...folder } = f;
   const itemCount =
     db.folders.filter((c) => c.parentId === f.id && !c.deletedAt).length +

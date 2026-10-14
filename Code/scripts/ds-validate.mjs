@@ -31,7 +31,8 @@ const COLOR_LITERAL = new RegExp(
 const LENGTH = /(?<![\w-])-?(?:\d*\.)?\d+(?:px|rem|em|vh|vw|ch|pt)\b/i;
 const COLOR_PROPS =
   /^(color|background(-color|-image)?|background|border(-(top|right|bottom|left|block|inline)(-(start|end))?)?(-color)?|outline(-color)?|box-shadow|text-shadow|fill|stroke|caret-color|accent-color|text-decoration(-color)?|column-rule(-color)?)$/;
-const SPACING_PROPS = /^(margin|padding)(-(top|right|bottom|left|block|inline)(-(start|end))?)?$|^(gap|row-gap|column-gap)$/;
+const SPACING_PROPS =
+  /^(margin|padding)(-(top|right|bottom|left|block|inline)(-(start|end))?)?$|^(gap|row-gap|column-gap)$/;
 const RADIUS_PROPS = /^border(-(top|bottom|start|end)-(left|right|start|end))?-radius$/;
 const KEYWORDS = /^(inherit|initial|unset|revert|normal|none|auto|0)$/i;
 
@@ -47,15 +48,30 @@ function checkDecl(file, decl, { component }) {
 
   if (prop.startsWith('--')) {
     if (!prop.startsWith(`--${PREFIX}-`)) {
-      add(file, line, 'non-token-variable', `\`${prop}\` is outside the \`--${PREFIX}-*\` namespace.`);
+      add(
+        file,
+        line,
+        'non-token-variable',
+        `\`${prop}\` is outside the \`--${PREFIX}-*\` namespace.`,
+      );
     } else if (component && !/var\(/.test(value)) {
-      add(file, line, 'local-token-override', `\`${prop}\` redefines a namespace token with a literal value: \`${value}\`.`);
+      add(
+        file,
+        line,
+        'local-token-override',
+        `\`${prop}\` redefines a namespace token with a literal value: \`${value}\`.`,
+      );
     }
     return;
   }
   for (const m of value.matchAll(/var\(\s*(--[\w-]+)/g)) {
     if (!m[1].startsWith(`--${PREFIX}-`)) {
-      add(file, line, 'non-token-variable', `\`${m[1]}\` is outside the \`--${PREFIX}-*\` namespace.`);
+      add(
+        file,
+        line,
+        'non-token-variable',
+        `\`${m[1]}\` is outside the \`--${PREFIX}-*\` namespace.`,
+      );
     }
   }
   if (COLOR_PROPS.test(prop) && COLOR_LITERAL.test(v)) {
@@ -67,13 +83,26 @@ function checkDecl(file, decl, { component }) {
   if (RADIUS_PROPS.test(prop) && LENGTH.test(v)) {
     add(file, line, 'raw-border-radius', `\`${prop}: ${value}\` uses a raw length.`);
   }
-  if (prop === 'font-family' && !KEYWORDS.test(value) && !new RegExp(`^var\\(--${PREFIX}-font-family-`).test(value)) {
-    add(file, line, 'non-token-font-family', `\`font-family: ${value}\` does not resolve through a token.`);
+  if (
+    prop === 'font-family' &&
+    !KEYWORDS.test(value) &&
+    !new RegExp(`^var\\(--${PREFIX}-font-family-`).test(value)
+  ) {
+    add(
+      file,
+      line,
+      'non-token-font-family',
+      `\`font-family: ${value}\` does not resolve through a token.`,
+    );
   }
   if (prop === 'font-size' && LENGTH.test(v)) {
     add(file, line, 'raw-font-size', `\`font-size: ${value}\` uses a raw length.`);
   }
-  if (/^(font-weight|line-height|letter-spacing)$/.test(prop) && !KEYWORDS.test(value) && !/^var\(/.test(value)) {
+  if (
+    /^(font-weight|line-height|letter-spacing)$/.test(prop) &&
+    !KEYWORDS.test(value) &&
+    !/^var\(/.test(value)
+  ) {
     add(file, line, 'raw-typography', `\`${prop}: ${value}\` is a literal value.`);
   }
   if (prop === 'font' && !KEYWORDS.test(value)) {
@@ -94,7 +123,12 @@ function checkCss(file) {
     root.walkRules((rule) => {
       if (rule.parent?.type === 'atrule' && /keyframes/.test(rule.parent.name)) return;
       if (/\.[a-z_-]/i.test(rule.selector)) {
-        add(rel, rule.source?.start?.line ?? 0, 'global-component-leak', `Class selector \`${rule.selector}\` in the global stylesheet.`);
+        add(
+          rel,
+          rule.source?.start?.line ?? 0,
+          'global-component-leak',
+          `Class selector \`${rule.selector}\` in the global stylesheet.`,
+        );
       }
     });
   }
@@ -105,7 +139,13 @@ function checkTsx(file) {
   const rel = path.relative(CODE_DIR, file).split(path.sep).join('/');
   const lines = fs.readFileSync(file, 'utf8').split('\n');
   lines.forEach((text, i) => {
-    if (/\bstyle=\{\{/.test(text)) add(rel, i + 1, 'inline-style', 'Inline `style` prop; use a scoped class or a data attribute.');
+    if (/\bstyle=\{\{/.test(text))
+      add(
+        rel,
+        i + 1,
+        'inline-style',
+        'Inline `style` prop; use a scoped class or a data attribute.',
+      );
   });
 }
 
@@ -186,6 +226,8 @@ if (content !== previous) fs.writeFileSync(BACKLOG, content);
 
 const summary = {};
 for (const f of findings) summary[f.rule] = (summary[f.rule] ?? 0) + 1;
-console.log(`validate: ${findings.length} deviation(s)${content !== previous ? ' (backlog updated)' : ''}`);
+console.log(
+  `validate: ${findings.length} deviation(s)${content !== previous ? ' (backlog updated)' : ''}`,
+);
 for (const [rule, n] of Object.entries(summary)) console.log(`  ${rule}: ${n}`);
 process.exit(strict && findings.length ? 1 : 0);

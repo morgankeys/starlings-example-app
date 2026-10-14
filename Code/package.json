@@ -7,7 +7,7 @@
     "dev": "npm run tokens && vite",
     "build": "npm run tokens && node scripts/check-alpha.mjs && tsc -b && vite build && node scripts/check-dev-pages.mjs",
     "preview": "vite preview",
-    "lint": "prettier --check . && eslint . && stylelint \"src/**/*.css\"",
+    "lint": "prettier --check . && eslint . && NODE_OPTIONS=--no-deprecation stylelint \"src/**/*.css\"",
     "format": "prettier --write .",
     "check": "tsc -b",
     "tokens": "node scripts/tokens.mjs",
