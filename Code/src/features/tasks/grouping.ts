@@ -27,3 +27,28 @@ export function groupByStatus(tasks: Task[]): TaskGroup[] {
     collapsed: s === 'done',
   }));
 }
+
+export interface BoardColumn {
+  status: TaskStatus;
+  label: string;
+  tasks: Task[];
+}
+
+const BOARD_ORDER: TaskStatus[] = ['todo', 'in_progress', 'in_review', 'done'];
+
+/**
+ * Kanban columns: To do, In progress, In review, Done. `statuses` (when non-empty) limits
+ * the columns; `includeDone: false` drops Done. Tasks keep the order they arrive in.
+ */
+export function boardColumns(
+  tasks: Task[],
+  { statuses = [], includeDone = true }: { statuses?: TaskStatus[]; includeDone?: boolean } = {},
+): BoardColumn[] {
+  return BOARD_ORDER.filter(
+    (s) => (statuses.length === 0 || statuses.includes(s)) && (includeDone || s !== 'done'),
+  ).map((status) => ({
+    status,
+    label: STATUS_LABEL[status],
+    tasks: tasks.filter((t) => t.status === status),
+  }));
+}

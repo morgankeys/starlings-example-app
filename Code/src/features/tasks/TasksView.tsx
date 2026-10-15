@@ -1,4 +1,13 @@
-import { CalendarClock, CheckCircle2, Filter, Search, SignalHigh, X } from 'lucide-react';
+import {
+  CalendarClock,
+  CheckCircle2,
+  Columns3,
+  Filter,
+  List,
+  Search,
+  SignalHigh,
+  X,
+} from 'lucide-react';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -24,6 +33,7 @@ import { groupByDue, groupByStatus } from './grouping';
 import { PRIORITY_LABEL, STATUS_LABEL } from './meta';
 import { QuickAdd } from './QuickAdd';
 import { PriorityIcon, StatusIcon } from './TaskIcons';
+import { TaskBoard } from './TaskBoard';
 import { TaskGroups } from './TaskGroups';
 import styles from './TasksView.module.css';
 
@@ -66,6 +76,7 @@ export function TasksView({
   const due = (params.get('due') as Due | null) ?? undefined;
   const q = params.get('q') ?? '';
   const group = (params.get('group') as 'status' | 'due' | null) ?? defaultGroup;
+  const layout: 'list' | 'board' = params.get('view') === 'board' ? 'board' : 'list';
 
   const setParam = (key: string, value: string | null) =>
     setParams(
@@ -169,13 +180,24 @@ export function TasksView({
           </Button>
         )}
         <div className={styles.spacer} />
+        {layout === 'list' && (
+          <SegmentedControl
+            label="Group by"
+            value={group}
+            onChange={(g) => setParam('group', g === defaultGroup ? null : g)}
+            options={[
+              { value: 'status', label: 'By status' },
+              { value: 'due', label: 'By due date' },
+            ]}
+          />
+        )}
         <SegmentedControl
-          label="Group by"
-          value={group}
-          onChange={(g) => setParam('group', g === defaultGroup ? null : g)}
+          label="Layout"
+          value={layout}
+          onChange={(l) => setParam('view', l === 'board' ? 'board' : null)}
           options={[
-            { value: 'status', label: 'By status' },
-            { value: 'due', label: 'By due date' },
+            { value: 'list', label: 'List', icon: <List />, iconOnly: true },
+            { value: 'board', label: 'Board', icon: <Columns3 />, iconOnly: true },
           ]}
         />
       </div>
@@ -198,7 +220,18 @@ export function TasksView({
           action={active ? <Button onClick={clear}>Clear filters</Button> : undefined}
         />
       )}
-      {data && data.length > 0 && (
+      {data && data.length > 0 && layout === 'board' && (
+        <TaskBoard
+          tasks={data}
+          statuses={status}
+          includeDone={base.includeDone !== false}
+          quickAddDefaults={quickAddDefaults}
+          canAdd={canAdd}
+          hideAssignee={hideAssignee}
+          hideProject={hideProject}
+        />
+      )}
+      {data && data.length > 0 && layout === 'list' && (
         <TaskGroups groups={groups} hideAssignee={hideAssignee} hideProject={hideProject} />
       )}
     </div>

@@ -15,6 +15,7 @@ import { IconButton, SidePanel, Spinner } from '@/components/ui';
 import type { AssistantContext } from '@/domain/types';
 import { useAssistant } from './AssistantProvider';
 import { MessageContent } from './MessageContent';
+import { SuggestedTasks } from './SuggestedTasks';
 import styles from './AssistantPanel.module.css';
 
 const CONTEXT_ICON = {
@@ -31,10 +32,16 @@ function suggestions(context: AssistantContext | null): string[] {
       return [
         'Summarize this file',
         'What decisions and action items does it record?',
+        'Turn the action items into tasks',
         'Which tasks use this file?',
       ];
     case 'task':
-      return ['What’s blocking this?', 'Summarize this task', 'Find related files'];
+      return [
+        'What’s blocking this?',
+        'Summarize this task',
+        'Find related files',
+        'Create a follow-up task',
+      ];
     case 'team':
       return [
         'Who’s overloaded this week?',
@@ -56,7 +63,8 @@ function suggestions(context: AssistantContext | null): string[] {
 }
 
 export function AssistantPanel() {
-  const { messages, context, busy, ask, clearContext, newThread, setOpen } = useAssistant();
+  const { messages, context, busy, ask, resolveActions, clearContext, newThread, setOpen } =
+    useAssistant();
   const [draft, setDraft] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -176,7 +184,18 @@ export function AssistantPanel() {
                     <Spinner size="sm" /> Looking through your workspace…
                   </span>
                 ) : (
-                  <MessageContent text={m.text} citations={m.citations} />
+                  <>
+                    <MessageContent text={m.text} citations={m.citations} />
+                    {m.status === 'done' && m.actions.length > 0 && (
+                      <div className={styles.actions}>
+                        <SuggestedTasks
+                          items={m.actions}
+                          resolution={m.actionsResult}
+                          onResolve={(result) => resolveActions(m.id, result)}
+                        />
+                      </div>
+                    )}
+                  </>
                 )}
               </li>
             ))}
