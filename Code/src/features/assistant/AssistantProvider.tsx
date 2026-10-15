@@ -9,13 +9,28 @@ import {
   type ReactNode,
 } from 'react';
 import { buildUrl } from '@/api/client';
-import type { AssistantContext, AssistantStreamEvent, Citation } from '@/domain/types';
+import type {
+  AssistantContext,
+  AssistantStreamEvent,
+  Citation,
+  SuggestedTask,
+} from '@/domain/types';
+
+/** What the user did with a message's suggested tasks. */
+export type ActionsResult =
+  | { kind: 'created'; tasks: Array<{ id: string; title: string }> }
+  | { kind: 'undone'; count: number }
+  | { kind: 'dismissed' };
 
 export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   text: string;
   citations: Citation[];
+  /** Tasks the assistant proposes; the user confirms them before anything is created. */
+  actions: SuggestedTask[];
+  /** Set once the user has created or dismissed `actions`, so reopening the panel remembers. */
+  actionsResult?: ActionsResult;
   context: AssistantContext | null;
   status: 'streaming' | 'done' | 'error';
 }
@@ -28,6 +43,8 @@ interface AssistantState {
   setOpen: (open: boolean) => void;
   toggle: () => void;
   ask: (question: string) => void;
+  /** Record what the user did with a message's suggested tasks. */
+  resolveActions: (messageId: string, result: ActionsResult) => void;
   /** Open the panel scoped to something, optionally asking right away. */
   askAbout: (context: AssistantContext, question?: string) => void;
   clearContext: () => void;
@@ -114,12 +131,21 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
     const answerId = newId();
     setMessages((all) => [
       ...all,
-      { id: newId(), role: 'user', text: q, citations: [], context: scope, status: 'done' },
+      {
+        id: newId(),
+        role: 'user',
+        text: q,
+        citations: [],
+        actions: [],
+        context: scope,
+        status: 'done',
+      },
       {
         id: answerId,
         role: 'assistant',
         text: '',
         citations: [],
+        actions: [],
         context: scope,
         status: 'streaming',
       },
@@ -139,6 +165,7 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
         if (event.type === 'token') patch(answerId, (m) => ({ ...m, text: m.text + event.text }));
         else if (event.type === 'citations')
           patch(answerId, (m) => ({ ...m, citations: event.items }));
+        else if (event.type === 'actions') patch(answerId, (m) => ({ ...m, actions: event.items }));
         else if (event.type === 'error') throw new Error(event.message);
       }
       patch(answerId, (m) => ({ ...m, status: 'done' }));
@@ -157,6 +184,10 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       setOpen,
       toggle: () => setOpen((o) => !o),
       ask: (q) => send(q, context),
+      resolveActions: (messageId, result) =>
+        setMessages((all) =>
+          all.map((m) => (m.id === messageId ? { ...m, actionsResult: result } : m)),
+        ),
       askAbout: (c, q) => {
         setOverride(c);
         setDismissedKey(null);
