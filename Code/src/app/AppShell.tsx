@@ -11,6 +11,7 @@ import { CommandPalette } from '@/features/search/CommandPalette';
 import { NewTaskDialog } from '@/features/tasks/NewTaskDialog';
 import { TaskPanel } from '@/features/tasks/TaskPanel';
 import { usePanels } from './panels';
+import { useSession } from './session';
 import { ShellActionsContext, type ShellActions } from './shellActions';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
@@ -19,8 +20,11 @@ import styles from './AppShell.module.css';
 const ROOT_FOLDER = 'fd_root';
 
 export function AppShell() {
+  const { user } = useSession();
+  // Keyed by user: switching persona must not carry one person's Ask Birdy conversation
+  // (or its suggested tasks) over to someone else.
   return (
-    <AssistantProvider>
+    <AssistantProvider key={user.id}>
       <Shell />
     </AssistantProvider>
   );
