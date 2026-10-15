@@ -13,13 +13,16 @@ export const assistantHandlers = [
     route(({ db, user }) => focus(db, user)),
   ),
 
-  /** Streams the answer as text/event-stream: token events, then citations, then done. */
+  /**
+   * Streams the answer as text/event-stream: token events, then citations, then (only when
+   * the assistant proposes tasks) actions, then done.
+   */
   http.post(
     `${API}/assistant/messages`,
     route(async ({ db, user, request }) => {
       const req = await body<AssistantRequest>(request);
       if (!req.message?.trim()) throw badRequest('Ask a question first');
-      const { text, citations } = answer(db, user, req);
+      const { text, citations, actions } = answer(db, user, req);
       const encoder = new TextEncoder();
       const send = (c: ReadableStreamDefaultController, e: AssistantStreamEvent) =>
         c.enqueue(encoder.encode(`data: ${JSON.stringify(e)}\n\n`));
@@ -32,6 +35,7 @@ export const assistantHandlers = [
             await sleep(token.startsWith('[[') ? 40 : 14 + Math.random() * 22);
           }
           send(controller, { type: 'citations', items: citations });
+          if (actions.length) send(controller, { type: 'actions', items: actions });
           send(controller, { type: 'done' });
           controller.close();
         },

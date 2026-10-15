@@ -5,13 +5,28 @@
 // **bold**, and citation tokens like [[task:t_123]] that the UI turns into chips.
 // To swap in a real model, replace `answer()` behind the same endpoint.
 import { differenceInCalendarDays, format, parseISO } from 'date-fns';
-import type { AssistantRequest, Citation, FocusSummary, ID, User } from '@/domain/types';
+import type {
+  AssistantRequest,
+  Citation,
+  FocusSummary,
+  ID,
+  SuggestedTask,
+  User,
+} from '@/domain/types';
 import { canSeeTask, fileAccess, teamIdsOf, toTask, visibleFiles } from '../access';
 import type { Database, FileRecord, TaskRecord } from '../db-types';
+import {
+  parseTaskRequest,
+  suggestFromActions,
+  suggestFromRequest,
+  type TaskRequest,
+} from './suggest';
 
 export interface AssistantAnswer {
   text: string;
   citations: Citation[];
+  /** Tasks the assistant proposes. Empty for most answers, and always for guests. */
+  actions: SuggestedTask[];
 }
 
 // ---- Helpers ---------------------------------------------------------------------------
@@ -500,9 +515,96 @@ function contextFile(ctx: Ctx): FileRecord | undefined {
   return bestMatch?.f;
 }
 
+// ---- Suggested tasks -------------------------------------------------------------------
+
+/** "turn the action items into tasks", "make tasks from this", "create tasks from the notes". */
+const TASKS_FROM_FILE =
+  /\b(?:turn|convert|make|create|generate|extract)\b[^.?!]*\btasks?\b[^.?!]*\b(?:from|out of)\s+(?:this|the|that|these|my)\b|\binto\s+(?:new\s+)?tasks?\b/;
+
+/** The closing line that points at the review card, or says everything is tracked already. */
+function tasksTail(ctx: Ctx, items: SuggestedTask[]): string {
+  if (!items.length) return '';
+  const fresh = items.filter((s) => !s.existingTaskId);
+  if (fresh.length) return `I can turn ${fresh.length} of these into tasks. Review them below.`;
+  const refs = items
+    .map((s) => ctx.db.tasks.find((t) => t.id === s.existingTaskId))
+    .filter((t): t is TaskRecord => !!t)
+    .map((t) => ctx.cite.task(t))
+    .join(' ');
+  const lead = items.length === 1 ? 'That action item is' : `All ${items.length} action items are`;
+  return `${lead} already tracked as tasks: ${refs}`;
+}
+
+interface Suggested {
+  text: string;
+  actions: SuggestedTask[];
+}
+
+/** A file answer plus the suggested tasks for the action items it records. */
+function withTasks(ctx: Ctx, f: FileRecord, text: string): Suggested {
+  const actions = suggestFromActions(ctx.db, ctx.user, f, parseDoc(f.contentText).actions);
+  const tail = tasksTail(ctx, actions);
+  return { text: tail ? `${text}\n\n${tail}` : text, actions };
+}
+
+function answerTasksFromFile(ctx: Ctx, f: FileRecord): Suggested {
+  const { db, user } = ctx;
+  const ref = ctx.cite.file(f);
+  const doc = parseDoc(f.contentText);
+  if (!doc.actions.length) {
+    return {
+      text: `${ref} doesn't list any action items, so there is nothing to turn into tasks.`,
+      actions: [],
+    };
+  }
+  if (user.role === 'guest') {
+    return {
+      text: `${ref} lists ${plural(doc.actions.length, 'action item')}:\n${doc.actions.map((a) => `- ${a}`).join('\n')}\n\nGuests can't create tasks in Birdy, so ask a teammate to add these.`,
+      actions: [],
+    };
+  }
+  const items = suggestFromActions(db, user, f, doc.actions);
+  const lines = items.map((s) => {
+    const existing = db.tasks.find((t) => t.id === s.existingTaskId);
+    const who = s.assigneeId ? firstName(db, s.assigneeId) : 'Unassigned';
+    return `- **${who}** — ${s.title}${existing ? ` (already tracked: ${ctx.cite.task(existing)})` : ''}`;
+  });
+  return {
+    text: `${ref} records ${plural(items.length, 'action item')}:\n${lines.join('\n')}\n\n${tasksTail(ctx, items)}`,
+    actions: items,
+  };
+}
+
+function answerTaskRequest(ctx: Ctx, request: TaskRequest): Suggested {
+  const { db, user, req } = ctx;
+  if (user.role === 'guest') {
+    return {
+      text: "Guests can't create tasks in Birdy. Ask a teammate to add it for you.",
+      actions: [],
+    };
+  }
+  const s = suggestFromRequest(db, user, request, req.context);
+  if (!s) {
+    return {
+      text: request.followUp
+        ? 'Open a task first, or tell me what to follow up on, like “create a task to send the recap tomorrow”.'
+        : 'What should the task be? For example: “create a task to send the recap tomorrow !high”.',
+      actions: [],
+    };
+  }
+  const existing = db.tasks.find((t) => t.id === s.existingTaskId);
+  if (existing) {
+    return {
+      text: `${ctx.cite.task(existing)} already covers that, so I haven't suggested a new task.`,
+      actions: [s],
+    };
+  }
+  return { text: 'I can add this as a task. Review it below.', actions: [s] };
+}
+
 function help(ctx: Ctx): string {
   const where = ctx.req.context ? ` about **${ctx.req.context.label}**` : '';
-  return `I can answer questions${where} from your tasks and files in Birdy. Try:\n\n- What should I focus on today?\n- What's overdue across my teams?\n- Summarize the launch plan\n- What's blocking the Safari autocomplete fix?\n- Who's overloaded this week?\n- Find files about shipping`;
+  return `I can answer questions${where} from your tasks and files in Birdy. Try:\n\n- What should I focus on today?\n- What's overdue across my teams?\n- Summarize the launch plan\n- What's blocking the Safari autocomplete fix?\n- Who's overloaded this week?\n- Find files about shipping\n- Turn the action items in a file into tasks`;
 }
 
 export function answer(db: Database, user: User, req: AssistantRequest): AssistantAnswer {
@@ -515,15 +617,31 @@ export function answer(db: Database, user: User, req: AssistantRequest): Assista
       ? db.tasks.find((t) => t.id === req.context!.id && canSeeTask(db, user, t))
       : undefined;
 
-  let text: string;
-  if (file && has(/decision|decided|action item|next step|follow.?up/))
-    text = decisionsIn(ctx, file);
+  let text = '';
+  let actions: SuggestedTask[] = [];
+  const set = (r: Suggested) => {
+    text = r.text;
+    actions = r.actions;
+  };
+  // An explicit request ("create a task to …") wins over every other intent, unless it is
+  // really about a file ("create a task from this").
+  const request = parseTaskRequest(req.message);
+  const explicit =
+    !!request && (!!request.body || request.followUp) && !/^from\b/i.test(request.body);
+
+  if (request && explicit) set(answerTaskRequest(ctx, request));
+  else if (has(TASKS_FROM_FILE)) {
+    if (file) set(answerTasksFromFile(ctx, file));
+    else text = 'Open a file, or name one, and I can turn its action items into tasks.';
+  } else if (request) set(answerTaskRequest(ctx, request));
+  else if (file && has(/decision|decided|action item|next step|follow.?up/))
+    set(withTasks(ctx, file, decisionsIn(ctx, file)));
   else if (
     file &&
     (has(/summar|tl;?dr|overview|gist|what('s| is) (this|in)|key points|explain|about/) ||
       req.context?.type === 'file')
   )
-    text = summarizeFile(ctx, file);
+    set(withTasks(ctx, file, summarizeFile(ctx, file)));
   else if (has(/block|stuck|waiting on|depend/)) text = answerBlocked(ctx);
   else if (has(/overload|workload|capacity|busy|bandwidth|stretched/)) text = answerWorkload(ctx);
   else if (has(/focus|priorit|what should i|start with|most important|work on (next|today)/))
@@ -536,11 +654,11 @@ export function answer(db: Database, user: User, req: AssistantRequest): Assista
   else if (has(/find|where('s| is)|search|look for|files? (about|on|for)|docs? about/))
     text = answerFind(ctx);
   else if (task) text = explainTask(ctx, task);
-  else if (file) text = summarizeFile(ctx, file);
+  else if (file) set(withTasks(ctx, file, summarizeFile(ctx, file)));
   else if (req.context?.type === 'team' || req.context?.type === 'person')
     text = answerDue({ ...ctx, q: `${q} this week` });
   else if (req.context?.type === 'project') text = answerStatus(ctx);
   else text = help(ctx);
 
-  return { text, citations: ctx.cite.list() };
+  return { text, citations: ctx.cite.list(), actions };
 }

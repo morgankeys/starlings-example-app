@@ -402,7 +402,7 @@ const TASKS: TaskSeed[] = [
     team: 'tm_ops',
     project: 'p_supplier',
     due: 3,
-    files: ['fl_onboarding'],
+    files: ['fl_onboarding', 'fl_pilot_kickoff'],
     createdBy: 'u_dana',
   },
   {
