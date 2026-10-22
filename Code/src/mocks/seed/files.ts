@@ -699,6 +699,34 @@ Three vendors in February: Basalt Textiles, Ridgeway Metals and Cascadia Packs.`
 42 active vendors. Known duplicates: "Basalt Textiles" and "Basalt Textile Co." are the same supplier; "Cascadia Packs" appears twice with different contacts.`,
   },
   {
+    id: 'fl_pilot_kickoff',
+    name: 'Supplier pilot kickoff notes.docx',
+    kind: 'doc',
+    folderId: 'fd_supplier',
+    ownerId: 'u_priya',
+    updated: -1,
+    updatedById: 'u_priya',
+    size: 41_000,
+    version: 2,
+    content: `# Supplier pilot kickoff notes
+
+Attendees: Priya, Ben, Kira, Omar, Marcus, Inés
+
+## Discussion
+The February pilot covers three vendors: Basalt Textiles, Ridgeway Metals and Cascadia Packs. Basalt and Ridgeway can sync inventory through their APIs, but Cascadia only sends CSV, so the CSV upload path has to be solid before invites go out. Omar asked for a written test plan before any vendor touches the portal. Marcus offered to handle the announcement so Priya can focus on onboarding calls.
+
+## Decisions
+- Decision: The pilot runs for four weeks, starting the first Monday of February.
+- Decision: Invites go to one account manager per vendor; more users can be added after week one.
+- Decision: Cascadia Packs uploads inventory by CSV for the whole pilot; no API work for them yet.
+
+## Action items
+- Action: Priya to send portal invites to the three pilot vendors.
+- Action: Kira to set up a staging environment for the pilot.
+- Action: Omar to write a test plan for CSV inventory uploads.
+- Action: Marcus to draft the pilot announcement email.`,
+  },
+  {
     id: 'fl_api_notes',
     name: 'Inventory API integration notes.docx',
     kind: 'doc',

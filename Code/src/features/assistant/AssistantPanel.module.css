@@ -95,6 +95,10 @@
   white-space: pre-wrap;
 }
 
+.actions {
+  margin-top: var(--bd-space-3);
+}
+
 .message[data-status='error'] {
   color: var(--bd-color-danger-default);
 }

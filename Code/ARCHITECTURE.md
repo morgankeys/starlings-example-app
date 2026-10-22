@@ -87,6 +87,13 @@ drops per-call callbacks once the calling component unmounts.
 - Task and file details open in a right-hand `SidePanel` driven by `?task=<id>` and
   `?file=<id>` (`app/panels.ts`), so any page can show them and links are shareable.
 - Task list filters live in the URL too (`?status=…&priority=…&due=…&q=…&group=…`).
+- `?view=board` switches `TasksView` from the grouped list to the kanban board
+  (`features/tasks/TaskBoard.tsx`); absent means list. `group` only applies to the list.
+  The board has one column per status (`boardColumns` in `grouping.ts`), narrowed by the
+  status filter and without Done when the view's base filters set `includeDone: false`.
+  Cards move between columns by native HTML5 drag and drop (a `useUpdateTask` status patch,
+  optimistic, with a toast on error) or with the "Move to…" `StatusMenu` on each card,
+  which is the keyboard and touch alternative.
 
 ### Ask Birdy
 

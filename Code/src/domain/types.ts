@@ -271,10 +271,27 @@ export interface AssistantRequest {
   context: AssistantContext | null;
 }
 
+/** A task the assistant proposes. Nothing is created until the user confirms it. */
+export interface SuggestedTask {
+  /** Stable within one answer, so the UI can key rows and track edits. */
+  key: string;
+  title: string;
+  description: string;
+  assigneeId: ID | null;
+  dueDate: DateOnly | null;
+  priority: TaskPriority;
+  projectId: ID | null;
+  teamId: ID | null;
+  fileIds: ID[];
+  /** Set when an existing task already covers this suggestion. */
+  existingTaskId: ID | null;
+}
+
 /** One event in the assistant's text/event-stream response. */
 export type AssistantStreamEvent =
   | { type: 'token'; text: string }
   | { type: 'citations'; items: Citation[] }
+  | { type: 'actions'; items: SuggestedTask[] }
   | { type: 'done' }
   | { type: 'error'; message: string };
 
