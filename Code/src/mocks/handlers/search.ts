@@ -42,7 +42,7 @@ export const searchHandlers = [
         }
       }
       for (const u of db.users) {
-        if (match(u.name, u.title, u.email))
+        if (u.status !== 'deactivated' && match(u.name, u.title, u.email))
           results.push({ type: 'user', id: u.id, title: u.name, subtitle: u.title });
       }
       if (user.role !== 'guest') {

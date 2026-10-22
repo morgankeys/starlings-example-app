@@ -20,16 +20,35 @@ export interface Organization {
   plan: string;
 }
 
+export type UserStatus = 'active' | 'invited' | 'deactivated';
+
 export interface User {
   id: ID;
   name: string;
   email: string;
   title: string;
   role: OrgRole;
+  /** Invited people can sign in (which activates them); deactivated people cannot. */
+  status: UserStatus;
   color: AccentColor;
   location: string;
   /** Company name for guests from outside the organization. */
   company?: string;
+}
+
+/** What an admin sends to invite someone. Members need an org-domain email; guests a company. */
+export interface NewMember {
+  name: string;
+  email: string;
+  title: string;
+  role: OrgRole;
+  company?: string;
+}
+
+export interface UserPatch {
+  role?: OrgRole;
+  status?: Exclude<UserStatus, 'invited'>;
+  title?: string;
 }
 
 export type TeamRole = 'lead' | 'member';
