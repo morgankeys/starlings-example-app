@@ -15,6 +15,9 @@ export function invalidateTaskViews(qc: QueryClient) {
   qc.invalidateQueries({ queryKey: keys.projects });
   qc.invalidateQueries({ queryKey: keys.focus });
   qc.invalidateQueries({ queryKey: keys.allFiles });
+  // A change can notify other people, and can show up in the Home feed.
+  qc.invalidateQueries({ queryKey: keys.notifications });
+  qc.invalidateQueries({ queryKey: keys.allActivity });
 }
 
 /** Patch a task in every cached list and its detail. Returns a function that undoes it. */
@@ -84,6 +87,9 @@ export function useTaskComment(id: string) {
     onSuccess: (task) => {
       qc.setQueryData(keys.task(id), task);
       qc.invalidateQueries({ queryKey: ['tasks', 'list'] });
+      // Comments notify other people (and mention them) and appear in the Home feed.
+      qc.invalidateQueries({ queryKey: keys.notifications });
+      qc.invalidateQueries({ queryKey: keys.allActivity });
     },
   });
 }

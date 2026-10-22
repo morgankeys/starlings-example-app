@@ -4,6 +4,7 @@ import type {
   ActionsResult,
   AssistantThread,
   AssistantThreadSummary,
+  ActivityFeedItem,
   FileDetail,
   FileItem,
   FileView,
@@ -15,6 +16,7 @@ import type {
   BulkTaskUpdate,
   NewMember,
   NewTask,
+  NotificationList,
   Organization,
   ProjectSummary,
   SearchResult,
@@ -149,4 +151,14 @@ export const assistantApi = {
   restoreThread: (id: string) => api.post<AssistantThread>(`/assistant/threads/${id}/restore`),
   resolveActions: (threadId: string, messageId: string, actionsResult: ActionsResult) =>
     api.patch(`/assistant/threads/${threadId}/messages/${messageId}`, { actionsResult }),
+};
+
+export const notificationsApi = {
+  list: (limit?: number) => api.get<NotificationList>('/notifications', { limit }),
+  markRead: (input: { ids: string[] } | { all: true }) =>
+    api.post<{ unreadCount: number }>('/notifications/read', input),
+};
+
+export const activityApi = {
+  list: (limit?: number) => api.get<ActivityFeedItem[]>('/activity', { limit }),
 };

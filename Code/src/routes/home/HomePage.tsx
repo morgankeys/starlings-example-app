@@ -11,6 +11,7 @@ import {
   PageHeader,
   Skeleton,
 } from '@/components/ui';
+import { ActivityFeed } from '@/features/activity/ActivityFeed';
 import { FocusCard } from '@/features/assistant/FocusCard';
 import { useFiles } from '@/features/files/api';
 import { FileList } from '@/features/files/FileList';
@@ -64,10 +65,11 @@ export function HomePage() {
             </div>
           </Card>
         </div>
-        <aside className={styles.side} aria-label="Files and teams">
+        <aside className={styles.side} aria-label="Files, teams and activity">
           <RecentFiles />
           <SharedWithMe />
           {!isGuest && <MyTeams />}
+          <ActivityFeed />
         </aside>
       </div>
     </div>

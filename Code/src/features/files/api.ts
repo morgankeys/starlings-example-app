@@ -18,6 +18,7 @@ function useInvalidateFiles() {
     qc.invalidateQueries({ queryKey: keys.allFiles });
     qc.invalidateQueries({ queryKey: ['shares'] });
     qc.invalidateQueries({ queryKey: ['tasks', 'detail'] });
+    qc.invalidateQueries({ queryKey: keys.allActivity });
   };
 }
 
