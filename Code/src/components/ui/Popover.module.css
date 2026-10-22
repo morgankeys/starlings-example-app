@@ -8,6 +8,10 @@
   box-shadow: 0 8px 24px var(--bd-color-shadow-overlay);
 }
 
+.content[data-padding='none'] {
+  padding: 0;
+}
+
 /* Animate in only: Radix unmounts closed content as soon as no animation is running. */
 .content[data-state='open'],
 .content[data-state='delayed-open'],
