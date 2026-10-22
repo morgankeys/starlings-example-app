@@ -3,10 +3,11 @@ import { answer } from '../assistant/engine';
 import type { AssistantThreadRecord, Database } from '../db-types';
 import { seedClock, type SeedClock } from './dates';
 import { buildFiles, buildFolders } from './files';
+import { buildNotifications } from './notifications';
 import { org, projects, teams, users } from './people';
 import { buildTasks } from './tasks';
 
-export const DB_VERSION = 4;
+export const DB_VERSION = 5;
 
 /**
  * Build a fresh database. `seed` is Meridian's full workspace; `empty` keeps the org,
@@ -24,6 +25,7 @@ export function buildDatabase(today: Date, mode: 'seed' | 'empty' = 'seed'): Dat
     tasks: [],
     comments: [],
     activity: [],
+    notifications: [],
     folders: buildFolders(clock).filter((f) => f.id === 'fd_root'),
     files: [],
     stars: {},
@@ -39,6 +41,7 @@ export function buildDatabase(today: Date, mode: 'seed' | 'empty' = 'seed'): Dat
     tasks,
     comments,
     activity,
+    notifications: buildNotifications(clock, comments, activity),
     folders: buildFolders(clock),
     files: buildFiles(clock),
     stars: {

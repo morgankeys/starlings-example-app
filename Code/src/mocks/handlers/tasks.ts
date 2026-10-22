@@ -15,6 +15,7 @@ import { canEditTask, canSeeTask, fileAccess, toFile, toTask } from '../access';
 import { newId } from '../db';
 import type { Database, TaskRecord } from '../db-types';
 import { API, badRequest, body, forbidden, notFound, now, route } from '../http';
+import { notifyAssigned, notifyComment, notifyStatusChanged } from '../notify';
 
 const PRIORITY_ORDER: Record<TaskPriority, number> = { urgent: 0, high: 1, medium: 2, low: 3 };
 
@@ -106,11 +107,19 @@ export function applyPatch(db: Database, user: User, task: TaskRecord, patch: Ta
       );
     }
   }
+  const { assigneeId: prevAssignee, status: prevStatus } = task;
   if (patch.status && patch.status !== task.status) {
     task.completedAt = patch.status === 'done' ? now() : null;
   }
   Object.assign(task, patch, { updatedAt: now() });
   if (patch.title) task.title = patch.title.trim();
+  // Notify here so single and bulk updates behave the same.
+  if (patch.assigneeId !== undefined && patch.assigneeId !== prevAssignee) {
+    notifyAssigned(db, user, task);
+  }
+  if (patch.status && patch.status !== prevStatus) {
+    notifyStatusChanged(db, user, task, patch.status);
+  }
 }
 
 export const taskHandlers = [
@@ -191,6 +200,7 @@ export const taskHandlers = [
       };
       db.tasks.push(task);
       log(db, task, user, 'created');
+      notifyAssigned(db, user, task);
       return detail(db, user, task);
     }),
   ),
@@ -234,14 +244,16 @@ export const taskHandlers = [
       const task = findTask(db, user, params.id);
       const { body: text } = await body<{ body: string }>(request);
       if (!text?.trim()) throw badRequest('Write a comment first');
-      db.comments.push({
+      const comment = {
         id: newId('cm'),
         taskId: task.id,
         authorId: user.id,
         body: text.trim(),
         createdAt: now(),
-      });
+      };
+      db.comments.push(comment);
       task.updatedAt = now();
+      notifyComment(db, user, task, comment);
       return detail(db, user, task);
     }),
   ),

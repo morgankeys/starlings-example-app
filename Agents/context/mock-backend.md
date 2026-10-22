@@ -9,13 +9,15 @@ before touching seed data, handlers, permissions or Ask Birdy's answers.
 | Piece | File | Job |
 | --- | --- | --- |
 | Worker bootstrap | `src/mocks/browser.ts` | Starts MSW before the app renders (`main.tsx`) |
-| Handlers | `src/mocks/handlers/*.ts` | One file per area: `org`, `tasks`, `bulk` (bulk task endpoints), `files`, `search`, `assistant` |
+| Handlers | `src/mocks/handlers/*.ts` | One file per area: `org`, `tasks`, `bulk` (bulk task endpoints), `files`, `search`, `assistant`, `notifications` (notifications and the activity feed) |
 | Route wrapper | `src/mocks/http.ts` | Simulated latency and failures, auth (401 when signed out), JSON errors, persisting after writes |
 | Database | `src/mocks/db.ts` | In-memory object saved to `localStorage` (`birdy.db`); `resetDb()` reseeds |
 | Record types | `src/mocks/db-types.ts` | What the DB stores (computed fields are added by serializers) |
 | Workspace admin | `src/mocks/members.ts` | Org rename, invite, role/status changes and sign-in rules, as pure functions the handlers and tests share |
 | Permissions | `src/mocks/access.ts` | Who can see and edit what; serializers `toTask`, `toFile`, `toFolder` |
 | Seed | `src/mocks/seed/` | Meridian Outdoor Co.: `people.ts`, `files.ts`, `tasks.ts`, `dates.ts`, `index.ts` |
+| Notifications | `src/mocks/notify.ts` | Who is notified of what (`notify*`), the visible list, mark-as-read |
+| Activity feed | `src/mocks/activityFeed.ts` | `buildActivityFeed`: relevant, permitted recent events for `GET /activity` |
 | Assistant | `src/mocks/assistant/engine.ts` | Intent router that answers from the DB with citations |
 | Threads | `src/mocks/handlers/assistant.ts` | Stored Ask Birdy conversations (`assistantThreads`), see below |
 | Suggested tasks | `src/mocks/assistant/suggest.ts` | Turns action items and "create a task…" requests into `SuggestedTask`s, and marks the ones already tracked |
@@ -32,7 +34,9 @@ before touching seed data, handlers, permissions or Ask Birdy's answers.
 - **Check permissions in the handler,** with the helpers in `access.ts`. The UI also hides
   or disables controls, but the mock backend is the source of truth, so a persona switch
   shows real 403s and 404s.
-- **Seed dates are relative.** Use `SeedClock` (`c.day(offset)`, `c.at(offset, hour)`).
+- **Seed dates are relative.** Use `SeedClock` (`c.day(offset)`, `c.at(offset, hour)`, and
+  `c.ago(minutes)` for things that happened earlier today: it never lands in the future or
+  before midnight, which a fixed hour like `c.at(0, 8)` can).
   On load, `db.ts` moves every date forward by the days since seeding, so the demo always
   has overdue, today and this-week work.
 - **Bump `DB_VERSION`** in `seed/index.ts` when the stored shape changes, so browsers with
@@ -67,6 +71,60 @@ before touching seed data, handlers, permissions or Ask Birdy's answers.
   deactivate themselves; the workspace keeps at least one active admin; deactivating someone,
   or making them a guest, removes them from every team, but is blocked (naming the team) when
   they are its only lead.
+
+## Notifications
+
+`db.notifications` holds `NotificationRecord`s (`domain/types.ts`): `{ id, userId (recipient),
+kind, actorId, taskId?, fileId?, folderId?, commentId?, excerpt?, createdAt, readAt }`.
+`src/mocks/notify.ts` creates them; the task and share handlers call it after they change
+something. Nothing else writes notifications.
+
+| Kind | Raised when | Who hears |
+| --- | --- | --- |
+| `assigned` | A task is created with an assignee, or its assignee changes (`POST /tasks`, `PATCH /tasks/:id`) | The new assignee |
+| `commented` | `POST /tasks/:id/comments` | The task's assignee and creator |
+| `mentioned` | The same comment contains `@FirstName` | Each person named; wins over `commented` for the same comment |
+| `status_changed` | `PATCH /tasks/:id` changes `status` | The task's creator |
+| `shared` | `PUT /shares/:type/:id` adds grants | Newly reached people: named users, and every member of a newly granted team |
+
+Rules for every kind: the **actor is never notified** of their own action; a person gets **at
+most one notification per event** (a user grant plus a team grant, or assignee plus creator,
+still make one); and nobody is notified about something they **can't see** (`canSeeTask`, so a
+guest hears only about their own tasks). A share notifies only people the grants newly reach,
+never the resource's owner. `excerpt` is the start of the comment for `commented` and
+`mentioned`, and the new status for `status_changed`. Mentions are read with
+`mentionedUsers` from `src/lib/mentions.ts` (first name, case-insensitive, accents folded with
+`fold`; an `@` inside an email address does not count).
+
+- `GET /api/v1/notifications?limit=` (default 20, max 50) returns `{ items, unreadCount }`,
+  newest first. Items carry display fields (`title` = task title or file/folder name;
+  `status` for `status_changed`; `excerpt` for comments). Items whose task, file or folder the
+  user can no longer see are skipped, and `unreadCount` counts only visible ones.
+- `POST /api/v1/notifications/read` takes `{ ids }` or `{ all: true }`, only touches the
+  caller's own notifications, and returns `{ unreadCount }`. Anything else is a 400.
+- **Seed** (`seed/notifications.ts`): Maya has six, three unread (Theo's comment on "Finalize
+  address form error states", Elena mentioning her, Ava assigning "Approve hero shot list";
+  read: Chloé's comment, Theo's status change on a task Maya created, Priya sharing the
+  Supplier Portal folder). Ben, Chloé, Julia, Noah, Ava, Leo and Elena have a few too. The
+  seed adds one comment (Elena's `@Maya` on "Deliver Ridgeline jacket selects") to carry the
+  mention, and comments dated "today" use `c.ago(…)`.
+
+## Activity feed
+
+`GET /api/v1/activity?limit=` (default 15, max 50) returns `ActivityFeedItem[]`, newest first
+(`activityFeed.ts`). An item is `{ id, kind, actorId, taskId?, fileId?, title, detail?,
+createdAt }` where `kind` is a task `ActivityKind` (`created`, `status`, `assignee`,
+`priority`, `due`, `title`, `file_linked`, `file_unlinked`), `comment`, or `file_edited`, and
+`detail` is the new value, assignee name, file name, comment excerpt or folder (see the type's
+doc comment). Sources: `db.activity`, `db.comments`, and file `updatedAt`/`updatedById`.
+
+Relevant to a user means: tasks assigned to or created by them; tasks in a project owned by
+one of their teams; and files they can see that someone else edited in the last 14 days. Their
+own actions are left out. Permissions are applied first: deleted tasks and tasks they can't
+see are dropped, files need `fileAccess`, and a folder name is only included when the folder is
+openable. A guest therefore gets only their own tasks and the files shared with them, since
+guests are in no team. Sharing does not count as editing a file (the share handler no longer
+bumps a file's `updatedAt`), otherwise sharing would show up as "X edited …".
 
 ## Ask Birdy (the simulated assistant)
 
@@ -182,6 +240,11 @@ new suggestions, or says they are all already tracked.
 Full profiles: `Docs/Personas/`.
 
 ## Testing
+
+`src/mocks/notify.test.ts` covers notification generation (and, through `msw/node` and the real
+handlers, the endpoints); `src/mocks/activityFeed.test.ts` covers feed relevance and
+permissions; the bell has a component test (`features/notifications/NotificationBell.test.tsx`)
+that mocks `@/api/endpoints`.
 
 `src/mocks/access.test.ts`, `src/mocks/members.test.ts` and `src/mocks/assistant/engine.test.ts` build a fresh seed with
 `buildDatabase(new Date())` and assert against it. Add a test when you change a permission
