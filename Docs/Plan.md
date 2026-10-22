@@ -254,9 +254,19 @@ big numbers). Instrument Sans is the utility face (everything else).
   renderer.
 - CI wired to `lint`, `check`, `build`, `validate` and `test`.
 
-**Not built yet (stretch):** board view, bulk actions, an activity feed on Home, creating
-tasks from assistant answers, assistant thread history, notifications, org settings for
-admins, and a Playwright smoke test in CI.
+**Built (second pass):**
+
+- **Board view (workflow 9):** a List / Board toggle on every task list (`?view=board`).
+  Status columns, drag and drop between them, a "Move to…" menu on each card for keyboard
+  users, and an add button per column.
+- **Create tasks from Ask Birdy (workflow 23):** Ask Birdy suggests tasks from a document's
+  action items or from "create a task to …" requests. Suggestions already tracked as
+  tasks are flagged and link to the existing task. You review titles, assignees and due
+  dates before creating, and there's an undo. The seed gained "Supplier pilot kickoff
+  notes", whose action items aren't tasks yet, for demos.
+
+**Not built yet (stretch):** bulk actions, an activity feed on Home, assistant thread
+history, notifications, org settings for admins, and a Playwright smoke test in CI.
 
 **Known limits:**
 
@@ -265,3 +275,7 @@ admins, and a Playwright smoke test in CI.
 - Image and PDF files have no preview.
 - On screens narrower than 1100px, the task or file panel and Ask Birdy overlap when both
   are open.
+- Edits to suggested tasks (titles, assignees, dates) reset if the Ask Birdy panel is
+  closed before creating them.
+- Matching suggestions to existing tasks compares title wording, so two existing tasks
+  with very similar titles can be confused.

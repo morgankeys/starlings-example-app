@@ -4,7 +4,7 @@ import { buildFiles, buildFolders } from './files';
 import { org, projects, teams, users } from './people';
 import { buildTasks } from './tasks';
 
-export const DB_VERSION = 1;
+export const DB_VERSION = 2;
 
 /**
  * Build a fresh database. `seed` is Meridian's full workspace; `empty` keeps the org,

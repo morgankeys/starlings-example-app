@@ -7,7 +7,7 @@ import { formatDue } from '@/lib/dates';
 import { useUsers } from '@/features/org/api';
 import { useCreateTask } from './api';
 import { PRIORITY_LABEL } from './meta';
-import { parseQuickAdd } from './quickAdd';
+import { parseQuickAdd } from '@/lib/quickAdd';
 import { PriorityIcon } from './TaskIcons';
 import styles from './QuickAdd.module.css';
 
