@@ -10,6 +10,24 @@ const fresh = () => {
 };
 
 describe('bulk task update', () => {
+  it('notifies new assignees, like a single update does', () => {
+    const { db, user } = fresh();
+    const maya = user('u_maya');
+    const ids = db.tasks
+      .filter((t) => !t.deletedAt && t.assigneeId !== 'u_leo' && t.status !== 'done')
+      .slice(0, 2)
+      .map((t) => t.id);
+    const before = db.notifications.length;
+    bulkUpdateTasks(
+      db,
+      maya,
+      ids.map((id) => ({ id, patch: { assigneeId: 'u_leo' } })),
+    );
+    const added = db.notifications.slice(before);
+    expect(added.filter((n) => n.kind === 'assigned' && n.userId === 'u_leo')).toHaveLength(2);
+    expect(added.every((n) => n.actorId === 'u_maya')).toBe(true);
+  });
+
   it('patches each task and logs activity per task', () => {
     const { db, user } = fresh();
     const maya = user('u_maya');
