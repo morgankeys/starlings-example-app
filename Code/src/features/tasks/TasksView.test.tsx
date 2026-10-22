@@ -23,6 +23,7 @@ vi.mock('./api', async (original) => ({
 vi.mock('@/features/org/api', () => ({
   useUserMap: () => new Map(),
   useUsers: () => ({ data: [] }),
+  useActiveUsers: () => ({ data: [] }),
   useTeams: () => ({ data: [] }),
   useProjects: () => ({
     data: [
