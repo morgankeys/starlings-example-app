@@ -95,6 +95,24 @@ drops per-call callbacks once the calling component unmounts.
   optimistic, with a toast on error) or with the "Move to…" `StatusMenu` on each card,
   which is the keyboard and touch alternative.
 
+### Bulk actions on tasks
+
+In the list layout of `TasksView` (not the board, not Home) people who can edit
+(`canAdd`) can select rows. Selection lives in component state
+(`features/tasks/useTaskSelection.ts`), not the URL: Shift-click selects a range in the
+order rows are on screen, group headers have a tri-state "select all", Escape clears, and
+changing filters or layout clears it. Ids that leave the data are pruned. While anything is
+selected a sticky `BulkActionBar` (`role="toolbar"`) offers status, assignee, priority, due
+date, project, delete and clear.
+
+Each action goes through `useBulkTaskActions.ts`: plain functions over the query client and
+`tasksApi.bulkUpdate` / `bulkRemove` / `bulkRestore`, not component mutations, so the
+toast and its Undo outlive the bar. It patches every selected task optimistically
+(`patchTaskCaches`), sends one request, rolls back with a danger toast on error, and
+toasts "Updated N tasks" (plus "· M skipped" with the reasons). Undo sends each task's
+previous value back through `/tasks/bulk`; delete's Undo calls bulk-restore. The selection
+survives an update and is cleared by delete.
+
 ### Ask Birdy
 
 `features/assistant/AssistantProvider.tsx` holds the conversation, the open state and the

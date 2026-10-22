@@ -11,7 +11,7 @@ export function StatusMenu({
   onChange,
   trigger,
 }: {
-  value: TaskStatus;
+  value: TaskStatus | null;
   onChange: (s: TaskStatus) => void;
   trigger: ReactNode;
 }) {
@@ -36,7 +36,7 @@ export function PriorityMenu({
   onChange,
   trigger,
 }: {
-  value: TaskPriority;
+  value: TaskPriority | null;
   onChange: (p: TaskPriority) => void;
   trigger: ReactNode;
 }) {
@@ -63,7 +63,8 @@ export function AssigneeMenu({
   trigger,
   teamId,
 }: {
-  value: string | null;
+  /** `undefined` means the value is mixed or unknown, so nothing is checked. */
+  value: string | null | undefined;
   onChange: (id: string | null) => void;
   trigger: ReactNode;
   teamId?: string | null;
@@ -141,7 +142,8 @@ export function ProjectMenu({
   onChange,
   trigger,
 }: {
-  value: string | null;
+  /** `undefined` means the value is mixed or unknown, so nothing is checked. */
+  value: string | null | undefined;
   onChange: (id: string | null) => void;
   trigger: ReactNode;
 }) {

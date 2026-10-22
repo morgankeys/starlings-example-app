@@ -11,6 +11,10 @@
 }
 
 .heading {
+  display: flex;
+  align-items: center;
+  gap: var(--bd-space-1-5);
+  padding-left: var(--bd-space-1-5);
   font-family: var(--bd-font-family-ui);
   font-size: var(--bd-font-size-sm);
   letter-spacing: var(--bd-font-letter-spacing-normal);
