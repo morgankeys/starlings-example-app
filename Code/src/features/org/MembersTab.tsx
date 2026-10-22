@@ -113,7 +113,7 @@ export function MembersTab({ me, org }: { me: User; org: Organization }) {
       {isAdmin ? (
         <div className={styles.toolbar}>
           <p className={styles.note}>
-            {users.length} people in {org.name}. Role changes take effect right away.
+            {org.name} has {users.length} people. Role changes take effect right away.
           </p>
           <Button variant="primary" icon={<UserPlus />} onClick={() => setInviting(true)}>
             Invite member
