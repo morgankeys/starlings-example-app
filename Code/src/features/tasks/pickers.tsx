@@ -2,7 +2,7 @@ import { UserRound } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { Avatar, Dot, Menu, MenuLabel, MenuOption, MenuSeparator } from '@/components/ui';
 import { TASK_PRIORITIES, TASK_STATUSES, type TaskPriority, type TaskStatus } from '@/domain/types';
-import { useProjects, useTeams, useUsers } from '@/features/org/api';
+import { useActiveUsers, useProjects, useTeams } from '@/features/org/api';
 import { PRIORITY_LABEL, STATUS_LABEL } from './meta';
 import { PriorityIcon, StatusIcon } from './TaskIcons';
 
@@ -69,7 +69,7 @@ export function AssigneeMenu({
   trigger: ReactNode;
   teamId?: string | null;
 }) {
-  const { data: users = [] } = useUsers();
+  const { data: users } = useActiveUsers();
   const { data: teams = [] } = useTeams();
   const team = teams.find((t) => t.id === teamId);
   const inTeam = new Set(team?.members.map((m) => m.userId));
