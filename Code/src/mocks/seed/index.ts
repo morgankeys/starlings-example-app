@@ -1,5 +1,7 @@
-import type { Database } from '../db-types';
-import { seedClock } from './dates';
+import type { AssistantContext } from '@/domain/types';
+import { answer } from '../assistant/engine';
+import type { AssistantThreadRecord, Database } from '../db-types';
+import { seedClock, type SeedClock } from './dates';
 import { buildFiles, buildFolders } from './files';
 import { org, projects, teams, users } from './people';
 import { buildTasks } from './tasks';
@@ -26,11 +28,12 @@ export function buildDatabase(today: Date, mode: 'seed' | 'empty' = 'seed'): Dat
     files: [],
     stars: {},
     opens: {},
+    assistantThreads: [],
   };
   if (mode === 'empty') return base;
 
   const { tasks, comments, activity } = buildTasks(clock);
-  return {
+  const seeded: Database = {
     ...base,
     projects: structuredClone(projects),
     tasks,
@@ -53,4 +56,82 @@ export function buildDatabase(today: Date, mode: 'seed' | 'empty' = 'seed'): Dat
       },
     },
   };
+  seeded.assistantThreads = buildAssistantThreads(seeded, clock);
+  return seeded;
+}
+
+interface SeedThread {
+  id: string;
+  at: [day: number, hour: number];
+  questions: Array<{ message: string; context: AssistantContext | null }>;
+}
+
+/** Maya's past conversations. The answers are real: they come from the engine. */
+const MAYA_THREADS: SeedThread[] = [
+  {
+    id: 'th_seed_overdue',
+    at: [-1, 16],
+    questions: [
+      { message: 'What’s overdue across my teams?', context: null },
+      { message: 'What’s blocked right now?', context: null },
+    ],
+  },
+  {
+    id: 'th_seed_review',
+    at: [-3, 11],
+    questions: [
+      {
+        message: 'Summarize this file',
+        context: { type: 'file', id: 'fl_review_notes', label: 'Design review notes' },
+      },
+    ],
+  },
+  {
+    id: 'th_seed_checkout',
+    at: [-6, 9],
+    questions: [
+      { message: 'Find files about checkout', context: null },
+      {
+        message: 'Is this project on track?',
+        context: { type: 'project', id: 'p_checkout', label: 'Checkout Redesign' },
+      },
+    ],
+  },
+];
+
+function buildAssistantThreads(db: Database, clock: SeedClock): AssistantThreadRecord[] {
+  const maya = db.users.find((u) => u.id === 'u_maya')!;
+  return MAYA_THREADS.map((thread) => {
+    const messages: AssistantThreadRecord['messages'] = [];
+    thread.questions.forEach((q, n) => {
+      const res = answer(db, maya, { message: q.message, context: q.context });
+      messages.push(
+        {
+          id: `${thread.id}_${n}q`,
+          role: 'user',
+          text: q.message,
+          citations: [],
+          context: q.context,
+        },
+        {
+          id: `${thread.id}_${n}a`,
+          role: 'assistant',
+          text: res.text,
+          citations: res.citations,
+          context: q.context,
+          ...(res.actions.length ? { actions: res.actions } : {}),
+        },
+      );
+    });
+    const [day, hour] = thread.at;
+    return {
+      id: thread.id,
+      userId: maya.id,
+      title: thread.questions[0].message.slice(0, 60),
+      createdAt: clock.at(day, hour),
+      updatedAt: clock.at(day, hour, 12),
+      messages,
+      deletedAt: null,
+    };
+  });
 }

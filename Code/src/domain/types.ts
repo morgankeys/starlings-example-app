@@ -299,6 +299,8 @@ export interface Citation {
 export interface AssistantRequest {
   message: string;
   context: AssistantContext | null;
+  /** Continue this conversation. Omit to start a new thread. */
+  threadId?: ID;
 }
 
 /** A task the assistant proposes. Nothing is created until the user confirms it. */
@@ -317,12 +319,47 @@ export interface SuggestedTask {
   existingTaskId: ID | null;
 }
 
+/** What the user did with a message's suggested tasks. */
+export type ActionsResult =
+  | { kind: 'created'; tasks: Array<{ id: string; title: string }> }
+  | { kind: 'undone'; count: number }
+  | { kind: 'dismissed' };
+
+/** One message of a stored Ask Birdy conversation. */
+export interface StoredMessage {
+  id: ID;
+  role: 'user' | 'assistant';
+  text: string;
+  citations: Citation[];
+  context: AssistantContext | null;
+  actions?: SuggestedTask[];
+  actionsResult?: ActionsResult;
+}
+
+/** A stored conversation, as the client sees it. */
+export interface AssistantThread {
+  id: ID;
+  title: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  messages: StoredMessage[];
+}
+
+export interface AssistantThreadSummary {
+  id: ID;
+  title: string;
+  updatedAt: Timestamp;
+  messageCount: number;
+}
+
 /** One event in the assistant's text/event-stream response. */
 export type AssistantStreamEvent =
+  | { type: 'thread'; id: ID }
   | { type: 'token'; text: string }
   | { type: 'citations'; items: Citation[] }
   | { type: 'actions'; items: SuggestedTask[] }
-  | { type: 'done' }
+  /** `messageIds` are the stored ids of the question and its answer. */
+  | { type: 'done'; messageIds?: { user: ID; assistant: ID } }
   | { type: 'error'; message: string };
 
 export interface FocusItem {
