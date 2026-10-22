@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import { projectsApi, teamsApi, usersApi } from '@/api/endpoints';
+import { orgApi, projectsApi, teamsApi, usersApi } from '@/api/endpoints';
 import { keys } from '@/api/keys';
-import type { AccentColor, TeamRole, User } from '@/domain/types';
+import type { AccentColor, NewMember, TeamRole, User, UserPatch } from '@/domain/types';
 
 export const useUsers = () =>
   useQuery({ queryKey: keys.users, queryFn: usersApi.list, staleTime: 5 * 60_000 });
@@ -31,6 +31,44 @@ function useInvalidateTeams() {
     qc.invalidateQueries({ queryKey: ['teams'] });
     qc.invalidateQueries({ queryKey: keys.session });
   };
+}
+
+/** Admin changes touch people, their team memberships and the session (org name, own teams). */
+function useInvalidateOrg() {
+  const qc = useQueryClient();
+  return () => {
+    qc.invalidateQueries({ queryKey: keys.session });
+    qc.invalidateQueries({ queryKey: keys.users });
+    qc.invalidateQueries({ queryKey: ['teams'] });
+  };
+}
+
+/** Active people only: who can be assigned, shared with, @mentioned or added to a team. */
+export function useActiveUsers() {
+  const { data, ...rest } = useUsers();
+  const active = useMemo(() => (data ?? []).filter((u) => u.status !== 'deactivated'), [data]);
+  return { ...rest, data: active };
+}
+
+export function useUpdateOrg() {
+  const invalidate = useInvalidateOrg();
+  return useMutation({ mutationFn: orgApi.update, onSuccess: invalidate });
+}
+
+export function useInviteMember() {
+  const invalidate = useInvalidateOrg();
+  return useMutation({
+    mutationFn: (input: NewMember) => usersApi.invite(input),
+    onSuccess: invalidate,
+  });
+}
+
+export function useUpdateMember() {
+  const invalidate = useInvalidateOrg();
+  return useMutation({
+    mutationFn: ({ id, patch }: { id: string; patch: UserPatch }) => usersApi.update(id, patch),
+    onSuccess: invalidate,
+  });
 }
 
 export function useCreateTeam() {

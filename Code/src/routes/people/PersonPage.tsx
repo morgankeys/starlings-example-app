@@ -29,6 +29,7 @@ export function PersonPage() {
 
   const theirTeams = teams.filter((t) => t.members.some((m) => m.userId === person.id));
   const isMe = person.id === me.id;
+  const deactivated = person.status === 'deactivated';
 
   return (
     <>
@@ -41,10 +42,16 @@ export function PersonPage() {
               ? 'Workspace admin'
               : 'Member'
         }
-        title={isMe ? `${person.name} (you)` : person.name}
+        title={
+          <>
+            {isMe ? `${person.name} (you)` : person.name}
+            {deactivated && <Badge tone="danger">Deactivated</Badge>}
+          </>
+        }
         description={person.title}
         actions={
-          !isMe && (
+          !isMe &&
+          !deactivated && (
             <Button
               variant="ai"
               icon={<Sparkles />}
@@ -67,7 +74,7 @@ export function PersonPage() {
             base={{ assignee: person.id, includeDone: false }}
             hideAssignee
             defaultGroup="due"
-            canAdd={me.role !== 'guest'}
+            canAdd={me.role !== 'guest' && !deactivated}
             quickAddDefaults={{ assigneeId: person.id }}
             emptyTitle={`${person.name.split(' ')[0]} has no open tasks`}
           />

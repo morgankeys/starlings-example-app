@@ -119,7 +119,11 @@ export function suggestFromActions(
     const m = action.match(/^([\p{L}.'-]+(?:\s[\p{L}.'-]+)?)\s+to\s+(.+)$/u);
     const who = m ? fold(m[1]) : '';
     const assignee = m
-      ? db.users.find((u) => fold(u.name.split(' ')[0]) === who || fold(u.name) === who)
+      ? db.users.find(
+          (u) =>
+            u.status !== 'deactivated' &&
+            (fold(u.name.split(' ')[0]) === who || fold(u.name) === who),
+        )
       : undefined;
     const title = cleanTitle(m ? m[2] : action);
     if (!title) return [];
@@ -188,7 +192,11 @@ export function suggestFromRequest(
       ? db.files.find((f) => f.id === context.id && !f.deletedAt && fileAccess(db, user, f))
       : undefined;
 
-  const parsed = parseQuickAdd(request.body, db.users, today);
+  const parsed = parseQuickAdd(
+    request.body,
+    db.users.filter((u) => u.status !== 'deactivated'),
+    today,
+  );
   const title = cleanTitle(
     parsed.title || (request.followUp && task ? `Follow up on ${task.title}` : ''),
   );
