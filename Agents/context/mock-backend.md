@@ -17,6 +17,7 @@ before touching seed data, handlers, permissions or Ask Birdy's answers.
 | Permissions | `src/mocks/access.ts` | Who can see and edit what; serializers `toTask`, `toFile`, `toFolder` |
 | Seed | `src/mocks/seed/` | Meridian Outdoor Co.: `people.ts`, `files.ts`, `tasks.ts`, `dates.ts`, `index.ts` |
 | Assistant | `src/mocks/assistant/engine.ts` | Intent router that answers from the DB with citations |
+| Threads | `src/mocks/handlers/assistant.ts` | Stored Ask Birdy conversations (`assistantThreads`), see below |
 | Suggested tasks | `src/mocks/assistant/suggest.ts` | Turns action items and "create a task…" requests into `SuggestedTask`s, and marks the ones already tracked |
 
 ## Rules
@@ -80,8 +81,30 @@ Answer text uses a small markup the UI renders: paragraphs, `- ` and `1. ` lists
 and citation tokens such as `[[task:t_api_key]]`, `[[file:fl_spec]]`, `[[user:u_maya]]`.
 
 **Swapping in a real model:** keep `POST /api/v1/assistant/messages` and its stream format
-(`data: {"type":"token"|"citations"|"actions"|"done"|"error", …}`), and replace `answer()`
+(`data: {"type":"thread"|"token"|"citations"|"actions"|"done"|"error", …}`), and replace `answer()`
 with a call to a model given the same context. The UI doesn't change.
+
+### Threads (conversation history)
+
+`db.assistantThreads` holds `{ id, userId, title, createdAt, updatedAt, messages, deletedAt }`;
+a message is `{ id, role, text, citations, context, actions?, actionsResult? }`
+(`StoredMessage` in `domain/types.ts`). Threads are private: every endpoint looks the thread
+up by id **and** `userId`, so someone else's thread is a 404, not a 403.
+
+- `POST /assistant/messages` takes an optional `threadId`. Without one it creates a thread
+  titled from the first question (one line, 60 characters, `…` when cut). The stream starts
+  with `{"type":"thread","id"}` and ends with `{"type":"done","messageIds":{user,assistant}}`.
+  The user message and the finished answer are appended just before `done`, so a cancelled
+  stream stores nothing. With demo latency set to `none` the stream is not paced.
+- `GET /assistant/threads` (`{id,title,updatedAt,messageCount}`, newest first, hides empty
+  and deleted threads), `GET|PATCH|DELETE /assistant/threads/:id`,
+  `POST /assistant/threads/:id/restore`, and
+  `PATCH /assistant/threads/:id/messages/:messageId` with `{ actionsResult }`.
+- `DELETE` is a soft delete (`deletedAt`), so the Undo toast can call `restore`.
+- Maya has three seeded threads. `buildAssistantThreads` in `seed/index.ts` writes them by
+  calling `answer()` against the seeded DB. The text is baked at seed time, so relative
+  phrases in it ("overdue by 1 day") do not move with the date shift.
+- Tests: `handlers/assistant.test.ts` runs the handlers in `msw/node`.
 
 ### Suggested tasks
 
