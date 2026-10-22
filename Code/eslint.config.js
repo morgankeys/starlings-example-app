@@ -5,7 +5,15 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist', 'coverage', 'public/mockServiceWorker.js'] },
+  {
+    ignores: [
+      'dist',
+      'coverage',
+      'playwright-report',
+      'test-results',
+      'public/mockServiceWorker.js',
+    ],
+  },
   {
     files: ['scripts/**/*.mjs'],
     extends: [js.configs.recommended],

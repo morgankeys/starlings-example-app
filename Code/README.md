@@ -17,6 +17,7 @@ role to Birdy's real command. Run every command from `Code/`.
 | `tokens`   | Unpack Figma token exports and regenerate `src/styles/tokens.generated.css`.                        | `npm run tokens` |
 | `validate` | Design-system validation; rewrites `Docs/Design system/deviations-backlog.md`. Exits 0 with deviations present; `npm run validate -- --strict` exits 1 on any deviation (local only). | `npm run validate` |
 | `test`     | Unit tests (Vitest).                                                                                | `npm test` |
+| `e2e`      | End-to-end smoke tests (Playwright, Chromium) against the dev server on port 5185. Starts the server itself; reuses one already running there outside CI. | `npm run e2e` |
 
 `npm run preview` serves the production build on port 4173.
 
@@ -49,6 +50,14 @@ Useful places once it's running:
   host must serve `index.html` for unknown paths. `npm run preview` does this already.
 - **Fonts come from Google Fonts** (Bricolage Grotesque, Instrument Sans). Offline, the
   app falls back to system fonts.
+- **E2E needs a Chromium that matches `@playwright/test`.** The version is pinned (1.56.1)
+  to the browser build preinstalled in the agent sandbox (`PLAYWRIGHT_BROWSERS_PATH`), so
+  `npx playwright install` is not needed there. On a machine without it, run
+  `npx playwright install chromium` once. To use a browser that is already on disk, set
+  `PW_CHROMIUM_PATH=/path/to/chrome`; CI leaves it unset. Each test gets a fresh browser
+  context, so the mock database always starts from the seed. Reports land in
+  `playwright-report/` and `test-results/` (both git-ignored); open one with
+  `npx playwright show-report`.
 - **Stylelint prints plugin deprecation warnings** on Node 22; the `lint` script silences
   them with `NODE_OPTIONS=--no-deprecation`.
 

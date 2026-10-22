@@ -236,6 +236,12 @@ Typical loops:
   the backlog diff.
 - **Before committing component changes:** `npm run lint`, `npm run check`,
   `npm run validate`, `npm test`.
+- **Before committing a change to a user flow:** also run `npm run e2e` (role `e2e`).
+  Playwright specs in `e2e/` drive the real app on the dev server (port 5185, started
+  automatically) against the mock backend, and prefer role and label locators. Config is
+  `playwright.config.ts`; `tsconfig.e2e.json` puts both under `npm run check`. Vitest only
+  collects `src/**/*.test.{ts,tsx}`, so the two suites never overlap. CI runs `e2e` as a
+  second job after `verify` and uploads the HTML report when it fails.
 
 ## Maintenance
 
