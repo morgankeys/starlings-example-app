@@ -24,4 +24,7 @@ export const keys = {
   search: (q: string) => ['search', q] as const,
   focus: ['assistant', 'focus'] as const,
   threads: ['assistant', 'threads'] as const,
+  notifications: ['notifications'] as const,
+  activity: (limit?: number) => ['activity', limit] as const,
+  allActivity: ['activity'] as const,
 };
