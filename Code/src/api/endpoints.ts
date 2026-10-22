@@ -1,6 +1,9 @@
 // One function per API endpoint. Feature hooks call these; components never call fetch.
 import type {
   AccentColor,
+  ActionsResult,
+  AssistantThread,
+  AssistantThreadSummary,
   FileDetail,
   FileItem,
   FileView,
@@ -138,4 +141,12 @@ export const searchApi = {
 
 export const assistantApi = {
   focus: () => api.get<FocusSummary>('/assistant/focus'),
+  threads: () => api.get<AssistantThreadSummary[]>('/assistant/threads'),
+  thread: (id: string) => api.get<AssistantThread>(`/assistant/threads/${id}`),
+  renameThread: (id: string, title: string) =>
+    api.patch<AssistantThread>(`/assistant/threads/${id}`, { title }),
+  deleteThread: (id: string) => api.delete(`/assistant/threads/${id}`),
+  restoreThread: (id: string) => api.post<AssistantThread>(`/assistant/threads/${id}/restore`),
+  resolveActions: (threadId: string, messageId: string, actionsResult: ActionsResult) =>
+    api.patch(`/assistant/threads/${threadId}/messages/${messageId}`, { actionsResult }),
 };
