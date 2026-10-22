@@ -1,0 +1,67 @@
+.status,
+.priority {
+  flex: none;
+  width: var(--bd-size-icon-md);
+  height: var(--bd-size-icon-md);
+}
+
+.ring {
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+}
+
+.status .fill {
+  fill: currentcolor;
+}
+
+.check {
+  fill: none;
+  stroke: var(--bd-color-bg-raised);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.status[data-status='todo'] {
+  color: var(--bd-color-status-todo);
+}
+
+.status[data-status='in_progress'] {
+  color: var(--bd-color-status-progress);
+}
+
+.status[data-status='in_review'] {
+  color: var(--bd-color-status-review);
+}
+
+.status[data-status='done'] {
+  color: var(--bd-color-status-done);
+}
+
+.priority .fill {
+  fill: currentcolor;
+}
+
+.priority .empty {
+  fill: var(--bd-color-border-default);
+}
+
+.mark {
+  stroke: var(--bd-color-danger-text);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.priority[data-priority='urgent'] {
+  color: var(--bd-color-danger-default);
+}
+
+.priority[data-priority='high'] {
+  color: var(--bd-color-warning-default);
+}
+
+.priority[data-priority='medium'],
+.priority[data-priority='low'] {
+  color: var(--bd-color-text-muted);
+}

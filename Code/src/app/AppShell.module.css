@@ -1,0 +1,41 @@
+.shell {
+  display: grid;
+  grid-template-columns: var(--bd-size-sidebar) minmax(0, 1fr) auto auto;
+  min-height: 100vh;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: var(--bd-size-content-max);
+  margin: 0 auto;
+  padding: var(--bd-space-8) var(--bd-space-8) var(--bd-space-16);
+}
+
+/* With a detail panel and Ask Birdy both open, the detail panel floats over the page
+   instead of squeezing it. */
+@media (width < 1800px) {
+  .shell[data-stacked='true'] > [data-width='drawer'] {
+    position: fixed;
+    top: 0;
+    right: var(--bd-size-assistant);
+    z-index: 40;
+    box-shadow: 0 16px 48px var(--bd-color-shadow-overlay);
+  }
+}
+
+@media (width <= 860px) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .content {
+    padding: var(--bd-space-5) var(--bd-space-4) var(--bd-space-16);
+  }
+}

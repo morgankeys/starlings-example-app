@@ -1,0 +1,17 @@
+.content {
+  z-index: 100;
+  max-width: var(--bd-size-dialog-sm);
+  padding: var(--bd-space-1) var(--bd-space-2);
+  border-radius: var(--bd-radius-xs);
+  background: var(--bd-color-action-bg);
+  color: var(--bd-color-action-text);
+  font-size: var(--bd-font-size-xs);
+  line-height: var(--bd-font-line-height-snug);
+}
+
+/* Animate in only: Radix unmounts closed content as soon as no animation is running. */
+.content[data-state='open'],
+.content[data-state='delayed-open'],
+.content[data-state='instant-open'] {
+  animation: bd-fade-in var(--bd-duration-fast) ease-out;
+}

@@ -1,0 +1,20 @@
+.spinner {
+  display: inline-block;
+  flex: none;
+  width: var(--bd-size-icon-md);
+  height: var(--bd-size-icon-md);
+  border: 2px solid var(--bd-color-border-default);
+  border-top-color: currentcolor;
+  border-radius: var(--bd-radius-pill);
+  animation: bd-spin 700ms linear infinite;
+}
+
+.spinner[data-size='sm'] {
+  width: var(--bd-size-icon-sm);
+  height: var(--bd-size-icon-sm);
+}
+
+.spinner[data-size='lg'] {
+  width: var(--bd-size-control-sm);
+  height: var(--bd-size-control-sm);
+}

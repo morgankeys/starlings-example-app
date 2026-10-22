@@ -1,0 +1,5 @@
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bd-space-1-5);
+}

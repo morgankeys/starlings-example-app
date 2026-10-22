@@ -1,0 +1,54 @@
+.icon {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--bd-size-avatar-sm);
+  height: var(--bd-size-avatar-sm);
+  border-radius: var(--bd-radius-xs);
+}
+
+.icon svg {
+  width: var(--bd-size-icon-md);
+  height: var(--bd-size-icon-md);
+}
+
+.icon[data-size='lg'] {
+  width: var(--bd-size-control-lg);
+  height: var(--bd-size-control-lg);
+  border-radius: var(--bd-radius-md);
+}
+
+.icon[data-size='lg'] svg {
+  width: var(--bd-size-icon-lg);
+  height: var(--bd-size-icon-lg);
+}
+
+.icon[data-kind='doc'] {
+  background: var(--bd-color-info-tint);
+  color: var(--bd-color-info-default);
+}
+
+.icon[data-kind='sheet'] {
+  background: var(--bd-color-success-tint);
+  color: var(--bd-color-success-default);
+}
+
+.icon[data-kind='slides'] {
+  background: var(--bd-color-warning-tint);
+  color: var(--bd-color-warning-default);
+}
+
+.icon[data-kind='pdf'] {
+  background: var(--bd-color-danger-tint);
+  color: var(--bd-color-danger-default);
+}
+
+.icon[data-kind='image'] {
+  background: var(--bd-color-ai-tint);
+  color: var(--bd-color-ai-default);
+}
+
+.icon[data-kind='folder'] {
+  background: var(--bd-color-accent-neutral-tint);
+  color: var(--bd-color-text-muted);
+}
