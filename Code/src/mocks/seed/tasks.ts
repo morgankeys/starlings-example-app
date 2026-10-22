@@ -691,7 +691,12 @@ const COMMENTS: Array<[taskId: string, authorId: string, daysAgo: number, body: 
     1,
     'Elena added the repair-program shot (06). We need approval before booking the weather day.',
   ],
-  ['t_shot_list', 'u_ava', 0, 'Elena says the cover frame works landscape or portrait, and she is happy to shoot both.'],
+  [
+    't_shot_list',
+    'u_ava',
+    0,
+    'Elena says the cover frame works landscape or portrait, and she is happy to shoot both.',
+  ],
   ['t_tent_copy', 'u_julia', 1, 'How close are we? Copy lock moves if this slips past Friday.'],
   [
     't_tent_copy',
