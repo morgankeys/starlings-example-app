@@ -1,0 +1,24 @@
+.bar {
+  position: sticky;
+  bottom: var(--bd-space-4);
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bd-space-2);
+  padding: var(--bd-space-2) var(--bd-space-3);
+  border: 1px solid var(--bd-color-border-strong);
+  border-radius: var(--bd-radius-lg);
+  background: var(--bd-color-bg-raised);
+  box-shadow: 0 8px 24px var(--bd-color-shadow-overlay);
+}
+
+.count {
+  margin-right: var(--bd-space-2);
+  font-size: var(--bd-font-size-sm);
+  font-weight: var(--bd-font-weight-semibold);
+}
+
+.spacer {
+  flex: 1;
+}

@@ -16,6 +16,30 @@
   background: var(--bd-color-bg-selected);
 }
 
+.row[data-checked='true'] {
+  background: var(--bd-color-bg-selected);
+}
+
+/* The checkbox is hidden until the row is hovered or focused, or anything is selected. */
+.select {
+  display: grid;
+  flex: none;
+  place-items: center;
+  opacity: 0;
+}
+
+.row:hover .select,
+.row:focus-within .select,
+.row[data-selecting='true'] .select {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .select {
+    opacity: 1;
+  }
+}
+
 .check {
   display: grid;
   flex: none;

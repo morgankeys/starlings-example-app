@@ -70,7 +70,7 @@ function log(
   db.activity.push(event);
 }
 
-function validate(db: Database, input: TaskPatch) {
+export function validate(db: Database, input: TaskPatch) {
   if (input.title !== undefined && !input.title.trim()) throw badRequest('A task needs a title');
   if (input.status && !TASK_STATUSES.includes(input.status)) throw badRequest('Unknown status');
   if (input.priority && !TASK_PRIORITIES.includes(input.priority))
@@ -83,6 +83,34 @@ function validate(db: Database, input: TaskPatch) {
     throw badRequest('Unknown project');
   if (input.dueDate && !/^\d{4}-\d{2}-\d{2}$/.test(input.dueDate))
     throw badRequest('Due date must be YYYY-MM-DD');
+}
+
+/** Apply a validated patch to a task, logging activity for the tracked fields. */
+export function applyPatch(db: Database, user: User, task: TaskRecord, patch: TaskPatch) {
+  const tracked: Array<[keyof TaskPatch, ActivityKind]> = [
+    ['title', 'title'],
+    ['status', 'status'],
+    ['assigneeId', 'assignee'],
+    ['priority', 'priority'],
+    ['dueDate', 'due'],
+  ];
+  for (const [field, kind] of tracked) {
+    if (patch[field] !== undefined && patch[field] !== task[field]) {
+      log(
+        db,
+        task,
+        user,
+        kind,
+        (task[field] as string | null) ?? null,
+        (patch[field] as string | null) ?? null,
+      );
+    }
+  }
+  if (patch.status && patch.status !== task.status) {
+    task.completedAt = patch.status === 'done' ? now() : null;
+  }
+  Object.assign(task, patch, { updatedAt: now() });
+  if (patch.title) task.title = patch.title.trim();
 }
 
 export const taskHandlers = [
@@ -175,30 +203,7 @@ export const taskHandlers = [
         throw forbidden('You can only update tasks assigned to you');
       const patch = await body<TaskPatch>(request);
       validate(db, patch);
-      const tracked: Array<[keyof TaskPatch, ActivityKind]> = [
-        ['title', 'title'],
-        ['status', 'status'],
-        ['assigneeId', 'assignee'],
-        ['priority', 'priority'],
-        ['dueDate', 'due'],
-      ];
-      for (const [field, kind] of tracked) {
-        if (patch[field] !== undefined && patch[field] !== task[field]) {
-          log(
-            db,
-            task,
-            user,
-            kind,
-            (task[field] as string | null) ?? null,
-            (patch[field] as string | null) ?? null,
-          );
-        }
-      }
-      if (patch.status && patch.status !== task.status) {
-        task.completedAt = patch.status === 'done' ? now() : null;
-      }
-      Object.assign(task, patch, { updatedAt: now() });
-      if (patch.title) task.title = patch.title.trim();
+      applyPatch(db, user, task, patch);
       return detail(db, user, task);
     }),
   ),

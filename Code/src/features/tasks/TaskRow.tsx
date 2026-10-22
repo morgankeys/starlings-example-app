@@ -5,6 +5,7 @@ import type { Project, Task, User } from '@/domain/types';
 import { dueState, formatDue } from '@/lib/dates';
 import { STATUS_LABEL } from './meta';
 import { PriorityIcon, StatusIcon } from './TaskIcons';
+import { SelectBox } from './SelectBox';
 import { useCompleteTask } from './useCompleteTask';
 import styles from './TaskRow.module.css';
 
@@ -15,9 +16,23 @@ export interface TaskRowProps {
   /** Hide the assignee avatar (e.g. on "My tasks"). */
   hideAssignee?: boolean;
   hideProject?: boolean;
+  /** Present when the list supports selecting rows. */
+  selection?: {
+    checked: boolean;
+    /** Anything at all is selected, so every checkbox stays visible. */
+    active: boolean;
+    onToggle: (shift: boolean) => void;
+  };
 }
 
-export function TaskRow({ task, users, projects, hideAssignee, hideProject }: TaskRowProps) {
+export function TaskRow({
+  task,
+  users,
+  projects,
+  hideAssignee,
+  hideProject,
+  selection,
+}: TaskRowProps) {
   const { openTask, taskId } = usePanels();
   const complete = useCompleteTask();
   const assignee = task.assigneeId ? users.get(task.assigneeId) : undefined;
@@ -31,7 +46,18 @@ export function TaskRow({ task, users, projects, hideAssignee, hideProject }: Ta
       data-component="TaskRow"
       data-done={done}
       data-selected={taskId === task.id}
+      data-checked={selection?.checked ?? false}
+      data-selecting={selection?.active ?? false}
     >
+      {selection && (
+        <span className={styles.select}>
+          <SelectBox
+            label={`Select “${task.title}”`}
+            checked={selection.checked}
+            onChange={(_checked, shift) => selection.onToggle(shift)}
+          />
+        </span>
+      )}
       <Tooltip content={done ? 'Mark as not done' : 'Mark as done'}>
         <button
           type="button"

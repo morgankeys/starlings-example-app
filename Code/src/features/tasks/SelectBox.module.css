@@ -1,0 +1,8 @@
+.box {
+  flex: none;
+  width: var(--bd-size-icon-md);
+  height: var(--bd-size-icon-md);
+  margin: 0;
+  accent-color: var(--bd-color-checkbox-fill);
+  cursor: pointer;
+}

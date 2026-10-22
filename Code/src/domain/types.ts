@@ -159,6 +159,17 @@ export interface NewTask {
 
 export type TaskPatch = Partial<Omit<NewTask, 'fileIds'>>;
 
+export interface BulkTaskUpdate {
+  id: ID;
+  patch: TaskPatch;
+}
+
+/** Result of a bulk task request: tasks that changed, and tasks left alone (with why). */
+export interface BulkTaskResult {
+  updated: Task[];
+  skipped: Array<{ id: ID; reason: string }>;
+}
+
 // ---- Files, folders, sharing ------------------------------------------------------------
 
 export type FileKind = 'doc' | 'sheet' | 'slides' | 'pdf' | 'image';

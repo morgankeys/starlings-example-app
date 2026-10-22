@@ -8,7 +8,7 @@ import {
   SignalHigh,
   X,
 } from 'lucide-react';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   Button,
@@ -31,10 +31,12 @@ import {
 import { useTasks } from './api';
 import { groupByDue, groupByStatus } from './grouping';
 import { PRIORITY_LABEL, STATUS_LABEL } from './meta';
+import { BulkActionBar } from './BulkActionBar';
 import { QuickAdd } from './QuickAdd';
 import { PriorityIcon, StatusIcon } from './TaskIcons';
 import { TaskBoard } from './TaskBoard';
 import { TaskGroups } from './TaskGroups';
+import { useTaskSelection } from './useTaskSelection';
 import styles from './TasksView.module.css';
 
 type Due = NonNullable<TaskFilters['due']>;
@@ -95,6 +97,33 @@ export function TasksView({
     () => (group === 'due' ? groupByDue(data ?? []) : groupByStatus(data ?? [])),
     [data, group],
   );
+  const taskIds = useMemo(() => (data ?? []).map((t) => t.id), [data]);
+  // Selection is list-only, and only for people who can edit. Changing what's shown clears it.
+  const selectable = canAdd && layout === 'list';
+  const selection = useTaskSelection(
+    taskIds,
+    JSON.stringify([base, status, priority, due, q]),
+    selectable,
+  );
+  const selectedTasks = useMemo(
+    () => (data ?? []).filter((t) => selection.selected.has(t.id)),
+    [data, selection.selected],
+  );
+  const { clear: clearSelection } = selection;
+  const hasSelection = selectedTasks.length > 0;
+  useEffect(() => {
+    if (!hasSelection) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape' || e.defaultPrevented) return;
+      const el = e.target instanceof HTMLElement ? e.target : null;
+      if (el?.closest('input:not([type="checkbox"]), textarea, select, [contenteditable]')) return;
+      // Escape closes an open menu or popover first.
+      if (document.querySelector('[role="menu"], [data-component="Popover"]')) return;
+      clearSelection();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [hasSelection, clearSelection]);
   const active = status.length + priority.length + (due ? 1 : 0) + (q ? 1 : 0);
   const clear = () =>
     setParams(
@@ -232,7 +261,15 @@ export function TasksView({
         />
       )}
       {data && data.length > 0 && layout === 'list' && (
-        <TaskGroups groups={groups} hideAssignee={hideAssignee} hideProject={hideProject} />
+        <TaskGroups
+          groups={groups}
+          hideAssignee={hideAssignee}
+          hideProject={hideProject}
+          selection={selectable ? selection : undefined}
+        />
+      )}
+      {selectable && hasSelection && (
+        <BulkActionBar tasks={selectedTasks} onClear={clearSelection} />
       )}
     </div>
   );
