@@ -16,7 +16,7 @@ export interface QuickAddResult {
 const PRIORITIES: TaskPriority[] = ['urgent', 'high', 'medium', 'low'];
 const WEEKDAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
-const fold = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+export const fold = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
 export function parseQuickAdd(input: string, users: User[], today = new Date()): QuickAddResult {
   const result: QuickAddResult = { title: '' };
