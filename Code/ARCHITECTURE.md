@@ -135,6 +135,17 @@ old work) but pickers use `useActiveUsers()`, which leaves them out.
 `citations`, `done`). Citation tokens like `[[task:t_123]]` in the text become clickable
 chips (`MessageContent.tsx`).
 
+**History.** Conversations are stored per user on the server (`assistantThreads`). The stream's
+first event is `{type:'thread', id}`, which the provider keeps as `threadId` and sends back
+with later questions; `done` carries the stored message ids. `newThread()` clears messages and
+`threadId`; `openThread(id)` loads a stored thread (citations, actions and `actionsResult`
+included). `resolveActions` also PATCHes the message so a created or dismissed suggestions
+card stays resolved after a reload. The header's History button swaps the panel body for
+`ThreadHistory.tsx` (list from `assistantApi.threads`, query key `keys.threads`, invalidated
+after every answer). Delete is a soft delete with an Undo toast that calls the restore
+endpoint. Back or Escape returns to the chat (`SidePanel` takes an `onEscape` override for
+this).
+
 ## Styling rules
 
 - **Namespace:** `--bd-*`. Groups: `--bd-color-*` (themed: light on `:root`, dark on

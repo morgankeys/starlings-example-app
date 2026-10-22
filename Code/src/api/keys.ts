@@ -23,4 +23,5 @@ export const keys = {
   share: (type: 'file' | 'folder', id: string) => ['shares', type, id] as const,
   search: (q: string) => ['search', q] as const,
   focus: ['assistant', 'focus'] as const,
+  threads: ['assistant', 'threads'] as const,
 };
