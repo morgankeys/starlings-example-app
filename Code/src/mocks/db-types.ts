@@ -7,6 +7,7 @@ import type {
   FileKind,
   GeneralAccess,
   ID,
+  NotificationRecord,
   Organization,
   Project,
   ShareGrant,
@@ -64,6 +65,8 @@ export interface Database {
   tasks: TaskRecord[];
   comments: Comment[];
   activity: ActivityEvent[];
+  /** Per-recipient notifications (see notify.ts). */
+  notifications: NotificationRecord[];
   folders: FolderRecord[];
   files: FileRecord[];
   /** userId → starred file ids */
