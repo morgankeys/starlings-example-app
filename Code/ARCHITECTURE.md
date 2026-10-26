@@ -113,6 +113,18 @@ toasts "Updated N tasks" (plus "· M skipped" with the reasons). Undo sends each
 previous value back through `/tasks/bulk`; delete's Undo calls bulk-restore. The selection
 survives an update and is cleared by delete.
 
+### Settings and workspace admin
+
+`routes/settings/SettingsPage.tsx` is tabbed (`Tabs`), with the active tab in `?tab=`
+(`profile` is the default and leaves the URL clean; `workspace`, `members`). The Workspace
+and Members tabs live in `features/org/` (`WorkspaceSettings`, `MembersTab`,
+`InviteMemberDialog`). Admins rename the org (`PATCH /org`), invite people (`POST /users`)
+and change a person's role or status (`PATCH /users/:id`); everyone else sees read-only
+versions. These mutations invalidate the session, users and teams queries
+(`useInvalidateOrg` in `features/org/api.ts`), so the sidebar's org name and every list
+update. People with `status: 'deactivated'` stay in `GET /users` (their names still render on
+old work) but pickers use `useActiveUsers()`, which leaves them out.
+
 ### Ask Birdy
 
 `features/assistant/AssistantProvider.tsx` holds the conversation, the open state and the

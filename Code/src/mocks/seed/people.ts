@@ -22,6 +22,7 @@ const person = (
   color,
   location,
   role,
+  status: 'active',
   email: `${name.split(' ')[0].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')}@meridianoutdoor.com`,
 });
 
@@ -57,6 +58,7 @@ export const users: User[] = [
     color: 'amber',
     location: 'Santa Fe, NM',
     role: 'guest',
+    status: 'active',
   },
 ];
 

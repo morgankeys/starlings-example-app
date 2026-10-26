@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Dialog, Field, Input, Select, Textarea, useToast } from '@/components/ui';
 import type { AccentColor, Team } from '@/domain/types';
-import { useCreateTeam, useTeamMembership, useUsers } from './api';
+import { useActiveUsers, useCreateTeam, useTeamMembership } from './api';
 import styles from './TeamDialogs.module.css';
 
 const COLORS: AccentColor[] = ['violet', 'sky', 'amber', 'teal', 'rust'];
@@ -104,7 +104,7 @@ export function AddMemberDialog({
   open: boolean;
   onClose: () => void;
 }) {
-  const { data: users = [] } = useUsers();
+  const { data: users } = useActiveUsers();
   const { add } = useTeamMembership(team.id);
   const toast = useToast();
   const [userId, setUserId] = useState('');

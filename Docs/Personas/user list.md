@@ -15,3 +15,11 @@ People in Meridian's Birdy workspace. Profiles for the personas used most in tes
 | Chloé Martin, Ben Adeyemi, Kira Sato, Omar Haddad | Engineering | |
 | Noah Fischer, Ava Lindqvist, Marcus Bell | Marketing | |
 | Priya Raman | Supplier Manager | |
+
+## Roles and status
+
+Roles are `admin`, `member` and `guest`. Dana Whitfield is the only seeded admin, and she
+can now manage the workspace from Settings: rename the company, invite people, change roles
+and deactivate or reactivate people. Everyone is seeded `active`. People an admin invites
+start as `invited` and become active the first time they sign in; deactivated people can't
+sign in and drop out of pickers, but their tasks and files stay.

@@ -1,0 +1,39 @@
+.details {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--bd-space-2) var(--bd-space-5);
+  margin: 0;
+}
+
+.details dt {
+  color: var(--bd-color-text-muted);
+}
+
+.details dd {
+  margin: 0;
+}
+
+.value {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bd-space-2);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bd-space-3);
+  max-width: var(--bd-size-dialog-sm);
+}
+
+.actions {
+  display: flex;
+  gap: var(--bd-space-2);
+}
+
+.note {
+  margin-top: var(--bd-space-3);
+  color: var(--bd-color-text-muted);
+  font-size: var(--bd-font-size-sm);
+}

@@ -10,6 +10,7 @@ import type {
   GeneralAccess,
   BulkTaskResult,
   BulkTaskUpdate,
+  NewMember,
   NewTask,
   Organization,
   ProjectSummary,
@@ -24,6 +25,7 @@ import type {
   TeamRole,
   TeamSummary,
   User,
+  UserPatch,
 } from '@/domain/types';
 import { api } from './client';
 
@@ -48,6 +50,12 @@ export const demoApi = {
 export const usersApi = {
   list: () => api.get<User[]>('/users'),
   get: (id: string) => api.get<User>(`/users/${id}`),
+  invite: (input: NewMember) => api.post<User>('/users', input),
+  update: (id: string, patch: UserPatch) => api.patch<User>(`/users/${id}`, patch),
+};
+
+export const orgApi = {
+  update: (input: { name: string }) => api.patch<Organization>('/org', input),
 };
 
 export type TeamDetail = TeamSummary & { canManage: boolean };

@@ -3,7 +3,7 @@ import { usePanels } from '@/app/panels';
 import { useSession } from '@/app/session';
 import { Button, Dialog, Field, Input, Select, Textarea, useToast } from '@/components/ui';
 import { TASK_PRIORITIES, TASK_STATUSES, type NewTask } from '@/domain/types';
-import { useProjects, useTeams, useUsers } from '@/features/org/api';
+import { useActiveUsers, useProjects, useTeams } from '@/features/org/api';
 import { useCreateTask } from './api';
 import { PRIORITY_LABEL, STATUS_LABEL } from './meta';
 import styles from './NewTaskDialog.module.css';
@@ -65,7 +65,7 @@ function NewTaskForm({
   onSubmit: (form: NewTask) => void;
 }) {
   const { user, teams: myTeams } = useSession();
-  const { data: users = [] } = useUsers();
+  const { data: users } = useActiveUsers();
   const { data: teams = [] } = useTeams();
   const { data: projects = [] } = useProjects();
   const [form, setForm] = useState<NewTask>(() => ({
