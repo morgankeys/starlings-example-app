@@ -87,6 +87,8 @@ export function PeoplePage() {
                   {u.name}
                   {u.role === 'admin' && <Badge tone="info">Admin</Badge>}
                   {u.role === 'guest' && <Badge tone="warning">Guest</Badge>}
+                  {u.status === 'deactivated' && <Badge tone="danger">Deactivated</Badge>}
+                  {u.status === 'invited' && <Badge tone="neutral">Invited</Badge>}
                 </span>
                 <span className={styles.title}>
                   {u.role === 'guest' ? `${u.title} · ${u.company}` : u.title}

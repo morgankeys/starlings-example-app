@@ -86,7 +86,7 @@ function ShareBody({ target, onClose }: { target: ShareTarget; onClose: () => vo
   const granted = new Set(data.grants.map((g) => `${g.principalType}:${g.principalId}`));
   const availableTeams = teams.filter((t) => !granted.has(`team:${t.id}`));
   const availableUsers = [...users.values()].filter(
-    (u) => !granted.has(`user:${u.id}`) && u.id !== data.ownerId,
+    (u) => u.status !== 'deactivated' && !granted.has(`user:${u.id}`) && u.id !== data.ownerId,
   );
 
   const add = () => {

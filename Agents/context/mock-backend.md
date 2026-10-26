@@ -9,10 +9,11 @@ before touching seed data, handlers, permissions or Ask Birdy's answers.
 | Piece | File | Job |
 | --- | --- | --- |
 | Worker bootstrap | `src/mocks/browser.ts` | Starts MSW before the app renders (`main.tsx`) |
-| Handlers | `src/mocks/handlers/*.ts` | One file per area: `org`, `tasks`, `files`, `search`, `assistant` |
+| Handlers | `src/mocks/handlers/*.ts` | One file per area: `org`, `tasks`, `bulk` (bulk task endpoints), `files`, `search`, `assistant` |
 | Route wrapper | `src/mocks/http.ts` | Simulated latency and failures, auth (401 when signed out), JSON errors, persisting after writes |
 | Database | `src/mocks/db.ts` | In-memory object saved to `localStorage` (`birdy.db`); `resetDb()` reseeds |
 | Record types | `src/mocks/db-types.ts` | What the DB stores (computed fields are added by serializers) |
+| Workspace admin | `src/mocks/members.ts` | Org rename, invite, role/status changes and sign-in rules, as pure functions the handlers and tests share |
 | Permissions | `src/mocks/access.ts` | Who can see and edit what; serializers `toTask`, `toFile`, `toFolder` |
 | Seed | `src/mocks/seed/` | Meridian Outdoor Co.: `people.ts`, `files.ts`, `tasks.ts`, `dates.ts`, `index.ts` |
 | Assistant | `src/mocks/assistant/engine.ts` | Intent router that answers from the DB with citations |
@@ -52,6 +53,19 @@ before touching seed data, handlers, permissions or Ask Birdy's answers.
 - **Tasks:** members see every task. Guests see tasks assigned to or created by them, and
   can update only their own.
 - **Teams:** admins and team leads manage membership. A team always keeps at least one lead.
+- **User status:** `active`, `invited` or `deactivated`. Invited people can sign in, which
+  makes them active. Deactivated people get a 403 from `POST /session`, are left out of
+  `GET /session/people`, search results and (in the UI, via `useActiveUsers`) the assignee,
+  share and add-member pickers and quick-add `@mentions`. `GET /users` still returns them, so
+  existing tasks, files and history keep showing their names; People and the profile page
+  mark them "Deactivated". Their tasks stay assigned.
+- **Workspace admin (admin only, else 403):** `PATCH /org` `{ name }`; `POST /users`
+  `{ name, email, title, role, company? }` (email well formed and unique; members must use the
+  org domain; guests can use any domain and need a company); `PATCH /users/:id`
+  `{ role?, status?, title? }`. Safeguards, all 400: an admin can't change their own role or
+  deactivate themselves; the workspace keeps at least one active admin; deactivating someone,
+  or making them a guest, removes them from every team, but is blocked (naming the team) when
+  they are its only lead.
 
 ## Ask Birdy (the simulated assistant)
 
@@ -115,6 +129,22 @@ kickoff notes** (`fl_pilot_kickoff`) has four untracked ones, which makes it the
 the create flow. Text ends with "I can turn N of these into tasks. Review them below." for
 new suggestions, or says they are all already tracked.
 
+## Bulk task endpoints
+
+`handlers/bulk.ts` holds the logic as plain functions (`bulkUpdateTasks`, `bulkDeleteTasks`,
+`bulkRestoreTasks`) so tests can call them with `buildDatabase()`:
+
+- `POST /tasks/bulk` `{ updates: [{ id, patch }] }`, `POST /tasks/bulk-delete` `{ ids }`
+  and `POST /tasks/bulk-restore` `{ ids }` all return `{ updated: Task[], skipped:
+  [{ id, reason }] }`.
+- Per-task permissions use `canSeeTask` / `canEditTask`. Tasks the user can't see are
+  skipped as "Task not found", ones they can't edit as "You can only update tasks assigned
+  to you", and guests can't delete. Skipping never fails the request; an invalid patch (bad
+  status, unknown assignee, over 500 items) is a 400 and changes nothing.
+- Updates reuse `applyPatch` from `handlers/tasks.ts`, so activity is logged per task
+  exactly as for `PATCH /tasks/:id`. Delete and restore are soft (`deletedAt`) and, like the
+  single endpoints, log nothing. Restore checks access as if the task were live.
+
 ## Personas worth knowing
 
 | Persona | Why sign in as them |
@@ -130,7 +160,9 @@ Full profiles: `Docs/Personas/`.
 
 ## Testing
 
-`src/mocks/access.test.ts` and `src/mocks/assistant/engine.test.ts` build a fresh seed with
+`src/mocks/access.test.ts`, `src/mocks/members.test.ts` and `src/mocks/assistant/engine.test.ts` build a fresh seed with
 `buildDatabase(new Date())` and assert against it. Add a test when you change a permission
-rule or an intent. Suggested tasks also have a component test
-(`src/features/assistant/SuggestedTasks.test.tsx`) that mocks `@/api/endpoints`.
+rule or an intent. `src/mocks/handlers/bulk.test.ts` covers the bulk endpoints (permission
+skips, activity). Suggested tasks also have a component test
+(`src/features/assistant/SuggestedTasks.test.tsx`) that mocks `@/api/endpoints`, as does the
+Members tab test (`src/features/org/MembersTab.test.tsx`).

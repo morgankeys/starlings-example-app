@@ -8,6 +8,9 @@ import type {
   FolderView,
   FocusSummary,
   GeneralAccess,
+  BulkTaskResult,
+  BulkTaskUpdate,
+  NewMember,
   NewTask,
   Organization,
   ProjectSummary,
@@ -22,6 +25,7 @@ import type {
   TeamRole,
   TeamSummary,
   User,
+  UserPatch,
 } from '@/domain/types';
 import { api } from './client';
 
@@ -46,6 +50,12 @@ export const demoApi = {
 export const usersApi = {
   list: () => api.get<User[]>('/users'),
   get: (id: string) => api.get<User>(`/users/${id}`),
+  invite: (input: NewMember) => api.post<User>('/users', input),
+  update: (id: string, patch: UserPatch) => api.patch<User>(`/users/${id}`, patch),
+};
+
+export const orgApi = {
+  update: (input: { name: string }) => api.patch<Organization>('/org', input),
 };
 
 export type TeamDetail = TeamSummary & { canManage: boolean };
@@ -82,6 +92,9 @@ export const tasksApi = {
     }),
   get: (id: string) => api.get<TaskDetail>(`/tasks/${id}`),
   create: (input: NewTask) => api.post<TaskDetail>('/tasks', input),
+  bulkUpdate: (updates: BulkTaskUpdate[]) => api.post<BulkTaskResult>('/tasks/bulk', { updates }),
+  bulkRemove: (ids: string[]) => api.post<BulkTaskResult>('/tasks/bulk-delete', { ids }),
+  bulkRestore: (ids: string[]) => api.post<BulkTaskResult>('/tasks/bulk-restore', { ids }),
   update: (id: string, patch: TaskPatch) => api.patch<TaskDetail>(`/tasks/${id}`, patch),
   remove: (id: string) => api.delete(`/tasks/${id}`),
   restore: (id: string) => api.post<TaskDetail>(`/tasks/${id}/restore`),

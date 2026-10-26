@@ -2,7 +2,7 @@ import { UserRound } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { Avatar, Dot, Menu, MenuLabel, MenuOption, MenuSeparator } from '@/components/ui';
 import { TASK_PRIORITIES, TASK_STATUSES, type TaskPriority, type TaskStatus } from '@/domain/types';
-import { useProjects, useTeams, useUsers } from '@/features/org/api';
+import { useActiveUsers, useProjects, useTeams } from '@/features/org/api';
 import { PRIORITY_LABEL, STATUS_LABEL } from './meta';
 import { PriorityIcon, StatusIcon } from './TaskIcons';
 
@@ -11,7 +11,7 @@ export function StatusMenu({
   onChange,
   trigger,
 }: {
-  value: TaskStatus;
+  value: TaskStatus | null;
   onChange: (s: TaskStatus) => void;
   trigger: ReactNode;
 }) {
@@ -36,7 +36,7 @@ export function PriorityMenu({
   onChange,
   trigger,
 }: {
-  value: TaskPriority;
+  value: TaskPriority | null;
   onChange: (p: TaskPriority) => void;
   trigger: ReactNode;
 }) {
@@ -63,12 +63,13 @@ export function AssigneeMenu({
   trigger,
   teamId,
 }: {
-  value: string | null;
+  /** `undefined` means the value is mixed or unknown, so nothing is checked. */
+  value: string | null | undefined;
   onChange: (id: string | null) => void;
   trigger: ReactNode;
   teamId?: string | null;
 }) {
-  const { data: users = [] } = useUsers();
+  const { data: users } = useActiveUsers();
   const { data: teams = [] } = useTeams();
   const team = teams.find((t) => t.id === teamId);
   const inTeam = new Set(team?.members.map((m) => m.userId));
@@ -141,7 +142,8 @@ export function ProjectMenu({
   onChange,
   trigger,
 }: {
-  value: string | null;
+  /** `undefined` means the value is mixed or unknown, so nothing is checked. */
+  value: string | null | undefined;
   onChange: (id: string | null) => void;
   trigger: ReactNode;
 }) {

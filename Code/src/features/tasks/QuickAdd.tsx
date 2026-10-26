@@ -4,7 +4,7 @@ import { useSession } from '@/app/session';
 import { Avatar, useToast } from '@/components/ui';
 import type { NewTask } from '@/domain/types';
 import { formatDue } from '@/lib/dates';
-import { useUsers } from '@/features/org/api';
+import { useActiveUsers } from '@/features/org/api';
 import { useCreateTask } from './api';
 import { PRIORITY_LABEL } from './meta';
 import { parseQuickAdd } from '@/lib/quickAdd';
@@ -20,7 +20,7 @@ export function QuickAdd({
   placeholder?: string;
 }) {
   const { user } = useSession();
-  const { data: users = [] } = useUsers();
+  const { data: users } = useActiveUsers();
   const create = useCreateTask();
   const toast = useToast();
   const [value, setValue] = useState('');

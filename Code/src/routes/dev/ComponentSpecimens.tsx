@@ -39,6 +39,7 @@ const SAMPLE_PEOPLE: User[] = (['teal', 'violet', 'amber', 'sky', 'rust'] as con
     email: '',
     title: '',
     role: 'member',
+    status: 'active',
     color,
     location: '',
   }),

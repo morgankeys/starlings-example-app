@@ -1,6 +1,8 @@
 import { http } from 'msw';
 import type {
   AccentColor,
+  NewMember,
+  UserPatch,
   ProjectSummary,
   Session,
   TeamRole,
@@ -9,6 +11,7 @@ import type {
 } from '@/domain/types';
 import { canManageTeam, canSeeTask, teamIdsOf } from '../access';
 import { resetDb } from '../db';
+import { inviteUser, signInUser, updateOrg, updateUser } from '../members';
 import type { Database } from '../db-types';
 import {
   API,
@@ -68,7 +71,10 @@ export const orgHandlers = [
   /** Public: the people you can sign in as (the prototype has no passwords). */
   http.get(
     `${API}/session/people`,
-    route(({ db }) => ({ org: db.org, users: db.users }), { auth: false, failable: false }),
+    route(
+      ({ db }) => ({ org: db.org, users: db.users.filter((u) => u.status !== 'deactivated') }),
+      { auth: false, failable: false },
+    ),
   ),
 
   http.post(
@@ -76,10 +82,7 @@ export const orgHandlers = [
     route(
       async ({ request, db }) => {
         const { userId } = await body<{ userId: string }>(request);
-        const user = db.users.find((u) => u.id === userId);
-        if (!user) throw badRequest('Unknown user');
-        db.sessionUserId = user.id;
-        return session(db, user);
+        return session(db, signInUser(db, userId));
       },
       { auth: false },
     ),
@@ -109,6 +112,27 @@ export const orgHandlers = [
       if (!user) throw notFound('Person');
       return user;
     }),
+  ),
+
+  http.post(
+    `${API}/users`,
+    route(async ({ db, user, request }) =>
+      inviteUser(db, user, await body<Partial<NewMember>>(request)),
+    ),
+  ),
+
+  http.patch<{ id: string }>(
+    `${API}/users/:id`,
+    route(async ({ db, user, params, request }) =>
+      updateUser(db, user, params.id, await body<UserPatch>(request)),
+    ),
+  ),
+
+  http.patch(
+    `${API}/org`,
+    route(async ({ db, user, request }) =>
+      updateOrg(db, user, await body<{ name?: string }>(request)),
+    ),
   ),
 
   // ---- Teams --------------------------------------------------------------------------
@@ -165,6 +189,7 @@ export const orgHandlers = [
       const member = db.users.find((u) => u.id === userId);
       if (!member) throw badRequest('Unknown person');
       if (member.role === 'guest') throw badRequest('Guests cannot join teams');
+      if (member.status === 'deactivated') throw badRequest('Deactivated people cannot join teams');
       if (!team.members.some((m) => m.userId === userId)) team.members.push({ userId, role });
       return teamSummary(db, user, team.id);
     }),
