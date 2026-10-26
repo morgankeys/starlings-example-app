@@ -8,6 +8,8 @@
 node_modules/
 Code/dist/
 Code/coverage/
+Code/playwright-report/
+Code/test-results/
 *.tsbuildinfo
 
 # OS / editor cruft
