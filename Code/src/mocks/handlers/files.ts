@@ -26,6 +26,7 @@ import {
 import { newId } from '../db';
 import type { Database, FileRecord, FolderRecord } from '../db-types';
 import { API, badRequest, body, forbidden, notFound, now, route } from '../http';
+import { notifyShared } from '../notify';
 
 const ROOT_ID = 'fd_root';
 
@@ -394,11 +395,22 @@ export const fileHandlers = [
       const input = await body<{ generalAccess: GeneralAccess; grants: ShareGrant[] }>(request);
       if (!['restricted', 'org_view', 'org_edit'].includes(input.generalAccess))
         throw badRequest('Unknown access');
+      const before = resource.grants;
       resource.generalAccess = input.generalAccess;
       resource.grants = input.grants.filter(
         (g) => !(g.principalType === 'user' && g.principalId === resource.ownerId),
       );
-      resource.updatedAt = now();
+      notifyShared(
+        db,
+        user,
+        params.type === 'file'
+          ? { type: 'file', record: resource as FileRecord }
+          : { type: 'folder', record: resource as FolderRecord },
+        before,
+        resource.grants,
+      );
+      // Sharing is not an edit: files keep their last-edited time (the Home feed reads it).
+      if (params.type === 'folder') resource.updatedAt = now();
       return shareSettings(db, user, params.type, resource);
     }),
   ),

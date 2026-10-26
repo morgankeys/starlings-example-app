@@ -9,7 +9,7 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import { useState, type FormEvent, type ReactNode } from 'react';
+import { useMemo, useState, type FormEvent, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { usePanels } from '@/app/panels';
 import { useSession } from '@/app/session';
@@ -35,6 +35,7 @@ import { FileIcon } from '@/features/files/FileIcon';
 import { FilePickerDialog } from '@/features/files/FilePickerDialog';
 import { useProjects, useTeams, useUserMap } from '@/features/org/api';
 import { dueState, formatDue, formatLongDue, timeAgo } from '@/lib/dates';
+import { splitMentions } from '@/lib/mentions';
 import {
   useDeleteTask,
   useRestoreTask,
@@ -424,6 +425,7 @@ function Timeline({
   activity: ActivityEvent[];
   users: Map<string, User>;
 }) {
+  const people = useMemo(() => [...users.values()], [users]);
   const items: TimelineItem[] = [
     ...comments.map((c) => ({ kind: 'comment' as const, at: c.createdAt, comment: c })),
     ...activity.map((e) => ({ kind: 'event' as const, at: e.createdAt, event: e })),
@@ -455,13 +457,32 @@ function Timeline({
                   <strong className={styles.actor}>{author?.name ?? 'Someone'}</strong>
                   <span className={styles.when}> · {timeAgo(item.at)}</span>
                 </p>
-                <p className={styles.commentText}>{item.comment.body}</p>
+                <p className={styles.commentText}>
+                  <CommentText body={item.comment.body} users={people} />
+                </p>
               </div>
             </li>
           );
         })}
       </ol>
     </section>
+  );
+}
+
+/** A comment's text, with `@Name` mentions that resolve to a person highlighted. */
+function CommentText({ body, users }: { body: string; users: User[] }) {
+  return (
+    <>
+      {splitMentions(body, users).map((part, i) =>
+        part.user ? (
+          <span key={i} data-component="Mention" className={styles.mention} title={part.user.name}>
+            {part.text}
+          </span>
+        ) : (
+          part.text
+        ),
+      )}
+    </>
   );
 }
 
@@ -485,7 +506,7 @@ function CommentComposer({ taskId }: { taskId: string }) {
       <Textarea
         rows={1}
         className={styles.composerInput}
-        placeholder="Write a comment…"
+        placeholder="Write a comment… Type @ to mention someone"
         aria-label="Write a comment"
         value={body}
         onChange={(e) => setBody(e.target.value)}

@@ -7,6 +7,9 @@ export interface SeedClock {
   day: (offset: number) => string;
   /** Timestamp `offset` days from the seed day, at the given local hour. */
   at: (offset: number, hour?: number, minute?: number) => string;
+  /** Timestamp `minutes` before the moment of seeding, but never before today began, so
+   *  "today" items are neither in the future nor on yesterday's date. */
+  ago: (minutes: number) => string;
 }
 
 export function seedClock(today: Date): SeedClock {
@@ -15,5 +18,12 @@ export function seedClock(today: Date): SeedClock {
     day: (offset) => format(addDays(base, offset), 'yyyy-MM-dd'),
     at: (offset, hour = 10, minute = 0) =>
       setMinutes(setHours(addDays(base, offset), hour), minute).toISOString(),
+    ago: (minutes) =>
+      new Date(
+        Math.min(
+          today.getTime(),
+          Math.max(base.getTime() + 60_000, today.getTime() - minutes * 60_000),
+        ),
+      ).toISOString(),
   };
 }

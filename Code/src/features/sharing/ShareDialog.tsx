@@ -66,6 +66,8 @@ function ShareBody({ target, onClose }: { target: ShareTarget; onClose: () => vo
       qc.setQueryData(keys.share(target.type, target.id), next);
       qc.invalidateQueries({ queryKey: keys.allFolders });
       qc.invalidateQueries({ queryKey: keys.allFiles });
+      qc.invalidateQueries({ queryKey: keys.notifications });
+      qc.invalidateQueries({ queryKey: keys.allActivity });
     },
     onError: (err) =>
       toast({ title: "Couldn't update sharing", description: err.message, tone: 'danger' }),
