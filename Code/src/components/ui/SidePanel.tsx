@@ -5,13 +5,15 @@ import styles from './SidePanel.module.css';
 
 /**
  * A panel docked on the right of the app shell (task and file details, Ask Birdy).
- * Not modal: the page stays usable. Escape closes it while focus is inside.
+ * Not modal: the page stays usable. Escape closes it while focus is inside, unless the
+ * panel has a deeper view to leave first (`onEscape`).
  */
 export function SidePanel({
   label,
   title,
   actions,
   onClose,
+  onEscape,
   children,
   footer,
   width = 'drawer',
@@ -21,6 +23,8 @@ export function SidePanel({
   title?: ReactNode;
   actions?: ReactNode;
   onClose: () => void;
+  /** Handles Escape instead of closing, e.g. to step back from a sub-view. */
+  onEscape?: () => void;
   children: ReactNode;
   footer?: ReactNode;
   width?: 'drawer' | 'assistant';
@@ -30,11 +34,11 @@ export function SidePanel({
     const el = ref.current;
     if (!el) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && !e.defaultPrevented) onClose();
+      if (e.key === 'Escape' && !e.defaultPrevented) (onEscape ?? onClose)();
     };
     el.addEventListener('keydown', onKey);
     return () => el.removeEventListener('keydown', onKey);
-  }, [onClose]);
+  }, [onClose, onEscape]);
 
   return (
     <aside
