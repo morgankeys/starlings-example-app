@@ -265,8 +265,23 @@ big numbers). Instrument Sans is the utility face (everything else).
   dates before creating, and there's an undo. The seed gained "Supplier pilot kickoff
   notes", whose action items aren't tasks yet, for demos.
 
-**Not built yet (stretch):** bulk actions, an activity feed on Home, assistant thread
-history, notifications, org settings for admins, and a Playwright smoke test in CI.
+**Built (third pass):** every remaining stretch item, which completes the plan.
+
+- **Bulk actions (workflow 9):** select rows in a task list (Shift-click ranges, select all
+  per group) and change status, assignee, priority, due date or project, or delete, with
+  undo. Tasks you can't edit are skipped and reported.
+- **Org settings (workflow 19):** Settings has Profile, Workspace and Members tabs. Admins
+  rename the org, invite people, change roles, and deactivate or reactivate people.
+  Safeguards: no changing your own role, at least one active admin, and no leaving a team
+  without a lead. Deactivated people can't sign in and drop out of pickers.
+- **Ask Birdy history (workflow 23):** conversations are saved per person. A History view
+  lists past conversations to reopen or delete (with undo), and suggested-task outcomes
+  survive a reload. Maya has three seeded conversations.
+- **Notifications and activity (workflows 6 and 27):** a bell with an unread count for
+  assignments, comments, @mentions, shares and status changes, and an Activity card on
+  Home. @mentions in comments are highlighted and notify the person mentioned.
+- **Browser smoke tests:** 10 Playwright tests (`npm run e2e`) covering the main flows, run
+  as a second CI job.
 
 **Known limits:**
 
@@ -279,3 +294,10 @@ history, notifications, org settings for admins, and a Playwright smoke test in 
   closed before creating them.
 - Matching suggestions to existing tasks compares title wording, so two existing tasks
   with very similar titles can be confused.
+- The bulk bar's due-date picker has no "mixed" state, so it shows "No date" when the
+  selected tasks have different dates.
+- There's no @mention autocomplete; mentions are typed as `@FirstName`.
+- Notifications update by polling every 30 seconds, not live.
+- Seeded Ask Birdy conversations contain fixed text such as "overdue by 1 day" that doesn't
+  move forward with the calendar the way seeded dates do.
+- Ask Birdy conversations can be renamed through the API, but there's no rename control.
