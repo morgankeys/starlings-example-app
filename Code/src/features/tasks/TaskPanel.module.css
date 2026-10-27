@@ -244,6 +244,14 @@
   white-space: pre-wrap;
 }
 
+.mention {
+  padding: 0 var(--bd-space-0-5);
+  border-radius: var(--bd-radius-xs);
+  background: var(--bd-color-info-tint);
+  color: var(--bd-color-info-default);
+  font-weight: var(--bd-font-weight-medium);
+}
+
 .composer {
   display: flex;
   align-items: flex-end;

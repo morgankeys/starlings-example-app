@@ -9,6 +9,7 @@ export function Popover({
   onOpenChange,
   align = 'start',
   label,
+  padding = 'md',
 }: {
   trigger: ReactNode;
   children: ReactNode;
@@ -17,6 +18,8 @@ export function Popover({
   align?: 'start' | 'end' | 'center';
   /** Accessible name for the popover content. */
   label: string;
+  /** `none` lets the content run edge to edge (lists with their own rows and dividers). */
+  padding?: 'none' | 'md';
 }) {
   return (
     <RadixPopover.Root open={open} onOpenChange={onOpenChange}>
@@ -24,6 +27,7 @@ export function Popover({
       <RadixPopover.Portal>
         <RadixPopover.Content
           data-component="Popover"
+          data-padding={padding}
           aria-label={label}
           className={styles.content}
           align={align}

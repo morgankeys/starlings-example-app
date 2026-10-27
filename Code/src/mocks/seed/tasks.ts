@@ -691,7 +691,12 @@ const COMMENTS: Array<[taskId: string, authorId: string, daysAgo: number, body: 
     1,
     'Elena added the repair-program shot (06). We need approval before booking the weather day.',
   ],
-  ['t_shot_list', 'u_elena', 0, 'Cover frame works landscape or portrait. Happy to shoot both.'],
+  [
+    't_shot_list',
+    'u_ava',
+    0,
+    'Elena says the cover frame works landscape or portrait, and she is happy to shoot both.',
+  ],
   ['t_tent_copy', 'u_julia', 1, 'How close are we? Copy lock moves if this slips past Friday.'],
   [
     't_tent_copy',
@@ -717,6 +722,12 @@ const COMMENTS: Array<[taskId: string, authorId: string, daysAgo: number, body: 
     'u_leo',
     1,
     "I can't lay out product rows until the product-grid spec exists. Who owns it?",
+  ],
+  [
+    't_ridgeline_selects',
+    'u_elena',
+    1,
+    '@Maya the hero crop leaves room for a headline on the left. Can you confirm that works before I retouch the rest?',
   ],
 ];
 
@@ -776,7 +787,9 @@ export function buildTasks(c: SeedClock): {
     taskId,
     authorId,
     body,
-    createdAt: c.at(-daysAgo, daysAgo === 0 ? 8 : 14, 10 + i * 3),
+    // Comments from "today" are minutes to hours old, never later than the moment of seeding.
+    createdAt:
+      daysAgo === 0 ? c.ago(30 + (COMMENTS.length - i) * 12) : c.at(-daysAgo, 14, 10 + i * 3),
   }));
 
   return { tasks, comments, activity };

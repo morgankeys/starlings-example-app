@@ -1,6 +1,10 @@
 // One function per API endpoint. Feature hooks call these; components never call fetch.
 import type {
   AccentColor,
+  ActionsResult,
+  AssistantThread,
+  AssistantThreadSummary,
+  ActivityFeedItem,
   FileDetail,
   FileItem,
   FileView,
@@ -12,6 +16,7 @@ import type {
   BulkTaskUpdate,
   NewMember,
   NewTask,
+  NotificationList,
   Organization,
   ProjectSummary,
   SearchResult,
@@ -138,4 +143,22 @@ export const searchApi = {
 
 export const assistantApi = {
   focus: () => api.get<FocusSummary>('/assistant/focus'),
+  threads: () => api.get<AssistantThreadSummary[]>('/assistant/threads'),
+  thread: (id: string) => api.get<AssistantThread>(`/assistant/threads/${id}`),
+  renameThread: (id: string, title: string) =>
+    api.patch<AssistantThread>(`/assistant/threads/${id}`, { title }),
+  deleteThread: (id: string) => api.delete(`/assistant/threads/${id}`),
+  restoreThread: (id: string) => api.post<AssistantThread>(`/assistant/threads/${id}/restore`),
+  resolveActions: (threadId: string, messageId: string, actionsResult: ActionsResult) =>
+    api.patch(`/assistant/threads/${threadId}/messages/${messageId}`, { actionsResult }),
+};
+
+export const notificationsApi = {
+  list: (limit?: number) => api.get<NotificationList>('/notifications', { limit }),
+  markRead: (input: { ids: string[] } | { all: true }) =>
+    api.post<{ unreadCount: number }>('/notifications/read', input),
+};
+
+export const activityApi = {
+  list: (limit?: number) => api.get<ActivityFeedItem[]>('/activity', { limit }),
 };

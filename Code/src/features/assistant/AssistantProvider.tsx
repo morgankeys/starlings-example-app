@@ -8,19 +8,20 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { buildUrl } from '@/api/client';
+import { assistantApi } from '@/api/endpoints';
+import { keys } from '@/api/keys';
 import type {
+  ActionsResult,
   AssistantContext,
   AssistantStreamEvent,
   Citation,
+  StoredMessage,
   SuggestedTask,
 } from '@/domain/types';
 
-/** What the user did with a message's suggested tasks. */
-export type ActionsResult =
-  | { kind: 'created'; tasks: Array<{ id: string; title: string }> }
-  | { kind: 'undone'; count: number }
-  | { kind: 'dismissed' };
+export type { ActionsResult };
 
 export interface ChatMessage {
   id: string;
@@ -35,9 +36,22 @@ export interface ChatMessage {
   status: 'streaming' | 'done' | 'error';
 }
 
+const fromStored = (m: StoredMessage): ChatMessage => ({
+  id: m.id,
+  role: m.role,
+  text: m.text,
+  citations: m.citations,
+  actions: m.actions ?? [],
+  actionsResult: m.actionsResult,
+  context: m.context,
+  status: 'done',
+});
+
 interface AssistantState {
   open: boolean;
   messages: ChatMessage[];
+  /** The stored conversation being continued, or null before the first answer. */
+  threadId: string | null;
   context: AssistantContext | null;
   busy: boolean;
   setOpen: (open: boolean) => void;
@@ -49,6 +63,8 @@ interface AssistantState {
   askAbout: (context: AssistantContext, question?: string) => void;
   clearContext: () => void;
   newThread: () => void;
+  /** Load a stored conversation and continue it. */
+  openThread: (id: string) => Promise<void>;
   registerContext: (slot: 'page' | 'panel', context: AssistantContext | null) => void;
 }
 
@@ -105,7 +121,15 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   }>({ page: null, panel: null });
   const [override, setOverride] = useState<AssistantContext | null>(null);
   const [dismissedKey, setDismissedKey] = useState<string | null>(null);
+  const [threadId, setThreadId] = useState<string | null>(null);
+  const threadIdRef = useRef<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const qc = useQueryClient();
+
+  const switchThread = useCallback((id: string | null) => {
+    threadIdRef.current = id;
+    setThreadId(id);
+  }, []);
 
   const ambient = slots.panel ?? slots.page;
   const ambientKey = ambient ? `${ambient.type}:${ambient.id}` : null;
@@ -122,72 +146,106 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   const patch = (id: string, fn: (m: ChatMessage) => ChatMessage) =>
     setMessages((all) => all.map((m) => (m.id === id ? fn(m) : m)));
 
-  const send = useCallback(async (question: string, scope: AssistantContext | null) => {
-    const q = question.trim();
-    if (!q) return;
-    abortRef.current?.abort();
-    const controller = new AbortController();
-    abortRef.current = controller;
-    const answerId = newId();
-    setMessages((all) => [
-      ...all,
-      {
-        id: newId(),
-        role: 'user',
-        text: q,
-        citations: [],
-        actions: [],
-        context: scope,
-        status: 'done',
-      },
-      {
-        id: answerId,
-        role: 'assistant',
-        text: '',
-        citations: [],
-        actions: [],
-        context: scope,
-        status: 'streaming',
-      },
-    ]);
-    try {
-      const res = await fetch(buildUrl('/assistant/messages'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: q, context: scope }),
-        signal: controller.signal,
-      });
-      if (!res.ok || !res.body) {
-        const body = await res.json().catch(() => null);
-        throw new Error(body?.error?.message ?? 'Ask Birdy is unavailable right now.');
+  const send = useCallback(
+    async (question: string, scope: AssistantContext | null) => {
+      const q = question.trim();
+      if (!q) return;
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+      let questionId = newId();
+      let answerId = newId();
+      let streamedThread = threadIdRef.current;
+      setMessages((all) => [
+        ...all,
+        {
+          id: questionId,
+          role: 'user',
+          text: q,
+          citations: [],
+          actions: [],
+          context: scope,
+          status: 'done',
+        },
+        {
+          id: answerId,
+          role: 'assistant',
+          text: '',
+          citations: [],
+          actions: [],
+          context: scope,
+          status: 'streaming',
+        },
+      ]);
+      try {
+        const res = await fetch(buildUrl('/assistant/messages'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: q,
+            context: scope,
+            threadId: streamedThread ?? undefined,
+          }),
+          signal: controller.signal,
+        });
+        if (!res.ok || !res.body) {
+          const body = await res.json().catch(() => null);
+          throw new Error(body?.error?.message ?? 'Ask Birdy is unavailable right now.');
+        }
+        for await (const event of readEvents(res)) {
+          if (event.type === 'thread') {
+            streamedThread = event.id;
+            switchThread(event.id);
+          } else if (event.type === 'token')
+            patch(answerId, (m) => ({ ...m, text: m.text + event.text }));
+          else if (event.type === 'citations')
+            patch(answerId, (m) => ({ ...m, citations: event.items }));
+          else if (event.type === 'actions')
+            patch(answerId, (m) => ({ ...m, actions: event.items }));
+          else if (event.type === 'done' && event.messageIds) {
+            // Adopt the stored ids so later edits (resolving suggestions) can address them.
+            const stored = event.messageIds;
+            const [oldQuestion, oldAnswer] = [questionId, answerId];
+            questionId = stored.user;
+            answerId = stored.assistant;
+            setMessages((all) =>
+              all.map((m) =>
+                m.id === oldQuestion
+                  ? { ...m, id: stored.user }
+                  : m.id === oldAnswer
+                    ? { ...m, id: stored.assistant }
+                    : m,
+              ),
+            );
+          } else if (event.type === 'error') throw new Error(event.message);
+        }
+        patch(answerId, (m) => ({ ...m, status: 'done' }));
+        qc.invalidateQueries({ queryKey: keys.threads });
+      } catch (err) {
+        if ((err as Error).name === 'AbortError') return;
+        patch(answerId, (m) => ({ ...m, status: 'error', text: (err as Error).message }));
       }
-      for await (const event of readEvents(res)) {
-        if (event.type === 'token') patch(answerId, (m) => ({ ...m, text: m.text + event.text }));
-        else if (event.type === 'citations')
-          patch(answerId, (m) => ({ ...m, citations: event.items }));
-        else if (event.type === 'actions') patch(answerId, (m) => ({ ...m, actions: event.items }));
-        else if (event.type === 'error') throw new Error(event.message);
-      }
-      patch(answerId, (m) => ({ ...m, status: 'done' }));
-    } catch (err) {
-      if ((err as Error).name === 'AbortError') return;
-      patch(answerId, (m) => ({ ...m, status: 'error', text: (err as Error).message }));
-    }
-  }, []);
+    },
+    [qc, switchThread],
+  );
 
   const value = useMemo<AssistantState>(
     () => ({
       open,
       messages,
+      threadId,
       context,
       busy,
       setOpen,
       toggle: () => setOpen((o) => !o),
       ask: (q) => send(q, context),
-      resolveActions: (messageId, result) =>
+      resolveActions: (messageId, result) => {
         setMessages((all) =>
           all.map((m) => (m.id === messageId ? { ...m, actionsResult: result } : m)),
-        ),
+        );
+        const thread = threadIdRef.current;
+        if (thread) assistantApi.resolveActions(thread, messageId, result).catch(() => undefined);
+      },
       askAbout: (c, q) => {
         setOverride(c);
         setDismissedKey(null);
@@ -201,10 +259,17 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       newThread: () => {
         abortRef.current?.abort();
         setMessages([]);
+        switchThread(null);
+      },
+      openThread: async (id) => {
+        abortRef.current?.abort();
+        const thread = await assistantApi.thread(id);
+        setMessages(thread.messages.map(fromStored));
+        switchThread(thread.id);
       },
       registerContext,
     }),
-    [open, messages, context, busy, send, ambientKey, registerContext],
+    [open, messages, threadId, context, busy, send, ambientKey, registerContext, switchThread],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

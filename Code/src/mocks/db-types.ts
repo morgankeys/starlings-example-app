@@ -2,10 +2,12 @@
 // counts) are added by the handlers when a record is sent to the client.
 import type {
   ActivityEvent,
+  AssistantThread,
   Comment,
   FileKind,
   GeneralAccess,
   ID,
+  NotificationRecord,
   Organization,
   Project,
   ShareGrant,
@@ -47,6 +49,12 @@ export interface FileRecord {
 
 export type TaskRecord = Omit<Task, 'commentCount'> & { deletedAt: Timestamp | null };
 
+/** A conversation with Ask Birdy. Soft-deleted threads can be restored. */
+export type AssistantThreadRecord = AssistantThread & {
+  userId: ID;
+  deletedAt: Timestamp | null;
+};
+
 export interface Database {
   meta: { version: number; seededOn: string; mode: 'seed' | 'empty' };
   sessionUserId: ID | null;
@@ -57,10 +65,14 @@ export interface Database {
   tasks: TaskRecord[];
   comments: Comment[];
   activity: ActivityEvent[];
+  /** Per-recipient notifications (see notify.ts). */
+  notifications: NotificationRecord[];
   folders: FolderRecord[];
   files: FileRecord[];
   /** userId → starred file ids */
   stars: Record<ID, ID[]>;
   /** userId → fileId → last opened */
   opens: Record<ID, Record<ID, Timestamp>>;
+  /** Ask Birdy conversations, private to the user who had them. */
+  assistantThreads: AssistantThreadRecord[];
 }

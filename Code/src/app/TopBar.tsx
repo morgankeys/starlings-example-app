@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { Button, IconButton, Kbd, Menu, MenuItem } from '@/components/ui';
 import { useAssistant } from '@/features/assistant/AssistantProvider';
+import { NotificationBell } from '@/features/notifications/NotificationBell';
 import { useSession } from './session';
 import { useShellActions } from './shellActions';
 import styles from './TopBar.module.css';
@@ -31,6 +32,7 @@ export function TopBar({ onOpenNav }: { onOpenNav: () => void }) {
         <Kbd>{`${MOD}K`}</Kbd>
       </button>
       <div className={styles.actions}>
+        <NotificationBell />
         {user.role !== 'guest' && (
           <Menu
             align="end"

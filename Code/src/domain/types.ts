@@ -269,6 +269,67 @@ export interface ShareSettings {
 
 export type FileView = 'recent' | 'shared' | 'starred' | 'all';
 
+// ---- Notifications and the activity feed ------------------------------------------------
+
+export type NotificationKind = 'assigned' | 'commented' | 'mentioned' | 'status_changed' | 'shared';
+
+/**
+ * Something that happened that the recipient should know about. For `status_changed`,
+ * `excerpt` holds the new status; for `commented` and `mentioned` it is the start of the
+ * comment.
+ */
+export interface NotificationRecord {
+  id: ID;
+  /** The recipient. */
+  userId: ID;
+  kind: NotificationKind;
+  actorId: ID;
+  taskId?: ID;
+  fileId?: ID;
+  folderId?: ID;
+  commentId?: ID;
+  excerpt?: string;
+  createdAt: Timestamp;
+  readAt: Timestamp | null;
+}
+
+/** A notification as the API returns it: display fields resolved for the current user. */
+export interface NotificationView extends Omit<NotificationRecord, 'userId' | 'excerpt'> {
+  /** Task title, or file or folder name. */
+  title: string;
+  /** Comment text, for `commented` and `mentioned`. */
+  excerpt?: string;
+  /** The new status, for `status_changed`. */
+  status?: TaskStatus;
+}
+
+export interface NotificationList {
+  items: NotificationView[];
+  /** Unread notifications the user can still see, not just the ones in `items`. */
+  unreadCount: number;
+}
+
+/** A task event (`ActivityKind`), a comment, or a file edit. */
+export type ActivityFeedKind = ActivityKind | 'comment' | 'file_edited';
+
+/**
+ * One line of the Home activity feed. `title` is the task title or file name. `detail`
+ * depends on the kind: `status` and `priority` carry the new value, `assignee` the new
+ * assignee's name (absent when unassigned), `due` the new date (absent when removed),
+ * `file_linked` and `file_unlinked` the file name, `comment` the start of the comment and
+ * `file_edited` the folder the file is in.
+ */
+export interface ActivityFeedItem {
+  id: ID;
+  kind: ActivityFeedKind;
+  actorId: ID;
+  taskId?: ID;
+  fileId?: ID;
+  title: string;
+  detail?: string;
+  createdAt: Timestamp;
+}
+
 // ---- Search -----------------------------------------------------------------------------
 
 export type SearchResultType = 'task' | 'file' | 'folder' | 'user' | 'team' | 'project';
@@ -299,6 +360,8 @@ export interface Citation {
 export interface AssistantRequest {
   message: string;
   context: AssistantContext | null;
+  /** Continue this conversation. Omit to start a new thread. */
+  threadId?: ID;
 }
 
 /** A task the assistant proposes. Nothing is created until the user confirms it. */
@@ -317,12 +380,47 @@ export interface SuggestedTask {
   existingTaskId: ID | null;
 }
 
+/** What the user did with a message's suggested tasks. */
+export type ActionsResult =
+  | { kind: 'created'; tasks: Array<{ id: string; title: string }> }
+  | { kind: 'undone'; count: number }
+  | { kind: 'dismissed' };
+
+/** One message of a stored Ask Birdy conversation. */
+export interface StoredMessage {
+  id: ID;
+  role: 'user' | 'assistant';
+  text: string;
+  citations: Citation[];
+  context: AssistantContext | null;
+  actions?: SuggestedTask[];
+  actionsResult?: ActionsResult;
+}
+
+/** A stored conversation, as the client sees it. */
+export interface AssistantThread {
+  id: ID;
+  title: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  messages: StoredMessage[];
+}
+
+export interface AssistantThreadSummary {
+  id: ID;
+  title: string;
+  updatedAt: Timestamp;
+  messageCount: number;
+}
+
 /** One event in the assistant's text/event-stream response. */
 export type AssistantStreamEvent =
+  | { type: 'thread'; id: ID }
   | { type: 'token'; text: string }
   | { type: 'citations'; items: Citation[] }
   | { type: 'actions'; items: SuggestedTask[] }
-  | { type: 'done' }
+  /** `messageIds` are the stored ids of the question and its answer. */
+  | { type: 'done'; messageIds?: { user: ID; assistant: ID } }
   | { type: 'error'; message: string };
 
 export interface FocusItem {

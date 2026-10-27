@@ -20,7 +20,7 @@ export function QuickAdd({
   placeholder?: string;
 }) {
   const { user } = useSession();
-  const { data: users } = useActiveUsers();
+  const { data: users, isPending: peopleLoading } = useActiveUsers();
   const create = useCreateTask();
   const toast = useToast();
   const [value, setValue] = useState('');
@@ -32,6 +32,9 @@ export function QuickAdd({
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!parsed.title) return;
+    // An @mention can only resolve once people have loaded; submitting earlier would leave
+    // "@name" in the title and assign the task to you instead.
+    if (peopleLoading && value.includes('@')) return;
     create.mutate(
       {
         ...defaults,
