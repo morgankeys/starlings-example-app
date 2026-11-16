@@ -44,8 +44,14 @@ export function colorValue(value) {
 
 function numberValue(token) {
   const p = token.path.join('/');
-  if (/^font\/(weight|line-height)\//.test(p)) return String(token.value);
-  if (/^font\/letter-spacing\//.test(p)) return token.value === 0 ? '0' : `${token.value}em`;
+  // Figma exports FLOAT values with binary precision noise. Six decimal places retain
+  // useful typography precision while producing stable CSS for the original values.
+  const typographyValue = Number(token.value.toFixed(6));
+  if (/^font\/weight\//.test(p)) return String(token.value);
+  if (/^font\/line-height\//.test(p)) return String(typographyValue);
+  if (/^font\/letter-spacing\//.test(p)) {
+    return typographyValue === 0 ? '0' : `${typographyValue}em`;
+  }
   if (/^duration\//.test(p)) return `${token.value}ms`;
   return token.value === 0 ? '0' : `${token.value}px`;
 }

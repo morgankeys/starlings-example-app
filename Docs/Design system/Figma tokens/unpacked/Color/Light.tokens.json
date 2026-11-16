@@ -4,133 +4,168 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.9647,
-          "green": 0.949,
-          "blue": 0.9176
-        },
+        "components": [
+          0.9646999835968018,
+          0.9490000009536743,
+          0.9175999760627747
+        ],
         "alpha": 1,
         "hex": "#F6F2EA"
       },
+      "$description": "Birdy bg/app token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:101",
+        "com.figma.variableId": "VariableID:5:4",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-bg-app)"
+        }
       }
     },
     "raised": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 1.0,
-          "green": 0.9922,
-          "blue": 0.9725
-        },
+        "components": [
+          1,
+          0.9922000169754028,
+          0.9725000262260437
+        ],
         "alpha": 1,
         "hex": "#FFFDF8"
       },
+      "$description": "Birdy bg/raised token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:102",
+        "com.figma.variableId": "VariableID:5:5",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-bg-raised)"
+        }
       }
     },
     "sunken": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.9373,
-          "green": 0.9137,
-          "blue": 0.8706
-        },
+        "components": [
+          0.9373000264167786,
+          0.9136999845504761,
+          0.8705999851226807
+        ],
         "alpha": 1,
         "hex": "#EFE9DE"
       },
+      "$description": "Birdy bg/sunken token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:103",
+        "com.figma.variableId": "VariableID:5:6",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-bg-sunken)"
+        }
       }
     },
     "hover": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.1137,
-          "green": 0.1059,
-          "blue": 0.1333
-        },
-        "alpha": 0.05,
+        "components": [
+          0.1137000024318695,
+          0.10589999705553055,
+          0.13330000638961792
+        ],
+        "alpha": 0.05000000074505806,
         "hex": "#1D1B22"
       },
+      "$description": "Birdy bg/hover token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:104",
+        "com.figma.variableId": "VariableID:5:7",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-bg-hover)"
+        }
       }
     },
     "pressed": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.1137,
-          "green": 0.1059,
-          "blue": 0.1333
-        },
-        "alpha": 0.09,
+        "components": [
+          0.1137000024318695,
+          0.10589999705553055,
+          0.13330000638961792
+        ],
+        "alpha": 0.09000000357627869,
         "hex": "#1D1B22"
       },
+      "$description": "Birdy bg/pressed token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:105",
+        "com.figma.variableId": "VariableID:5:8",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-bg-pressed)"
+        }
       }
     },
     "selected": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.0824,
-          "green": 0.4784,
-          "blue": 0.4314
-        },
-        "alpha": 0.1,
+        "components": [
+          0.08240000158548355,
+          0.47839999198913574,
+          0.43140000104904175
+        ],
+        "alpha": 0.10000000149011612,
         "hex": "#157A6E"
       },
+      "$description": "Birdy bg/selected token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:106",
+        "com.figma.variableId": "VariableID:5:9",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-bg-selected)"
+        }
       }
     },
     "scrim": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.0824,
-          "green": 0.0784,
-          "blue": 0.1176
-        },
-        "alpha": 0.32,
+        "components": [
+          0.08240000158548355,
+          0.07840000092983246,
+          0.11760000139474869
+        ],
+        "alpha": 0.3199999928474426,
         "hex": "#15141E"
       },
+      "$description": "Birdy bg/scrim token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:107",
+        "com.figma.variableId": "VariableID:5:10",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-bg-scrim)"
+        }
       }
     }
   },
@@ -139,38 +174,46 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.8667,
-          "green": 0.8392,
-          "blue": 0.7882
-        },
+        "components": [
+          0.8666999936103821,
+          0.8392000198364258,
+          0.7882000207901001
+        ],
         "alpha": 1,
         "hex": "#DDD6C9"
       },
+      "$description": "Birdy border/default token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:108",
+        "com.figma.variableId": "VariableID:5:11",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-border-default)"
+        }
       }
     },
     "strong": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.7647,
-          "green": 0.7294,
-          "blue": 0.6627
-        },
+        "components": [
+          0.7646999955177307,
+          0.7293999791145325,
+          0.6626999974250793
+        ],
         "alpha": 1,
         "hex": "#C3BAA9"
       },
+      "$description": "Birdy border/strong token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:109",
+        "com.figma.variableId": "VariableID:5:12",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-border-strong)"
+        }
       }
     }
   },
@@ -179,76 +222,92 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.1137,
-          "green": 0.1059,
-          "blue": 0.1333
-        },
+        "components": [
+          0.1137000024318695,
+          0.10589999705553055,
+          0.13330000638961792
+        ],
         "alpha": 1,
         "hex": "#1D1B22"
       },
+      "$description": "Birdy text/default token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:110",
+        "com.figma.variableId": "VariableID:5:13",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "TEXT_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-text-default)"
+        }
       }
     },
     "muted": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.3686,
-          "green": 0.349,
-          "blue": 0.4
-        },
+        "components": [
+          0.3686000108718872,
+          0.3490000069141388,
+          0.4000000059604645
+        ],
         "alpha": 1,
         "hex": "#5E5966"
       },
+      "$description": "Birdy text/muted token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:111",
+        "com.figma.variableId": "VariableID:5:14",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "TEXT_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-text-muted)"
+        }
       }
     },
     "placeholder": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.5255,
-          "green": 0.502,
-          "blue": 0.549
-        },
+        "components": [
+          0.5254999995231628,
+          0.5019999742507935,
+          0.5490000247955322
+        ],
         "alpha": 1,
         "hex": "#86808C"
       },
+      "$description": "Birdy text/placeholder token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:112",
+        "com.figma.variableId": "VariableID:5:15",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "TEXT_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-text-placeholder)"
+        }
       }
     },
     "inverse": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.9647,
-          "green": 0.949,
-          "blue": 0.9176
-        },
+        "components": [
+          0.9646999835968018,
+          0.9490000009536743,
+          0.9175999760627747
+        ],
         "alpha": 1,
         "hex": "#F6F2EA"
       },
+      "$description": "Birdy text/inverse token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:113",
+        "com.figma.variableId": "VariableID:5:16",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "TEXT_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-text-inverse)"
+        }
       }
     }
   },
@@ -257,57 +316,71 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.1137,
-          "green": 0.1059,
-          "blue": 0.1333
-        },
+        "components": [
+          0.1137000024318695,
+          0.10589999705553055,
+          0.13330000638961792
+        ],
         "alpha": 1,
         "hex": "#1D1B22"
       },
+      "$description": "Birdy action/bg token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:114",
+        "com.figma.variableId": "VariableID:5:17",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-action-bg)"
+        }
       }
     },
     "bg-hover": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.2196,
-          "green": 0.2039,
-          "blue": 0.2471
-        },
+        "components": [
+          0.21960000693798065,
+          0.20389999449253082,
+          0.24709999561309814
+        ],
         "alpha": 1,
         "hex": "#38343F"
       },
+      "$description": "Birdy action/bg-hover token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:115",
+        "com.figma.variableId": "VariableID:5:18",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-action-bg-hover)"
+        }
       }
     },
     "text": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.9647,
-          "green": 0.949,
-          "blue": 0.9176
-        },
+        "components": [
+          0.9646999835968018,
+          0.9490000009536743,
+          0.9175999760627747
+        ],
         "alpha": 1,
         "hex": "#F6F2EA"
       },
+      "$description": "Birdy action/text token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:116",
+        "com.figma.variableId": "VariableID:5:19",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "TEXT_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-action-text)"
+        }
       }
     }
   },
@@ -316,19 +389,23 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.0824,
-          "green": 0.4784,
-          "blue": 0.4314
-        },
+        "components": [
+          0.08240000158548355,
+          0.47839999198913574,
+          0.43140000104904175
+        ],
         "alpha": 1,
         "hex": "#157A6E"
       },
+      "$description": "Birdy focus/ring token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:117",
+        "com.figma.variableId": "VariableID:5:20",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-focus-ring)"
+        }
       }
     }
   },
@@ -337,19 +414,23 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.0824,
-          "green": 0.4784,
-          "blue": 0.4314
-        },
+        "components": [
+          0.08240000158548355,
+          0.47839999198913574,
+          0.43140000104904175
+        ],
         "alpha": 1,
         "hex": "#157A6E"
       },
+      "$description": "Birdy link/default token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:118",
+        "com.figma.variableId": "VariableID:5:21",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "TEXT_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-link-default)"
+        }
       }
     }
   },
@@ -358,228 +439,300 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.0824,
-          "green": 0.4784,
-          "blue": 0.4314
-        },
+        "components": [
+          0.08240000158548355,
+          0.47839999198913574,
+          0.43140000104904175
+        ],
         "alpha": 1,
         "hex": "#157A6E"
       },
+      "$description": "Birdy accent/teal token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:119",
+        "com.figma.variableId": "VariableID:5:22",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-teal)"
+        }
       }
     },
     "teal-tint": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.8667,
-          "green": 0.9412,
-          "blue": 0.9216
-        },
+        "components": [
+          0.8666999936103821,
+          0.9412000179290771,
+          0.9215999841690063
+        ],
         "alpha": 1,
         "hex": "#DDF0EB"
       },
+      "$description": "Birdy accent/teal-tint token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:120",
+        "com.figma.variableId": "VariableID:5:23",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-teal-tint)"
+        }
       }
     },
     "violet": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.3529,
-          "green": 0.2471,
-          "blue": 0.651
-        },
+        "components": [
+          0.3528999984264374,
+          0.24709999561309814,
+          0.6510000228881836
+        ],
         "alpha": 1,
         "hex": "#5A3FA6"
       },
+      "$description": "Birdy accent/violet token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:121",
+        "com.figma.variableId": "VariableID:5:24",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-violet)"
+        }
       }
     },
     "violet-tint": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.9137,
-          "green": 0.8902,
-          "blue": 0.9647
-        },
+        "components": [
+          0.9136999845504761,
+          0.8902000188827515,
+          0.9646999835968018
+        ],
         "alpha": 1,
         "hex": "#E9E3F6"
       },
+      "$description": "Birdy accent/violet-tint token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:122",
+        "com.figma.variableId": "VariableID:5:25",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-violet-tint)"
+        }
       }
     },
     "amber": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.5765,
-          "green": 0.3686,
-          "blue": 0.0627
-        },
+        "components": [
+          0.5764999985694885,
+          0.3686000108718872,
+          0.06270000338554382
+        ],
         "alpha": 1,
         "hex": "#935E10"
       },
+      "$description": "Birdy accent/amber token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:123",
+        "com.figma.variableId": "VariableID:5:26",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-amber)"
+        }
       }
     },
     "amber-tint": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.9529,
-          "green": 0.902,
-          "blue": 0.8235
-        },
+        "components": [
+          0.9528999924659729,
+          0.9020000100135803,
+          0.8234999775886536
+        ],
         "alpha": 1,
         "hex": "#F3E6D2"
       },
+      "$description": "Birdy accent/amber-tint token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:124",
+        "com.figma.variableId": "VariableID:5:27",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-amber-tint)"
+        }
       }
     },
     "sky": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.1843,
-          "green": 0.4157,
-          "blue": 0.6196
-        },
+        "components": [
+          0.1843000054359436,
+          0.4156999886035919,
+          0.6195999979972839
+        ],
         "alpha": 1,
         "hex": "#2F6A9E"
       },
+      "$description": "Birdy accent/sky token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:125",
+        "com.figma.variableId": "VariableID:5:28",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-sky)"
+        }
       }
     },
     "sky-tint": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.8627,
-          "green": 0.9059,
-          "blue": 0.949
-        },
+        "components": [
+          0.8626999855041504,
+          0.9059000015258789,
+          0.9490000009536743
+        ],
         "alpha": 1,
         "hex": "#DCE7F2"
       },
+      "$description": "Birdy accent/sky-tint token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:126",
+        "com.figma.variableId": "VariableID:5:29",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-sky-tint)"
+        }
       }
     },
     "rust": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.651,
-          "green": 0.2392,
-          "blue": 0.1647
-        },
+        "components": [
+          0.6510000228881836,
+          0.23919999599456787,
+          0.1647000014781952
+        ],
         "alpha": 1,
         "hex": "#A63D2A"
       },
+      "$description": "Birdy accent/rust token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:127",
+        "com.figma.variableId": "VariableID:5:30",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-rust)"
+        }
       }
     },
     "rust-tint": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.9647,
-          "green": 0.8784,
-          "blue": 0.8549
-        },
+        "components": [
+          0.9646999835968018,
+          0.8784000277519226,
+          0.8549000024795532
+        ],
         "alpha": 1,
         "hex": "#F6E0DA"
       },
+      "$description": "Birdy accent/rust-tint token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:128",
+        "com.figma.variableId": "VariableID:5:31",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-rust-tint)"
+        }
       }
     },
     "neutral": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.3686,
-          "green": 0.349,
-          "blue": 0.4
-        },
+        "components": [
+          0.3686000108718872,
+          0.3490000069141388,
+          0.4000000059604645
+        ],
         "alpha": 1,
         "hex": "#5E5966"
       },
+      "$description": "Birdy accent/neutral token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:129",
+        "com.figma.variableId": "VariableID:5:32",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-neutral)"
+        }
       }
     },
     "neutral-tint": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.9255,
-          "green": 0.902,
-          "blue": 0.8549
-        },
+        "components": [
+          0.9254999756813049,
+          0.9020000100135803,
+          0.8549000024795532
+        ],
         "alpha": 1,
         "hex": "#ECE6DA"
       },
+      "$description": "Birdy accent/neutral-tint token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:130",
+        "com.figma.variableId": "VariableID:5:33",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-accent-neutral-tint)"
+        }
       }
     }
   },
@@ -588,38 +741,50 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.0824,
-          "green": 0.4784,
-          "blue": 0.4314
-        },
+        "components": [
+          0.08240000158548355,
+          0.47839999198913574,
+          0.43140000104904175
+        ],
         "alpha": 1,
         "hex": "#157A6E"
       },
+      "$description": "Birdy success/default token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:131",
+        "com.figma.variableId": "VariableID:5:34",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-success-default)"
+        }
       }
     },
     "tint": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.8667,
-          "green": 0.9412,
-          "blue": 0.9216
-        },
+        "components": [
+          0.8666999936103821,
+          0.9412000179290771,
+          0.9215999841690063
+        ],
         "alpha": 1,
         "hex": "#DDF0EB"
       },
+      "$description": "Birdy success/tint token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:132",
+        "com.figma.variableId": "VariableID:5:35",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-success-tint)"
+        }
       }
     }
   },
@@ -628,38 +793,50 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.1843,
-          "green": 0.4157,
-          "blue": 0.6196
-        },
+        "components": [
+          0.1843000054359436,
+          0.4156999886035919,
+          0.6195999979972839
+        ],
         "alpha": 1,
         "hex": "#2F6A9E"
       },
+      "$description": "Birdy info/default token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:133",
+        "com.figma.variableId": "VariableID:5:36",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-info-default)"
+        }
       }
     },
     "tint": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.8627,
-          "green": 0.9059,
-          "blue": 0.949
-        },
+        "components": [
+          0.8626999855041504,
+          0.9059000015258789,
+          0.9490000009536743
+        ],
         "alpha": 1,
         "hex": "#DCE7F2"
       },
+      "$description": "Birdy info/tint token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:134",
+        "com.figma.variableId": "VariableID:5:37",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-info-tint)"
+        }
       }
     }
   },
@@ -668,38 +845,50 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.5765,
-          "green": 0.3686,
-          "blue": 0.0627
-        },
+        "components": [
+          0.5764999985694885,
+          0.3686000108718872,
+          0.06270000338554382
+        ],
         "alpha": 1,
         "hex": "#935E10"
       },
+      "$description": "Birdy warning/default token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:135",
+        "com.figma.variableId": "VariableID:5:38",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-warning-default)"
+        }
       }
     },
     "tint": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.9529,
-          "green": 0.902,
-          "blue": 0.8235
-        },
+        "components": [
+          0.9528999924659729,
+          0.9020000100135803,
+          0.8234999775886536
+        ],
         "alpha": 1,
         "hex": "#F3E6D2"
       },
+      "$description": "Birdy warning/tint token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:136",
+        "com.figma.variableId": "VariableID:5:39",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-warning-tint)"
+        }
       }
     }
   },
@@ -708,95 +897,121 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.651,
-          "green": 0.2392,
-          "blue": 0.1647
-        },
+        "components": [
+          0.6510000228881836,
+          0.23919999599456787,
+          0.1647000014781952
+        ],
         "alpha": 1,
         "hex": "#A63D2A"
       },
+      "$description": "Birdy danger/default token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:137",
+        "com.figma.variableId": "VariableID:5:40",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-danger-default)"
+        }
       }
     },
     "tint": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.9647,
-          "green": 0.8784,
-          "blue": 0.8549
-        },
+        "components": [
+          0.9646999835968018,
+          0.8784000277519226,
+          0.8549000024795532
+        ],
         "alpha": 1,
         "hex": "#F6E0DA"
       },
+      "$description": "Birdy danger/tint token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:138",
+        "com.figma.variableId": "VariableID:5:41",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-danger-tint)"
+        }
       }
     },
     "bg": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.651,
-          "green": 0.2392,
-          "blue": 0.1647
-        },
+        "components": [
+          0.6510000228881836,
+          0.23919999599456787,
+          0.1647000014781952
+        ],
         "alpha": 1,
         "hex": "#A63D2A"
       },
+      "$description": "Birdy danger/bg token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:139",
+        "com.figma.variableId": "VariableID:5:42",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-danger-bg)"
+        }
       }
     },
     "bg-hover": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.5608,
-          "green": 0.2,
-          "blue": 0.1333
-        },
+        "components": [
+          0.5608000159263611,
+          0.20000000298023224,
+          0.13330000638961792
+        ],
         "alpha": 1,
         "hex": "#8F3322"
       },
+      "$description": "Birdy danger/bg-hover token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:140",
+        "com.figma.variableId": "VariableID:5:43",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-danger-bg-hover)"
+        }
       }
     },
     "text": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 1.0,
-          "green": 0.9922,
-          "blue": 0.9725
-        },
+        "components": [
+          1,
+          0.9922000169754028,
+          0.9725000262260437
+        ],
         "alpha": 1,
         "hex": "#FFFDF8"
       },
+      "$description": "Birdy danger/text token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:141",
+        "com.figma.variableId": "VariableID:5:44",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "TEXT_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-danger-text)"
+        }
       }
     }
   },
@@ -805,38 +1020,50 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.3529,
-          "green": 0.2471,
-          "blue": 0.651
-        },
+        "components": [
+          0.3528999984264374,
+          0.24709999561309814,
+          0.6510000228881836
+        ],
         "alpha": 1,
         "hex": "#5A3FA6"
       },
+      "$description": "Birdy ai/default token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:142",
+        "com.figma.variableId": "VariableID:5:45",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-ai-default)"
+        }
       }
     },
     "tint": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.9137,
-          "green": 0.8902,
-          "blue": 0.9647
-        },
+        "components": [
+          0.9136999845504761,
+          0.8902000188827515,
+          0.9646999835968018
+        ],
         "alpha": 1,
         "hex": "#E9E3F6"
       },
+      "$description": "Birdy ai/tint token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:143",
+        "com.figma.variableId": "VariableID:5:46",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-ai-tint)"
+        }
       }
     }
   },
@@ -845,76 +1072,104 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.3686,
-          "green": 0.349,
-          "blue": 0.4
-        },
+        "components": [
+          0.3686000108718872,
+          0.3490000069141388,
+          0.4000000059604645
+        ],
         "alpha": 1,
         "hex": "#5E5966"
       },
+      "$description": "Birdy status/todo token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:144",
+        "com.figma.variableId": "VariableID:5:47",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-status-todo)"
+        }
       }
     },
     "progress": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.1843,
-          "green": 0.4157,
-          "blue": 0.6196
-        },
+        "components": [
+          0.1843000054359436,
+          0.4156999886035919,
+          0.6195999979972839
+        ],
         "alpha": 1,
         "hex": "#2F6A9E"
       },
+      "$description": "Birdy status/progress token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:145",
+        "com.figma.variableId": "VariableID:5:48",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-status-progress)"
+        }
       }
     },
     "review": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.3529,
-          "green": 0.2471,
-          "blue": 0.651
-        },
+        "components": [
+          0.3528999984264374,
+          0.24709999561309814,
+          0.6510000228881836
+        ],
         "alpha": 1,
         "hex": "#5A3FA6"
       },
+      "$description": "Birdy status/review token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:146",
+        "com.figma.variableId": "VariableID:5:49",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-status-review)"
+        }
       }
     },
     "done": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.0824,
-          "green": 0.4784,
-          "blue": 0.4314
-        },
+        "components": [
+          0.08240000158548355,
+          0.47839999198913574,
+          0.43140000104904175
+        ],
         "alpha": 1,
         "hex": "#157A6E"
       },
+      "$description": "Birdy status/done token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:147",
+        "com.figma.variableId": "VariableID:5:50",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-status-done)"
+        }
       }
     }
   },
@@ -923,38 +1178,50 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.0824,
-          "green": 0.4784,
-          "blue": 0.4314
-        },
+        "components": [
+          0.08240000158548355,
+          0.47839999198913574,
+          0.43140000104904175
+        ],
         "alpha": 1,
         "hex": "#157A6E"
       },
+      "$description": "Birdy checkbox/fill token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:148",
+        "com.figma.variableId": "VariableID:5:51",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-checkbox-fill)"
+        }
       }
     },
     "check": {
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 1.0,
-          "green": 0.9922,
-          "blue": 0.9725
-        },
+        "components": [
+          1,
+          0.9922000169754028,
+          0.9725000262260437
+        ],
         "alpha": 1,
         "hex": "#FFFDF8"
       },
+      "$description": "Birdy checkbox/check token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:149",
+        "com.figma.variableId": "VariableID:5:52",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "FRAME_FILL",
+          "SHAPE_FILL",
+          "TEXT_FILL",
+          "STROKE"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-checkbox-check)"
+        }
       }
     }
   },
@@ -963,19 +1230,23 @@
       "$type": "color",
       "$value": {
         "colorSpace": "srgb",
-        "components": {
-          "red": 0.1137,
-          "green": 0.1059,
-          "blue": 0.1333
-        },
-        "alpha": 0.14,
+        "components": [
+          0.1137000024318695,
+          0.10589999705553055,
+          0.13330000638961792
+        ],
+        "alpha": 0.14000000059604645,
         "hex": "#1D1B22"
       },
+      "$description": "Birdy shadow/overlay token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:1:150",
+        "com.figma.variableId": "VariableID:5:53",
         "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+          "EFFECT_COLOR"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-color-shadow-overlay)"
+        }
       }
     }
   },
