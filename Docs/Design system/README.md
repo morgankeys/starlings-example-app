@@ -7,8 +7,7 @@ Figma sources for this prototype. Agents load the same links from
 
 - **Site file** — pages and features to implement: none yet (Birdy was designed in code;
   see `Docs/Plan.md`).
-- **Library file** — core styles; tokens are exported from here: none yet. The token source
-  in `Figma tokens/unpacked/` is hand-written in Figma's export format until one exists.
+- **Library file** — [Birdy Figma library](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=0-1): variables and work-in-progress components. See [the library plan](figma-library-plan.md) for progress and the export round trip.
 
 The palette is borrowed from the Starlings design system, with a rust red added for
 danger states. Display type is Bricolage Grotesque; utility type is Instrument Sans.

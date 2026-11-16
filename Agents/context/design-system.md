@@ -13,11 +13,7 @@ Two files, two jobs:
 
 - **Site file** — the pages and features to implement: none yet. Birdy's screens were
   designed in code; `Docs/Plan.md` lists the workflows.
-- **Library file** — core styles; tokens are exported from here: none yet. Until one
-  exists, the token source is written by hand in Figma's variables-export format under
-  `Docs/Design system/Figma tokens/unpacked/` (`Color/Light.tokens.json`,
-  `Color/Dark.tokens.json`, `Primitives/Baseline.tokens.json`). A real export replaces those
-  files; nothing downstream changes.
+- **Library file** — [Birdy Figma library](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=0-1). Variables have been exported to `Docs/Design system/Figma tokens/unpacked/`; component work is tracked in `Docs/Design system/figma-library-plan.md`.
 
 List the same links for humans in `Docs/Design system/README.md`.
 

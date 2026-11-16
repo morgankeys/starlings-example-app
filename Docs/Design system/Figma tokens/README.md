@@ -8,12 +8,15 @@ Procedure: [`Agents/skills/design-tokens/SKILL.md`](../../../Agents/skills/desig
 
 ## Birdy's token source
 
-There is no Figma library yet. The files in `unpacked/` were written by hand in the shape
-Figma's variables export produces (one folder per collection, one file per mode, color
-values with `components`, `alpha` and `hex`):
+The [Birdy Figma library](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=0-1)
+contains variables reconstructed from Birdy's original hand-written token sources. The
+files in `unpacked/` now come from the exported ZIPs (one folder per collection, one file
+per mode, color values with `components`, `alpha` and `hex`):
 
 - `unpacked/Color/Light.tokens.json` and `Dark.tokens.json`: themed colors
 - `unpacked/Primitives/Baseline.tokens.json`: spacing, radius, type, sizes, durations
 
-Edit them directly until a real export arrives, then drop the export zips here and run
-`tokens`. The zips will unpack over these folders.
+Export each collection as a ZIP and run `tokens` to regenerate these files. The unpacker
+does not remove stale mode files, so review the folder contents when modes change. The
+initial export round-trip and remaining library work are tracked in
+[`figma-library-plan.md`](../figma-library-plan.md).
