@@ -112,8 +112,9 @@ The color transform must branch on `alpha`:
 ### The regression guard
 
 The build must include an assertion that, for every source token with `alpha < 1`, the
-emitted value carries an alpha channel (`rgb(… / a)`, or an 8-digit hex). On failure it
-exits non-zero and lists the offending tokens. It protects against:
+emitted value carries an alpha channel (`rgb(… / a)`, or an 8-digit hex) with the correct
+opacity, allowing for the converter's rounding and 8-bit hex precision. On failure it exits
+non-zero and lists the offending tokens. It protects against:
 
 - a future export changing shape and reintroducing the bug;
 - a converter upgrade replacing the custom transform;

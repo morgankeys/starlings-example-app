@@ -1,133 +1,185 @@
 {
   "space": {
-    "0-5": {
-      "$type": "number",
-      "$value": 2,
-      "$extensions": {
-        "com.figma.variableId": "VariableID:2:151",
-        "com.figma.scopes": [
-          "GAP"
-        ]
-      }
-    },
     "1": {
       "$type": "number",
       "$value": 4,
+      "$description": "Birdy space/1 token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:152",
+        "com.figma.variableId": "VariableID:5:54",
         "com.figma.scopes": [
           "GAP"
-        ]
-      }
-    },
-    "1-5": {
-      "$type": "number",
-      "$value": 6,
-      "$extensions": {
-        "com.figma.variableId": "VariableID:2:153",
-        "com.figma.scopes": [
-          "GAP"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-1)"
+        }
       }
     },
     "2": {
       "$type": "number",
       "$value": 8,
+      "$description": "Birdy space/2 token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:154",
+        "com.figma.variableId": "VariableID:5:55",
         "com.figma.scopes": [
           "GAP"
-        ]
-      }
-    },
-    "2-5": {
-      "$type": "number",
-      "$value": 10,
-      "$extensions": {
-        "com.figma.variableId": "VariableID:2:155",
-        "com.figma.scopes": [
-          "GAP"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-2)"
+        }
       }
     },
     "3": {
       "$type": "number",
       "$value": 12,
+      "$description": "Birdy space/3 token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:156",
+        "com.figma.variableId": "VariableID:5:56",
         "com.figma.scopes": [
           "GAP"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-3)"
+        }
       }
     },
     "4": {
       "$type": "number",
       "$value": 16,
+      "$description": "Birdy space/4 token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:157",
+        "com.figma.variableId": "VariableID:5:57",
         "com.figma.scopes": [
           "GAP"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-4)"
+        }
       }
     },
     "5": {
       "$type": "number",
       "$value": 20,
+      "$description": "Birdy space/5 token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:158",
+        "com.figma.variableId": "VariableID:5:58",
         "com.figma.scopes": [
           "GAP"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-5)"
+        }
       }
     },
     "6": {
       "$type": "number",
       "$value": 24,
+      "$description": "Birdy space/6 token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:159",
+        "com.figma.variableId": "VariableID:5:59",
         "com.figma.scopes": [
           "GAP"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-6)"
+        }
       }
     },
     "8": {
       "$type": "number",
       "$value": 32,
+      "$description": "Birdy space/8 token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:160",
+        "com.figma.variableId": "VariableID:5:60",
         "com.figma.scopes": [
           "GAP"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-8)"
+        }
       }
     },
     "10": {
       "$type": "number",
       "$value": 40,
+      "$description": "Birdy space/10 token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:161",
+        "com.figma.variableId": "VariableID:5:61",
         "com.figma.scopes": [
           "GAP"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-10)"
+        }
       }
     },
     "12": {
       "$type": "number",
       "$value": 48,
+      "$description": "Birdy space/12 token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:162",
+        "com.figma.variableId": "VariableID:5:62",
         "com.figma.scopes": [
           "GAP"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-12)"
+        }
       }
     },
     "16": {
       "$type": "number",
       "$value": 64,
+      "$description": "Birdy space/16 token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:163",
+        "com.figma.variableId": "VariableID:5:63",
         "com.figma.scopes": [
           "GAP"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-16)"
+        }
+      }
+    },
+    "0-5": {
+      "$type": "number",
+      "$value": 2,
+      "$description": "Birdy space/0-5 token. Source: Docs/Design system/Figma tokens/unpacked/.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:5:64",
+        "com.figma.scopes": [
+          "GAP"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-0-5)"
+        }
+      }
+    },
+    "1-5": {
+      "$type": "number",
+      "$value": 6,
+      "$description": "Birdy space/1-5 token. Source: Docs/Design system/Figma tokens/unpacked/.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:5:65",
+        "com.figma.scopes": [
+          "GAP"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-1-5)"
+        }
+      }
+    },
+    "2-5": {
+      "$type": "number",
+      "$value": 10,
+      "$description": "Birdy space/2-5 token. Source: Docs/Design system/Figma tokens/unpacked/.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:5:66",
+        "com.figma.scopes": [
+          "GAP"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-space-2-5)"
+        }
       }
     }
   },
@@ -135,61 +187,85 @@
     "xs": {
       "$type": "number",
       "$value": 4,
+      "$description": "Birdy radius/xs token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:164",
+        "com.figma.variableId": "VariableID:5:67",
         "com.figma.scopes": [
           "CORNER_RADIUS"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-radius-xs)"
+        }
       }
     },
     "sm": {
       "$type": "number",
       "$value": 6,
+      "$description": "Birdy radius/sm token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:165",
+        "com.figma.variableId": "VariableID:5:68",
         "com.figma.scopes": [
           "CORNER_RADIUS"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-radius-sm)"
+        }
       }
     },
     "md": {
       "$type": "number",
       "$value": 8,
+      "$description": "Birdy radius/md token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:166",
+        "com.figma.variableId": "VariableID:5:69",
         "com.figma.scopes": [
           "CORNER_RADIUS"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-radius-md)"
+        }
       }
     },
     "lg": {
       "$type": "number",
       "$value": 10,
+      "$description": "Birdy radius/lg token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:167",
+        "com.figma.variableId": "VariableID:5:70",
         "com.figma.scopes": [
           "CORNER_RADIUS"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-radius-lg)"
+        }
       }
     },
     "xl": {
       "$type": "number",
       "$value": 14,
+      "$description": "Birdy radius/xl token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:168",
+        "com.figma.variableId": "VariableID:5:71",
         "com.figma.scopes": [
           "CORNER_RADIUS"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-radius-xl)"
+        }
       }
     },
     "pill": {
       "$type": "number",
       "$value": 999,
+      "$description": "Birdy radius/pill token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:169",
+        "com.figma.variableId": "VariableID:5:72",
         "com.figma.scopes": [
           "CORNER_RADIUS"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-radius-pill)"
+        }
       }
     }
   },
@@ -198,31 +274,37 @@
       "display": {
         "$type": "string",
         "$value": "\"Bricolage Grotesque\", \"Instrument Sans\", system-ui, sans-serif",
+        "$description": "Birdy font/family/display token. Source: Docs/Design system/Figma tokens/unpacked/. CSS fallback stack; not a single Figma font family.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:170",
-          "com.figma.scopes": [
-            "FONT_FAMILY"
-          ]
+          "com.figma.variableId": "VariableID:5:73",
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-family-display)"
+          },
+          "com.figma.type": "string"
         }
       },
       "ui": {
         "$type": "string",
         "$value": "\"Instrument Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "$description": "Birdy font/family/ui token. Source: Docs/Design system/Figma tokens/unpacked/. CSS fallback stack; not a single Figma font family.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:171",
-          "com.figma.scopes": [
-            "FONT_FAMILY"
-          ]
+          "com.figma.variableId": "VariableID:5:74",
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-family-ui)"
+          },
+          "com.figma.type": "string"
         }
       },
       "mono": {
         "$type": "string",
         "$value": "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
+        "$description": "Birdy font/family/mono token. Source: Docs/Design system/Figma tokens/unpacked/. CSS fallback stack; not a single Figma font family.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:172",
-          "com.figma.scopes": [
-            "FONT_FAMILY"
-          ]
+          "com.figma.variableId": "VariableID:5:75",
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-family-mono)"
+          },
+          "com.figma.type": "string"
         }
       }
     },
@@ -230,81 +312,113 @@
       "xs": {
         "$type": "number",
         "$value": 12,
+        "$description": "Birdy font/size/xs token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:173",
+          "com.figma.variableId": "VariableID:5:76",
           "com.figma.scopes": [
             "FONT_SIZE"
-          ]
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-size-xs)"
+          }
         }
       },
       "sm": {
         "$type": "number",
         "$value": 13,
+        "$description": "Birdy font/size/sm token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:174",
+          "com.figma.variableId": "VariableID:5:77",
           "com.figma.scopes": [
             "FONT_SIZE"
-          ]
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-size-sm)"
+          }
         }
       },
       "md": {
         "$type": "number",
         "$value": 14,
+        "$description": "Birdy font/size/md token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:175",
+          "com.figma.variableId": "VariableID:5:78",
           "com.figma.scopes": [
             "FONT_SIZE"
-          ]
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-size-md)"
+          }
         }
       },
       "lg": {
         "$type": "number",
         "$value": 16,
+        "$description": "Birdy font/size/lg token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:176",
+          "com.figma.variableId": "VariableID:5:79",
           "com.figma.scopes": [
             "FONT_SIZE"
-          ]
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-size-lg)"
+          }
         }
       },
       "xl": {
         "$type": "number",
         "$value": 18,
+        "$description": "Birdy font/size/xl token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:177",
+          "com.figma.variableId": "VariableID:5:80",
           "com.figma.scopes": [
             "FONT_SIZE"
-          ]
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-size-xl)"
+          }
         }
       },
       "2xl": {
         "$type": "number",
         "$value": 22,
+        "$description": "Birdy font/size/2xl token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:178",
+          "com.figma.variableId": "VariableID:5:81",
           "com.figma.scopes": [
             "FONT_SIZE"
-          ]
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-size-2xl)"
+          }
         }
       },
       "3xl": {
         "$type": "number",
         "$value": 28,
+        "$description": "Birdy font/size/3xl token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:179",
+          "com.figma.variableId": "VariableID:5:82",
           "com.figma.scopes": [
             "FONT_SIZE"
-          ]
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-size-3xl)"
+          }
         }
       },
       "4xl": {
         "$type": "number",
         "$value": 36,
+        "$description": "Birdy font/size/4xl token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:180",
+          "com.figma.variableId": "VariableID:5:83",
           "com.figma.scopes": [
             "FONT_SIZE"
-          ]
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-size-4xl)"
+          }
         }
       }
     },
@@ -312,105 +426,127 @@
       "regular": {
         "$type": "number",
         "$value": 400,
+        "$description": "Birdy font/weight/regular token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:181",
+          "com.figma.variableId": "VariableID:5:84",
           "com.figma.scopes": [
-            "FONT_WEIGHT"
-          ]
+            "FONT_STYLE"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-weight-regular)"
+          }
         }
       },
       "medium": {
         "$type": "number",
         "$value": 500,
+        "$description": "Birdy font/weight/medium token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:182",
+          "com.figma.variableId": "VariableID:5:85",
           "com.figma.scopes": [
-            "FONT_WEIGHT"
-          ]
+            "FONT_STYLE"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-weight-medium)"
+          }
         }
       },
       "semibold": {
         "$type": "number",
         "$value": 600,
+        "$description": "Birdy font/weight/semibold token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:183",
+          "com.figma.variableId": "VariableID:5:86",
           "com.figma.scopes": [
-            "FONT_WEIGHT"
-          ]
+            "FONT_STYLE"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-weight-semibold)"
+          }
         }
       },
       "bold": {
         "$type": "number",
         "$value": 700,
+        "$description": "Birdy font/weight/bold token. Source: Docs/Design system/Figma tokens/unpacked/.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:184",
+          "com.figma.variableId": "VariableID:5:87",
           "com.figma.scopes": [
-            "FONT_WEIGHT"
-          ]
+            "FONT_STYLE"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-weight-bold)"
+          }
         }
       }
     },
     "line-height": {
       "tight": {
         "$type": "number",
-        "$value": 1.15,
+        "$value": 1.149999976158142,
+        "$description": "Birdy font/line-height/tight token. Source: Docs/Design system/Figma tokens/unpacked/. Unitless CSS line-height ratio.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:185",
-          "com.figma.scopes": [
-            "LINE_HEIGHT"
-          ]
+          "com.figma.variableId": "VariableID:5:88",
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-line-height-tight)"
+          }
         }
       },
       "snug": {
         "$type": "number",
-        "$value": 1.35,
+        "$value": 1.350000023841858,
+        "$description": "Birdy font/line-height/snug token. Source: Docs/Design system/Figma tokens/unpacked/. Unitless CSS line-height ratio.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:186",
-          "com.figma.scopes": [
-            "LINE_HEIGHT"
-          ]
+          "com.figma.variableId": "VariableID:5:89",
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-line-height-snug)"
+          }
         }
       },
       "normal": {
         "$type": "number",
         "$value": 1.5,
+        "$description": "Birdy font/line-height/normal token. Source: Docs/Design system/Figma tokens/unpacked/. Unitless CSS line-height ratio.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:187",
-          "com.figma.scopes": [
-            "LINE_HEIGHT"
-          ]
+          "com.figma.variableId": "VariableID:5:90",
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-line-height-normal)"
+          }
         }
       }
     },
     "letter-spacing": {
       "tight": {
         "$type": "number",
-        "$value": -0.02,
+        "$value": -0.019999999552965164,
+        "$description": "Birdy font/letter-spacing/tight token. Source: Docs/Design system/Figma tokens/unpacked/. CSS letter spacing in em.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:188",
-          "com.figma.scopes": [
-            "LETTER_SPACING"
-          ]
+          "com.figma.variableId": "VariableID:5:91",
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-letter-spacing-tight)"
+          }
         }
       },
       "normal": {
         "$type": "number",
         "$value": 0,
+        "$description": "Birdy font/letter-spacing/normal token. Source: Docs/Design system/Figma tokens/unpacked/. CSS letter spacing in em.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:189",
-          "com.figma.scopes": [
-            "LETTER_SPACING"
-          ]
+          "com.figma.variableId": "VariableID:5:92",
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-letter-spacing-normal)"
+          }
         }
       },
       "wide": {
         "$type": "number",
-        "$value": 0.06,
+        "$value": 0.05999999865889549,
+        "$description": "Birdy font/letter-spacing/wide token. Source: Docs/Design system/Figma tokens/unpacked/. CSS letter spacing in em.",
         "$extensions": {
-          "com.figma.variableId": "VariableID:2:190",
-          "com.figma.scopes": [
-            "LETTER_SPACING"
-          ]
+          "com.figma.variableId": "VariableID:5:93",
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-font-letter-spacing-wide)"
+          }
         }
       }
     }
@@ -419,171 +555,239 @@
     "control-sm": {
       "$type": "number",
       "$value": 28,
+      "$description": "Birdy size/control-sm token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:191",
+        "com.figma.variableId": "VariableID:5:94",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-control-sm)"
+        }
       }
     },
     "control-md": {
       "$type": "number",
       "$value": 36,
+      "$description": "Birdy size/control-md token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:192",
+        "com.figma.variableId": "VariableID:5:95",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-control-md)"
+        }
       }
     },
     "control-lg": {
       "$type": "number",
       "$value": 44,
+      "$description": "Birdy size/control-lg token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:193",
+        "com.figma.variableId": "VariableID:5:96",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-control-lg)"
+        }
       }
     },
     "icon-sm": {
       "$type": "number",
       "$value": 14,
+      "$description": "Birdy size/icon-sm token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:194",
+        "com.figma.variableId": "VariableID:5:97",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-icon-sm)"
+        }
       }
     },
     "icon-md": {
       "$type": "number",
       "$value": 16,
+      "$description": "Birdy size/icon-md token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:195",
+        "com.figma.variableId": "VariableID:5:98",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-icon-md)"
+        }
       }
     },
     "icon-lg": {
       "$type": "number",
       "$value": 20,
+      "$description": "Birdy size/icon-lg token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:196",
+        "com.figma.variableId": "VariableID:5:99",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-icon-lg)"
+        }
       }
     },
     "avatar-xs": {
       "$type": "number",
       "$value": 20,
+      "$description": "Birdy size/avatar-xs token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:197",
+        "com.figma.variableId": "VariableID:5:100",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-avatar-xs)"
+        }
       }
     },
     "avatar-sm": {
       "$type": "number",
       "$value": 24,
+      "$description": "Birdy size/avatar-sm token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:198",
+        "com.figma.variableId": "VariableID:5:101",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-avatar-sm)"
+        }
       }
     },
     "avatar-md": {
       "$type": "number",
       "$value": 32,
+      "$description": "Birdy size/avatar-md token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:199",
+        "com.figma.variableId": "VariableID:5:102",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-avatar-md)"
+        }
       }
     },
     "avatar-lg": {
       "$type": "number",
       "$value": 56,
+      "$description": "Birdy size/avatar-lg token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:200",
+        "com.figma.variableId": "VariableID:5:103",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-avatar-lg)"
+        }
       }
     },
     "sidebar": {
       "$type": "number",
       "$value": 248,
+      "$description": "Birdy size/sidebar token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:201",
+        "com.figma.variableId": "VariableID:5:104",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-sidebar)"
+        }
       }
     },
     "topbar": {
       "$type": "number",
       "$value": 56,
+      "$description": "Birdy size/topbar token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:202",
+        "com.figma.variableId": "VariableID:5:105",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-topbar)"
+        }
       }
     },
     "drawer": {
       "$type": "number",
       "$value": 520,
+      "$description": "Birdy size/drawer token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:203",
+        "com.figma.variableId": "VariableID:5:106",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-drawer)"
+        }
       }
     },
     "assistant": {
       "$type": "number",
       "$value": 440,
+      "$description": "Birdy size/assistant token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:204",
+        "com.figma.variableId": "VariableID:5:107",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-assistant)"
+        }
       }
     },
     "content-max": {
       "$type": "number",
       "$value": 1200,
+      "$description": "Birdy size/content-max token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:205",
+        "com.figma.variableId": "VariableID:5:108",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-content-max)"
+        }
       }
     },
     "dialog-sm": {
       "$type": "number",
       "$value": 420,
+      "$description": "Birdy size/dialog-sm token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:206",
+        "com.figma.variableId": "VariableID:5:109",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-dialog-sm)"
+        }
       }
     },
     "dialog-md": {
       "$type": "number",
       "$value": 560,
+      "$description": "Birdy size/dialog-md token. Source: Docs/Design system/Figma tokens/unpacked/.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:207",
+        "com.figma.variableId": "VariableID:5:110",
         "com.figma.scopes": [
           "WIDTH_HEIGHT"
-        ]
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-dialog-md)"
+        }
       }
     }
   },
@@ -591,31 +795,34 @@
     "fast": {
       "$type": "number",
       "$value": 120,
+      "$description": "Birdy duration/fast token. Source: Docs/Design system/Figma tokens/unpacked/. Duration in milliseconds.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:208",
-        "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+        "com.figma.variableId": "VariableID:5:111",
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-duration-fast)"
+        }
       }
     },
     "normal": {
       "$type": "number",
       "$value": 200,
+      "$description": "Birdy duration/normal token. Source: Docs/Design system/Figma tokens/unpacked/. Duration in milliseconds.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:209",
-        "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+        "com.figma.variableId": "VariableID:5:112",
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-duration-normal)"
+        }
       }
     },
     "slow": {
       "$type": "number",
       "$value": 320,
+      "$description": "Birdy duration/slow token. Source: Docs/Design system/Figma tokens/unpacked/. Duration in milliseconds.",
       "$extensions": {
-        "com.figma.variableId": "VariableID:2:210",
-        "com.figma.scopes": [
-          "ALL_SCOPES"
-        ]
+        "com.figma.variableId": "VariableID:5:113",
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-duration-slow)"
+        }
       }
     }
   },
