@@ -193,14 +193,28 @@ this).
 
 - **Stylelint** (`.stylelintrc.json`): `stylelint-config-standard`,
   `stylelint-config-css-modules`, and `stylelint-declaration-strict-value` forcing
-  `var(…)` for color, background, font, spacing and radius properties. Custom properties
-  must match `--bd-*`. The generated token CSS is ignored.
+  `var(…)` for color, background, font, spacing, radius, shadow and stroke-width
+  properties (`box-shadow`, `text-shadow`, border and outline widths, `outline-offset`,
+  `text-underline-offset`), expanding shorthands such as `border`. Custom properties must
+  match `--bd-*`. The plugin skips values inside functions such as `calc()`; the validator
+  checks those. The generated CSS files are ignored.
 - **Validator** (`scripts/ds-validate.mjs`) implements the contract in
   `Docs/Design system/design-in-code architecture.md`, with these rule ids:
   `hardcoded-color`, `raw-spacing`, `raw-border-radius`, `non-token-font-family`,
   `raw-font-size`, `raw-typography`, `non-token-variable`, `local-token-override`,
-  `unscoped-style`, `global-component-leak`, plus **`inline-style`** (a `style={{…}}` prop
-  in a `.tsx` file).
+  `unscoped-style`, `global-component-leak`, `raw-shadow`, `raw-stroke-width`, `raw-size`,
+  `space-as-size`, `raw-length-in-calc`, `off-ramp-typography`, plus **`inline-style`** (a
+  `style={{…}}` prop in a `.tsx` file).
+  - `off-ramp-typography` applies to CSS Modules: a rule may set `font-family`,
+    `font-size`, `line-height` or `letter-spacing` only through
+    `composes: bd-type-<style> from global`, or by declaring one type style's five
+    values exactly (element selectors and data-attribute variants, which cannot compose).
+    `font-weight` alone is allowed for inline emphasis. The global stylesheet's element
+    defaults (`body`, headings) are the baseline and are not checked.
+  - `space-as-size` flags a bare `var(--bd-space-*)` as a width or height. Spacing tokens
+    inside `calc()` for gutters (`calc(100vw - var(--bd-space-8))`) are allowed.
+  - `raw-size` skips the visually-hidden pattern: a `1px` box in a rule that also sets
+    `clip-path: inset(50%)`.
   - Allowed values: `0`, `inherit`, `initial`, `unset`, `revert`, `normal`, `none`,
     `auto`, `transparent`, `currentcolor`.
   - Exempt: `src/styles/tokens.generated.css` and `src/styles/type.generated.css`.

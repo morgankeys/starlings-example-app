@@ -92,6 +92,10 @@ place to hide violations. Its contract is in
 [`Docs/Design system/design-in-code architecture.md`](../../Docs/Design%20system/design-in-code%20architecture.md).
 
 **Run `validate` after styling changes** and review the backlog diff before committing.
+Beyond color, spacing, radius and type tokens, it also flags hand-written shadows, raw
+border and outline widths, raw sizes and positions, spacing tokens used as sizes, raw
+pixels hidden in `calc()`, and type set outside a `.bd-type-*` style. The full rule list
+is in `Code/ARCHITECTURE.md`.
 
 ## Component variants
 

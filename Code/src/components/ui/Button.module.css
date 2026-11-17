@@ -37,7 +37,13 @@
   gap: var(--bd-space-1);
   height: var(--bd-size-control-sm);
   padding: 0 var(--bd-space-2);
+
+  /* label/sm: a data-attribute variant cannot compose, so it states the style's values. */
+  font-family: var(--bd-font-family-ui);
   font-size: var(--bd-font-size-sm);
+  font-weight: var(--bd-font-weight-medium);
+  line-height: var(--bd-font-line-height-tight);
+  letter-spacing: var(--bd-font-letter-spacing-normal);
 }
 
 .button[data-size='sm'] svg {

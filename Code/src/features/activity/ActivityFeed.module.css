@@ -33,9 +33,9 @@
 }
 
 .sentence {
+  composes: bd-type-body-md-compact from global;
   display: -webkit-box;
   overflow: hidden;
-  line-height: var(--bd-font-line-height-snug);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }

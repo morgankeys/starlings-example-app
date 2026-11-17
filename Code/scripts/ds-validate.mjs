@@ -14,7 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import postcss from 'postcss';
-import { CODE_DIR, PREFIX } from './lib/tokens-source.mjs';
+import { CODE_DIR, PREFIX, TYPE_STYLES } from './lib/tokens-source.mjs';
 
 const SRC = path.join(CODE_DIR, 'src');
 const BACKLOG = path.resolve(CODE_DIR, '../Docs/Design system/deviations-backlog.md');
@@ -36,6 +36,37 @@ const SPACING_PROPS =
   /^(margin|padding)(-(top|right|bottom|left|block|inline)(-(start|end))?)?$|^(gap|row-gap|column-gap)$/;
 const RADIUS_PROPS = /^border(-(top|bottom|start|end)-(left|right|start|end))?-radius$/;
 const KEYWORDS = /^(inherit|initial|unset|revert|normal|none|auto|0)$/i;
+const RAW_PX = /(?<![\w-])-?(?:\d*\.)?\d+(?:px|rem|em|pt)\b/i;
+const STROKE_PROPS =
+  /^(border(-(top|right|bottom|left|block|inline)(-(start|end))?)?(-width)?|outline(-width|-offset)?|text-underline-offset|text-decoration-thickness|column-rule(-width)?)$/;
+const SIZE_PROPS =
+  /^(width|height|min-width|max-width|min-height|max-height|inline-size|block-size|flex-basis)$/;
+const POSITION_PROPS = /^(top|right|bottom|left|inset(-(block|inline))?(-(start|end))?)$/;
+const TYPE_PROPS = ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing'];
+const TYPE_FIELDS = {
+  family: 'font-family',
+  size: 'font-size',
+  weight: 'font-weight',
+  lineHeight: 'font-line-height',
+  letterSpacing: 'font-letter-spacing',
+};
+/** Every reviewed type style as its five `var(--bd-…)` values, for off-ramp-typography. */
+const RAMP = Object.entries(JSON.parse(fs.readFileSync(TYPE_STYLES, 'utf8')).styles).map(
+  ([name, style]) => ({
+    name,
+    decls: Object.fromEntries(
+      Object.entries(TYPE_FIELDS).map(([field, group], i) => [
+        TYPE_PROPS[i],
+        `var(--${PREFIX}-${group}-${style[field]})`,
+      ]),
+    ),
+    textTransform: style.textTransform,
+  }),
+);
+/** Raw lengths inside calc(), min(), max() or clamp(), ignoring %, vw and vh. */
+const rawInMath = (v) =>
+  [...v.matchAll(/\b(?:calc|min|max|clamp)\(/g)].length > 0 &&
+  RAW_PX.test(v.replace(/var\([^)]*\)/g, ''));
 
 /** Remove namespace token names so their digits are not read as lengths or colors. */
 const stripTokens = (v) => v.replace(new RegExp(`--${PREFIX}-[\\w-]+`, 'g'), '--token');
@@ -109,6 +140,85 @@ function checkDecl(file, decl, { component }) {
   if (prop === 'font' && !KEYWORDS.test(value)) {
     add(file, line, 'raw-typography', `\`font\` shorthand: \`${value}\`.`);
   }
+  if ((prop === 'box-shadow' || prop === 'text-shadow') && !KEYWORDS.test(value)) {
+    if (
+      !new RegExp(`^var\\(--${PREFIX}-elevation-[\\w-]+\\)$`).test(value.trim()) ||
+      prop === 'text-shadow'
+    ) {
+      add(file, line, 'raw-shadow', `\`${prop}: ${value}\` is not a single elevation token.`);
+    }
+  }
+  if (STROKE_PROPS.test(prop) && RAW_PX.test(v.replace(/\b(?:calc|min|max|clamp)\(.*\)/g, ''))) {
+    add(file, line, 'raw-stroke-width', `\`${prop}: ${value}\` uses a raw width.`);
+  }
+  if (
+    SIZE_PROPS.test(prop) &&
+    new RegExp(`^var\\(--${PREFIX}-space-[\\w-]+\\)$`).test(value.trim())
+  ) {
+    add(
+      file,
+      line,
+      'space-as-size',
+      `\`${prop}: ${value}\` sizes an element with a spacing token.`,
+    );
+  }
+  if (
+    (SIZE_PROPS.test(prop) || POSITION_PROPS.test(prop)) &&
+    RAW_PX.test(v.replace(/\b(?:calc|min|max|clamp)\(.*\)/g, ''))
+  ) {
+    // The visually-hidden pattern (1px box clipped with inset(50%)) is not a design value.
+    const visuallyHidden =
+      /^1px$/.test(value.trim()) &&
+      decl.parent?.nodes?.some((n) => n.prop === 'clip-path' && /inset\(50%\)/.test(n.value));
+    if (!visuallyHidden) {
+      add(file, line, 'raw-size', `\`${prop}: ${value}\` uses a raw length; use a size token.`);
+    }
+  }
+  const foundation =
+    SPACING_PROPS.test(prop) ||
+    RADIUS_PROPS.test(prop) ||
+    STROKE_PROPS.test(prop) ||
+    SIZE_PROPS.test(prop) ||
+    POSITION_PROPS.test(prop) ||
+    prop === 'font-size';
+  if (foundation && rawInMath(value)) {
+    add(
+      file,
+      line,
+      'raw-length-in-calc',
+      `\`${prop}: ${value}\` hides a raw length in a math function.`,
+    );
+  }
+}
+
+/**
+ * A component rule may set font-family, font-size, line-height or letter-spacing only by
+ * composing a type style, or by declaring one style's five values exactly (selectors that
+ * cannot compose). font-weight alone is allowed for inline emphasis.
+ */
+function checkTypography(file, rule) {
+  const decls = {};
+  let transform;
+  rule.each((n) => {
+    if (n.type !== 'decl') return;
+    if (TYPE_PROPS.includes(n.prop)) decls[n.prop] = n.value.trim();
+    if (n.prop === 'text-transform') transform = n.value.trim();
+  });
+  const props = Object.keys(decls).filter((p) => p !== 'font-weight');
+  if (props.length === 0) return;
+  if (props.every((p) => /^(inherit|unset|initial)$/.test(decls[p]))) return;
+  const match = RAMP.find(
+    (s) =>
+      TYPE_PROPS.every((p) => decls[p] === s.decls[p]) &&
+      (s.textTransform ?? 'none') === (transform ?? 'none'),
+  );
+  if (match) return;
+  add(
+    file,
+    rule.source?.start?.line ?? 0,
+    'off-ramp-typography',
+    `\`${rule.selector.replace(/\s+/g, ' ')}\` sets ${props.join(', ')} outside a type style.`,
+  );
 }
 
 function checkCss(file) {
@@ -134,6 +244,12 @@ function checkCss(file) {
     });
   }
   root.walkDecls((decl) => checkDecl(rel, decl, { component: !isGlobal }));
+  if (isModule) {
+    root.walkRules((rule) => {
+      if (rule.parent?.type === 'atrule' && /keyframes/.test(rule.parent.name)) return;
+      checkTypography(rel, rule);
+    });
+  }
 }
 
 function checkTsx(file) {

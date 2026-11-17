@@ -21,7 +21,7 @@ captures, and the usage rules we should adopt before tightening validation.
 | New Primitives export into the repo | Done (2026-11-17) |
 | Code migration to elevation, stroke, size and type tokens | Done: 9 shadows, 67 widths and offsets, 15 sizes, 107 rules on `composes`, 6 element or variant rules on the style's primitives |
 | Type style names | Approved (renamed in Figma by the owner) |
-| Validation and lint rules                                                | Next phase                                                           |
+| Validation and lint rules | Done: six new validator rules and wider stylelint coverage; 8 one-off deviations logged with rationale |
 
 ## Summary
 

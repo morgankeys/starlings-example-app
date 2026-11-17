@@ -31,6 +31,12 @@ them stable once chosen, because rationale is matched on them.
 | `raw-typography` | A literal `font-weight`, `line-height`, or `letter-spacing`. |
 | `non-token-variable` | A CSS variable outside the project's token namespace (`--<prefix>-*`). |
 | `local-token-override` | A component redefining a namespace token with a literal value. |
+| `raw-shadow` | A `box-shadow` that is not a single elevation token (or `none`), and any `text-shadow`. |
+| `raw-stroke-width` | A raw length in a border or outline width, `outline-offset`, `text-underline-offset` or `text-decoration-thickness`. |
+| `raw-size` | A raw length in a width, height or position property (`top`, `inset` and so on). |
+| `space-as-size` | A spacing token used on its own as a width or height. |
+| `raw-length-in-calc` | A raw length inside `calc()`, `min()`, `max()` or `clamp()` in any spacing, radius, stroke, size, position or font-size property. |
+| `off-ramp-typography` | A component rule that sets family, size, line height or tracking outside a reviewed type style. |
 | `unscoped-style` | A style block in a component file that is not scoped. |
 | `global-component-leak` | Component-level selectors or styling in the global stylesheet. |
 

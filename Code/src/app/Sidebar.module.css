@@ -25,9 +25,8 @@
 }
 
 .orgName {
+  composes: bd-type-heading-md from global;
   overflow: hidden;
-  font-weight: var(--bd-font-weight-semibold);
-  line-height: var(--bd-font-line-height-snug);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -141,8 +140,8 @@
 }
 
 .userName {
+  composes: bd-type-body-md-compact from global;
   font-weight: var(--bd-font-weight-medium);
-  line-height: var(--bd-font-line-height-snug);
 }
 
 .userTitle {
