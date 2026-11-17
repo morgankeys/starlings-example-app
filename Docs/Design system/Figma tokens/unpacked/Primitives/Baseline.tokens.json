@@ -270,6 +270,17 @@
     }
   },
   "font": {
+    "underline-offset": {
+      "$type": "number",
+      "$value": 3,
+      "$description": "Birdy font/underline-offset token. Text underline offset for inline links and actions (CSS text-underline-offset). Hidden from pickers.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:82",
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-font-underline-offset)"
+        }
+      }
+    },
     "family": {
       "display": {
         "$type": "string",
@@ -297,8 +308,8 @@
       },
       "mono": {
         "$type": "string",
-        "$value": "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
-        "$description": "Birdy font/family/mono token. Source: Docs/Design system/Figma tokens/unpacked/. CSS fallback stack; not a single Figma font family.",
+        "$value": "\"DM Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
+        "$description": "Birdy font/family/mono token. Source: Docs/Design system/Figma tokens/unpacked/. CSS fallback stack; not a single Figma font family. DM Mono: keyboard shortcuts (Kbd) and other code-like text.",
         "$extensions": {
           "com.figma.variableId": "VariableID:5:75",
           "com.figma.codeSyntax": {
@@ -789,6 +800,118 @@
           "WEB": "var(--bd-size-dialog-md)"
         }
       }
+    },
+    "control-xs": {
+      "$type": "number",
+      "$value": 20,
+      "$description": "Birdy size/control-xs token. Extra-small fixed control height: Badge, Kbd.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:83",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-control-xs)"
+        }
+      }
+    },
+    "dot-sm": {
+      "$type": "number",
+      "$value": 6,
+      "$description": "Birdy size/dot-sm token. Small status dot, such as task timeline events.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:84",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-dot-sm)"
+        }
+      }
+    },
+    "dot-md": {
+      "$type": "number",
+      "$value": 8,
+      "$description": "Birdy size/dot-md token. Status and unread dots (Dot, notification dot).",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:85",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-dot-md)"
+        }
+      }
+    },
+    "progress-bar": {
+      "$type": "number",
+      "$value": 6,
+      "$description": "Birdy size/progress-bar token. Progress bar thickness.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:86",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-progress-bar)"
+        }
+      }
+    },
+    "skeleton-sm": {
+      "$type": "number",
+      "$value": 10,
+      "$description": "Birdy size/skeleton-sm token. Skeleton line height, sm.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:87",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-skeleton-sm)"
+        }
+      }
+    },
+    "skeleton-md": {
+      "$type": "number",
+      "$value": 12,
+      "$description": "Birdy size/skeleton-md token. Skeleton line height, md; inline pending placeholders.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:88",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-skeleton-md)"
+        }
+      }
+    },
+    "skeleton-lg": {
+      "$type": "number",
+      "$value": 32,
+      "$description": "Birdy size/skeleton-lg token. Skeleton block height, lg.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:89",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-skeleton-lg)"
+        }
+      }
+    },
+    "skeleton-inline": {
+      "$type": "number",
+      "$value": 64,
+      "$description": "Birdy size/skeleton-inline token. Width of an inline pending placeholder in assistant messages.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:90",
+        "com.figma.scopes": [
+          "WIDTH_HEIGHT"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-size-skeleton-inline)"
+        }
+      }
     }
   },
   "duration": {
@@ -822,6 +945,123 @@
         "com.figma.variableId": "VariableID:5:113",
         "com.figma.codeSyntax": {
           "WEB": "var(--bd-duration-slow)"
+        }
+      }
+    }
+  },
+  "elevation": {
+    "overlay-sm": {
+      "y": {
+        "$type": "number",
+        "$value": 8,
+        "$description": "Birdy elevation/overlay-sm/y token. Overlay sm shadow y offset. Composed into --bd-elevation-overlay-sm with blur and shadow/overlay. Anchored floating layers: menus, popovers, toasts, floating bars.",
+        "$extensions": {
+          "com.figma.variableId": "VariableID:27:74",
+          "com.figma.scopes": [
+            "EFFECT_FLOAT"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-elevation-overlay-sm-y)"
+          }
+        }
+      },
+      "blur": {
+        "$type": "number",
+        "$value": 24,
+        "$description": "Birdy elevation/overlay-sm/blur token. Overlay sm shadow blur. See elevation/overlay-sm/y.",
+        "$extensions": {
+          "com.figma.variableId": "VariableID:27:75",
+          "com.figma.scopes": [
+            "EFFECT_FLOAT"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-elevation-overlay-sm-blur)"
+          }
+        }
+      }
+    },
+    "overlay-lg": {
+      "y": {
+        "$type": "number",
+        "$value": 16,
+        "$description": "Birdy elevation/overlay-lg/y token. Overlay lg shadow y offset. Composed into --bd-elevation-overlay-lg. Modal and docked layers: dialogs, command palette, drawers and panels on small screens.",
+        "$extensions": {
+          "com.figma.variableId": "VariableID:27:76",
+          "com.figma.scopes": [
+            "EFFECT_FLOAT"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-elevation-overlay-lg-y)"
+          }
+        }
+      },
+      "blur": {
+        "$type": "number",
+        "$value": 48,
+        "$description": "Birdy elevation/overlay-lg/blur token. Overlay lg shadow blur. See elevation/overlay-lg/y.",
+        "$extensions": {
+          "com.figma.variableId": "VariableID:27:77",
+          "com.figma.scopes": [
+            "EFFECT_FLOAT"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "var(--bd-elevation-overlay-lg-blur)"
+          }
+        }
+      }
+    }
+  },
+  "stroke": {
+    "default": {
+      "$type": "number",
+      "$value": 1,
+      "$description": "Birdy stroke/default token. Default border and divider width.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:78",
+        "com.figma.scopes": [
+          "STROKE_FLOAT"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-stroke-default)"
+        }
+      }
+    },
+    "strong": {
+      "$type": "number",
+      "$value": 2,
+      "$description": "Birdy stroke/strong token. Emphasis stroke: selected-tab indicator, spinner ring, avatar ring.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:79",
+        "com.figma.scopes": [
+          "STROKE_FLOAT"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-stroke-strong)"
+        }
+      }
+    },
+    "focus-ring": {
+      "$type": "number",
+      "$value": 2,
+      "$description": "Birdy stroke/focus-ring token. Focus outline width. Pair with focus/ring color.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:80",
+        "com.figma.scopes": [
+          "STROKE_FLOAT"
+        ],
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-stroke-focus-ring)"
+        }
+      }
+    },
+    "focus-offset": {
+      "$type": "number",
+      "$value": 2,
+      "$description": "Birdy stroke/focus-offset token. Focus outline offset (CSS outline-offset). No Figma property; hidden from pickers.",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:27:81",
+        "com.figma.codeSyntax": {
+          "WEB": "var(--bd-stroke-focus-offset)"
         }
       }
     }

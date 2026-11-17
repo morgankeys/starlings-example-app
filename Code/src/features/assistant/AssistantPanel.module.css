@@ -1,10 +1,9 @@
 .title {
+  composes: bd-type-heading-md from global;
   display: inline-flex;
   align-items: center;
   gap: var(--bd-space-1-5);
   color: var(--bd-color-ai-default);
-  font-size: var(--bd-font-size-md);
-  font-weight: var(--bd-font-weight-semibold);
 }
 
 .title svg {
@@ -42,7 +41,7 @@
 }
 
 .welcomeTitle {
-  font-size: var(--bd-font-size-xl);
+  composes: bd-type-display-section from global;
 }
 
 .welcomeText {
@@ -61,7 +60,7 @@
 .suggestion {
   width: 100%;
   padding: var(--bd-space-2-5) var(--bd-space-3);
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-md);
   background: var(--bd-color-bg-raised);
   text-align: left;
@@ -104,11 +103,11 @@
 }
 
 .thinking {
+  composes: bd-type-body-sm from global;
   display: inline-flex;
   align-items: center;
   gap: var(--bd-space-2);
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .composer {
@@ -119,10 +118,10 @@
 }
 
 .context {
+  composes: bd-type-body-caption from global;
   display: flex;
   align-items: center;
   gap: var(--bd-space-2);
-  font-size: var(--bd-font-size-xs);
 }
 
 .contextLabel {
@@ -172,7 +171,7 @@
   align-items: flex-end;
   gap: var(--bd-space-2);
   padding: var(--bd-space-1-5);
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-md);
   background: var(--bd-color-bg-app);
 }
@@ -198,7 +197,7 @@
 }
 
 .disclaimer {
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
   text-align: center;
 }

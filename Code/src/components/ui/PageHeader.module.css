@@ -15,12 +15,12 @@
 }
 
 .eyebrow {
+  composes: bd-type-body-sm from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .title {
-  font-size: var(--bd-font-size-3xl);
+  composes: bd-type-display-page from global;
 }
 
 .description {

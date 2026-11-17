@@ -7,8 +7,8 @@
 }
 
 .heading {
+  composes: bd-type-display-card from global;
   padding: 0 var(--bd-space-2);
-  font-size: var(--bd-font-size-lg);
 }
 
 .loading {
@@ -67,6 +67,6 @@
 }
 
 .meta {
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
 }

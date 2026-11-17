@@ -33,14 +33,14 @@
 }
 
 .sentence {
+  composes: bd-type-body-md-compact from global;
   display: -webkit-box;
   overflow: hidden;
-  line-height: var(--bd-font-line-height-snug);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
 .time {
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
 }

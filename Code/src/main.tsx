@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles/tokens.generated.css';
+import './styles/type.generated.css';
 import './styles/global.css';
 import { App } from './app/App';
 import { applyStoredTheme } from './app/theme';

@@ -14,7 +14,7 @@
   gap: var(--bd-space-2);
   min-width: var(--bd-size-sidebar);
   padding: var(--bd-space-2);
-  border: 1px solid transparent;
+  border: var(--bd-stroke-default) solid transparent;
   border-radius: var(--bd-radius-lg);
   background: var(--bd-color-bg-sunken);
 }
@@ -39,15 +39,12 @@
 }
 
 .heading {
-  font-family: var(--bd-font-family-ui);
-  font-size: var(--bd-font-size-sm);
-  font-weight: var(--bd-font-weight-semibold);
-  letter-spacing: var(--bd-font-letter-spacing-normal);
+  composes: bd-type-heading-sm from global;
 }
 
 .count {
+  composes: bd-type-body-sm from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .spacer {
@@ -63,10 +60,10 @@
 }
 
 .empty {
+  composes: bd-type-body-sm from global;
   margin: 0;
   padding: var(--bd-space-4) var(--bd-space-2);
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
   text-align: center;
 }
 
@@ -76,7 +73,7 @@
   flex-direction: column;
   gap: var(--bd-space-2);
   padding: var(--bd-space-2-5) var(--bd-space-3);
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-md);
   background: var(--bd-color-bg-raised);
   list-style: none;
@@ -119,12 +116,12 @@
 }
 
 .meta {
+  composes: bd-type-body-caption from global;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--bd-space-1) var(--bd-space-3);
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
 }
 
 .meta:empty {
@@ -155,9 +152,9 @@
 }
 
 .due {
+  composes: bd-type-body-sm from global;
   flex: 1;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .due[data-due='overdue'] {
@@ -173,7 +170,7 @@
 .unassigned {
   width: var(--bd-size-avatar-sm);
   height: var(--bd-size-avatar-sm);
-  border: 1px dashed var(--bd-color-border-strong);
+  border: var(--bd-stroke-default) dashed var(--bd-color-border-strong);
   border-radius: var(--bd-radius-pill);
 }
 

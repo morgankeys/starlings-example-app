@@ -2,10 +2,10 @@
   z-index: 60;
   min-width: var(--bd-size-sidebar);
   padding: var(--bd-space-3);
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-md);
   background: var(--bd-color-bg-raised);
-  box-shadow: 0 8px 24px var(--bd-color-shadow-overlay);
+  box-shadow: var(--bd-elevation-overlay-sm);
 }
 
 .content[data-padding='none'] {

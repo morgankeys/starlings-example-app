@@ -1,14 +1,21 @@
 {
   "extends": ["stylelint-config-standard", "stylelint-config-css-modules"],
   "plugins": ["stylelint-declaration-strict-value"],
-  "ignoreFiles": ["src/styles/tokens.generated.css", "dist/**"],
+  "ignoreFiles": ["src/styles/tokens.generated.css", "src/styles/type.generated.css", "dist/**"],
   "rules": {
     "selector-class-pattern": null,
     "custom-property-pattern": [
       "^bd-[a-z0-9-]+$",
-      { "message": "Custom properties use the --bd-* token namespace" }
+      {
+        "message": "Custom properties use the --bd-* token namespace"
+      }
     ],
-    "value-keyword-case": ["lower", { "camelCaseSvgKeywords": false }],
+    "value-keyword-case": [
+      "lower",
+      {
+        "camelCaseSvgKeywords": false
+      }
+    ],
     "declaration-empty-line-before": null,
     "no-descending-specificity": null,
     "scale-unlimited/declaration-strict-value": [
@@ -26,7 +33,13 @@
         "gap",
         "row-gap",
         "column-gap",
-        "/radius$/"
+        "/radius$/",
+        "box-shadow",
+        "text-shadow",
+        "/^border(-(top|right|bottom|left|block|inline))?-width$/",
+        "outline-width",
+        "outline-offset",
+        "text-underline-offset"
       ],
       {
         "ignoreValues": [
@@ -40,10 +53,10 @@
           "auto",
           "0",
           "normal",
-          "/^calc\\(/",
           "/^var\\(/"
         ],
-        "disableFix": true
+        "disableFix": true,
+        "expandShorthand": true
       }
     ]
   }

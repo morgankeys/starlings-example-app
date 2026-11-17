@@ -72,9 +72,10 @@
   --bd-radius-lg: 10px;
   --bd-radius-xl: 14px;
   --bd-radius-pill: 999px;
+  --bd-font-underline-offset: 3px;
   --bd-font-family-display: "Bricolage Grotesque", "Instrument Sans", system-ui, sans-serif;
   --bd-font-family-ui: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --bd-font-family-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --bd-font-family-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --bd-font-size-xs: 12px;
   --bd-font-size-sm: 13px;
   --bd-font-size-md: 14px;
@@ -110,9 +111,27 @@
   --bd-size-content-max: 1200px;
   --bd-size-dialog-sm: 420px;
   --bd-size-dialog-md: 560px;
+  --bd-size-control-xs: 20px;
+  --bd-size-dot-sm: 6px;
+  --bd-size-dot-md: 8px;
+  --bd-size-progress-bar: 6px;
+  --bd-size-skeleton-sm: 10px;
+  --bd-size-skeleton-md: 12px;
+  --bd-size-skeleton-lg: 32px;
+  --bd-size-skeleton-inline: 64px;
   --bd-duration-fast: 120ms;
   --bd-duration-normal: 200ms;
   --bd-duration-slow: 320ms;
+  --bd-elevation-overlay-sm-y: 8px;
+  --bd-elevation-overlay-sm-blur: 24px;
+  --bd-elevation-overlay-lg-y: 16px;
+  --bd-elevation-overlay-lg-blur: 48px;
+  --bd-stroke-default: 1px;
+  --bd-stroke-strong: 2px;
+  --bd-stroke-focus-ring: 2px;
+  --bd-stroke-focus-offset: 2px;
+  --bd-elevation-overlay-sm: 0 var(--bd-elevation-overlay-sm-y) var(--bd-elevation-overlay-sm-blur) 0 var(--bd-color-shadow-overlay);
+  --bd-elevation-overlay-lg: 0 var(--bd-elevation-overlay-lg-y) var(--bd-elevation-overlay-lg-blur) 0 var(--bd-color-shadow-overlay);
 }
 
 :root[data-theme='dark'] {

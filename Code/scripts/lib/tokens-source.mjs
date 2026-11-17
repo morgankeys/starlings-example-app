@@ -9,6 +9,9 @@ export const CODE_DIR = path.resolve(here, '../..');
 export const TOKENS_DIR = path.resolve(CODE_DIR, '../Docs/Design system/Figma tokens');
 export const UNPACKED_DIR = path.join(TOKENS_DIR, 'unpacked');
 export const GENERATED_CSS = path.join(CODE_DIR, 'src/styles/tokens.generated.css');
+/** Reviewed type-style source (not a Figma export) and the classes generated from it. */
+export const TYPE_STYLES = path.resolve(CODE_DIR, '../Docs/Design system/type-styles.json');
+export const TYPE_CSS = path.join(CODE_DIR, 'src/styles/type.generated.css');
 export const PREFIX = 'bd';
 
 /** Modes that map to the dark theme. Every other mode is the base (`:root`). */

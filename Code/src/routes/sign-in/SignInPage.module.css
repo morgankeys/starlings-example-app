@@ -11,7 +11,7 @@
   gap: var(--bd-space-6);
   width: min(var(--bd-size-dialog-md), 100%);
   padding: var(--bd-space-10);
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-xl);
   background: var(--bd-color-bg-raised);
 }
@@ -23,7 +23,7 @@
 }
 
 .title {
-  font-size: var(--bd-font-size-3xl);
+  composes: bd-type-display-page from global;
 }
 
 .subtitle {
@@ -37,18 +37,18 @@
 }
 
 .divider {
+  composes: bd-type-body-sm from global;
   display: flex;
   align-items: center;
   gap: var(--bd-space-3);
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .divider::before,
 .divider::after {
   content: '';
   flex: 1;
-  height: 1px;
+  height: var(--bd-stroke-default);
   background: var(--bd-color-border-default);
 }
 
@@ -65,7 +65,7 @@
   gap: var(--bd-space-3);
   width: 100%;
   padding: var(--bd-space-2) var(--bd-space-3);
-  border: 1px solid transparent;
+  border: var(--bd-stroke-default) solid transparent;
   border-radius: var(--bd-radius-md);
   background: transparent;
   text-align: left;
@@ -88,8 +88,8 @@
 }
 
 .personRole {
+  composes: bd-type-body-sm from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .personArrow {

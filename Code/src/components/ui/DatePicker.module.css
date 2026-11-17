@@ -4,7 +4,7 @@
   gap: var(--bd-space-1-5);
   height: var(--bd-size-control-md);
   padding: 0 var(--bd-space-2-5);
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-sm);
   background: var(--bd-color-bg-raised);
   cursor: pointer;
@@ -44,20 +44,20 @@
 }
 
 .custom {
+  composes: bd-type-body-sm from global;
   display: flex;
   flex-direction: column;
   gap: var(--bd-space-1);
   margin-top: var(--bd-space-2);
   padding-top: var(--bd-space-3);
-  border-top: 1px solid var(--bd-color-border-default);
+  border-top: var(--bd-stroke-default) solid var(--bd-color-border-default);
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .input {
   height: var(--bd-size-control-md);
   padding: 0 var(--bd-space-2);
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-sm);
   background: var(--bd-color-bg-raised);
   color: var(--bd-color-text-default);

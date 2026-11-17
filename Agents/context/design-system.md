@@ -51,6 +51,18 @@ generated token file (`Code/src/styles/tokens.generated.css`), under the namespa
 - **Spacing**: `--bd-space-{0-5,1,1-5,2,2-5,3,4,5,6,8,10,12,16}` (4px scale)
 - **Sizes**: `--bd-size-*` for controls, icons, avatars and layout widths
 - **Motion**: `--bd-duration-{fast,normal,slow}`
+- **Elevation**: `--bd-elevation-overlay-sm` for anchored
+  floating layers, `--bd-elevation-overlay-lg` for modal and docked layers. Never write
+  shadow geometry by hand.
+- **Stroke**: `--bd-stroke-{default,strong,focus-ring,focus-offset}` for every border,
+  outline and divider width; `--bd-font-underline-offset` for text underlines
+- **Type styles**: `.bd-type-*` classes in `Code/src/styles/type.generated.css`, generated
+  from `Docs/Design system/type-styles.json`. Pick a style by role instead of assembling
+  font primitives. In a CSS Module, put `composes: bd-type-<style> from global;` first in a
+  single-class rule and set no other font properties there. Selectors that cannot compose
+  (element selectors such as `.doc h2`, data-attribute variants) set that style's exact
+  primitives instead. Weight alone may change for inline emphasis. Usage dos and don'ts for spacing, radius, elevation and type are in
+  `Docs/Design system/foundations-audit.md`.
 
 Tints are for the fill behind their own accent (chips, badges, icon tiles) and never for
 large surfaces.
@@ -80,6 +92,10 @@ place to hide violations. Its contract is in
 [`Docs/Design system/design-in-code architecture.md`](../../Docs/Design%20system/design-in-code%20architecture.md).
 
 **Run `validate` after styling changes** and review the backlog diff before committing.
+Beyond color, spacing, radius and type tokens, it also flags hand-written shadows, raw
+border and outline widths, raw sizes and positions, spacing tokens used as sizes, raw
+pixels hidden in `calc()`, and type set outside a `.bd-type-*` style. The full rule list
+is in `Code/ARCHITECTURE.md`.
 
 ## Component variants
 

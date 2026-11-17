@@ -49,7 +49,7 @@
   align-items: center;
   gap: var(--bd-space-3);
   padding: var(--bd-space-4);
-  border: 1px solid var(--bd-color-danger-tint);
+  border: var(--bd-stroke-default) solid var(--bd-color-danger-tint);
   border-radius: var(--bd-radius-md);
   background: var(--bd-color-danger-tint);
 }
@@ -73,8 +73,8 @@
 }
 
 .errorMessage {
+  composes: bd-type-body-sm from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .skeleton {
@@ -86,7 +86,7 @@
 
 .line {
   display: block;
-  height: var(--bd-space-3);
+  height: var(--bd-size-skeleton-md);
   border-radius: var(--bd-radius-xs);
   background: var(--bd-color-bg-pressed);
   animation: bd-pulse 1.4s ease-in-out infinite;
@@ -101,7 +101,7 @@
 }
 
 .skeleton[data-size='lg'] .line {
-  height: var(--bd-space-8);
+  height: var(--bd-size-skeleton-lg);
 }
 
 .skeleton[data-size='sm'] {
@@ -109,10 +109,11 @@
 }
 
 .skeleton[data-size='sm'] .line {
-  height: var(--bd-space-2-5);
+  height: var(--bd-size-skeleton-sm);
 }
 
 .notice {
+  composes: bd-type-body-sm from global;
   display: flex;
   align-items: flex-start;
   gap: var(--bd-space-2);
@@ -120,7 +121,6 @@
   border-radius: var(--bd-radius-md);
   background: var(--bd-color-accent-neutral-tint);
   color: var(--bd-color-text-default);
-  font-size: var(--bd-font-size-sm);
 }
 
 .notice svg {

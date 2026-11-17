@@ -14,7 +14,7 @@
   gap: var(--bd-space-2);
   height: 100%;
   padding: var(--bd-space-5);
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-lg);
   background: var(--bd-color-bg-raised);
 }
@@ -24,18 +24,16 @@
 }
 
 .name {
+  composes: bd-type-display-card from global;
   display: flex;
   align-items: center;
   gap: var(--bd-space-2);
-  font-family: var(--bd-font-family-display);
-  font-size: var(--bd-font-size-lg);
-  font-weight: var(--bd-font-weight-semibold);
 }
 
 .description {
+  composes: bd-type-body-sm from global;
   flex: 1;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .footer {
@@ -47,6 +45,6 @@
 }
 
 .stat {
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
 }

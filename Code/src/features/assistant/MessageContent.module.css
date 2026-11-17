@@ -1,8 +1,8 @@
 .content {
+  composes: bd-type-body-md from global;
   display: flex;
   flex-direction: column;
   gap: var(--bd-space-2-5);
-  line-height: var(--bd-font-line-height-normal);
 }
 
 .paragraph strong,
@@ -18,23 +18,21 @@
 }
 
 .sub {
+  composes: bd-type-body-sm from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .chip {
+  composes: bd-type-label-sm from global;
   display: inline-flex;
   align-items: center;
   gap: var(--bd-space-1);
   max-width: 100%;
   margin: 0 var(--bd-space-0-5);
   padding: 0 var(--bd-space-1-5);
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-xs);
   background: var(--bd-color-bg-raised);
-  font-size: var(--bd-font-size-sm);
-  font-weight: var(--bd-font-weight-medium);
-  line-height: var(--bd-font-line-height-snug);
   vertical-align: baseline;
   cursor: pointer;
 }
@@ -57,8 +55,8 @@
 
 .pending {
   display: inline-block;
-  width: var(--bd-space-16);
-  height: var(--bd-space-3);
+  width: var(--bd-size-skeleton-inline);
+  height: var(--bd-size-skeleton-md);
   border-radius: var(--bd-radius-xs);
   background: var(--bd-color-bg-pressed);
   vertical-align: middle;

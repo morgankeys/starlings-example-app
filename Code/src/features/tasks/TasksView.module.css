@@ -29,7 +29,11 @@
 .search input {
   height: var(--bd-size-control-sm);
   padding-left: var(--bd-space-8);
+  font-family: var(--bd-font-family-ui);
   font-size: var(--bd-font-size-sm);
+  font-weight: var(--bd-font-weight-regular);
+  line-height: var(--bd-font-line-height-normal);
+  letter-spacing: var(--bd-font-letter-spacing-normal);
 }
 
 .spacer {

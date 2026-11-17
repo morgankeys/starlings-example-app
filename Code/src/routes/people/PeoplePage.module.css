@@ -44,7 +44,7 @@
   gap: var(--bd-space-3);
   height: 100%;
   padding: var(--bd-space-4);
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-lg);
   background: var(--bd-color-bg-raised);
 }
@@ -68,12 +68,15 @@
   font-weight: var(--bd-font-weight-semibold);
 }
 
-.title,
-.teams {
-  color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
+.title {
+  composes: bd-type-body-sm from global;
 }
 
 .teams {
-  font-size: var(--bd-font-size-xs);
+  composes: bd-type-body-caption from global;
+}
+
+.title,
+.teams {
+  color: var(--bd-color-text-muted);
 }

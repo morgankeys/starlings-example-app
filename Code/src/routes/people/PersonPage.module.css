@@ -14,15 +14,15 @@
 }
 
 .heading {
-  font-size: var(--bd-font-size-xl);
+  composes: bd-type-display-section from global;
 }
 
 .details {
+  composes: bd-type-body-sm from global;
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
   gap: var(--bd-space-2) var(--bd-space-3);
   margin: 0;
-  font-size: var(--bd-font-size-sm);
 }
 
 .details dt svg {
@@ -45,8 +45,8 @@
 }
 
 .muted {
+  composes: bd-type-body-sm from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .teams {

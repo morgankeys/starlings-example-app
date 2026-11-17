@@ -4,13 +4,14 @@
   max-height: 70vh;
   padding: var(--bd-space-1);
   overflow-y: auto;
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-md);
   background: var(--bd-color-bg-raised);
-  box-shadow: 0 8px 24px var(--bd-color-shadow-overlay);
+  box-shadow: var(--bd-elevation-overlay-sm);
 }
 
 .item {
+  composes: bd-type-body-md from global;
   display: flex;
   align-items: center;
   gap: var(--bd-space-2);
@@ -18,7 +19,6 @@
   padding: var(--bd-space-1) var(--bd-space-2);
   border-radius: var(--bd-radius-xs);
   color: var(--bd-color-text-default);
-  font-size: var(--bd-font-size-md);
   cursor: pointer;
   outline: none;
   user-select: none;
@@ -64,8 +64,8 @@
 }
 
 .shortcut {
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
 }
 
 .check {
@@ -74,18 +74,15 @@
 }
 
 .separator {
-  height: 1px;
+  height: var(--bd-stroke-default);
   margin: var(--bd-space-1) 0;
   background: var(--bd-color-border-default);
 }
 
 .label {
+  composes: bd-type-heading-overline from global;
   padding: var(--bd-space-1-5) var(--bd-space-2) var(--bd-space-1);
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
-  font-weight: var(--bd-font-weight-semibold);
-  letter-spacing: var(--bd-font-letter-spacing-wide);
-  text-transform: uppercase;
 }
 
 /* Animate in only: Radix unmounts closed content as soon as no animation is running. */

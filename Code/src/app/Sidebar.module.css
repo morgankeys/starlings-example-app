@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  border-right: 1px solid var(--bd-color-border-default);
+  border-right: var(--bd-stroke-default) solid var(--bd-color-border-default);
   background: var(--bd-color-bg-sunken);
 }
 
@@ -25,16 +25,15 @@
 }
 
 .orgName {
+  composes: bd-type-heading-md from global;
   overflow: hidden;
-  font-weight: var(--bd-font-weight-semibold);
-  line-height: var(--bd-font-line-height-snug);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .plan {
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
 }
 
 .closeNav {
@@ -57,12 +56,9 @@
 }
 
 .heading {
+  composes: bd-type-heading-overline from global;
   padding: var(--bd-space-1) var(--bd-space-2-5);
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
-  font-weight: var(--bd-font-weight-semibold);
-  letter-spacing: var(--bd-font-letter-spacing-wide);
-  text-transform: uppercase;
 }
 
 .heading:hover {
@@ -104,14 +100,14 @@
 }
 
 .count {
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
 }
 
 .empty {
+  composes: bd-type-body-sm from global;
   padding: var(--bd-space-1) var(--bd-space-2-5);
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .demo {
@@ -144,14 +140,14 @@
 }
 
 .userName {
+  composes: bd-type-body-md-compact from global;
   font-weight: var(--bd-font-weight-medium);
-  line-height: var(--bd-font-line-height-snug);
 }
 
 .userTitle {
+  composes: bd-type-body-caption from global;
   overflow: hidden;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -172,7 +168,7 @@
   }
 
   [data-nav-open='true'] > .sidebar {
-    box-shadow: 0 16px 48px var(--bd-color-shadow-overlay);
+    box-shadow: var(--bd-elevation-overlay-lg);
     transform: none;
   }
 

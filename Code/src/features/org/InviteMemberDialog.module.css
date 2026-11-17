@@ -5,6 +5,6 @@
 }
 
 .formError {
+  composes: bd-type-body-sm from global;
   color: var(--bd-color-danger-default);
-  font-size: var(--bd-font-size-sm);
 }

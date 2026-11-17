@@ -40,8 +40,8 @@
 }
 
 .meta {
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
 }
 
 .star {
