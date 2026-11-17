@@ -308,8 +308,8 @@
       },
       "mono": {
         "$type": "string",
-        "$value": "ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
-        "$description": "Birdy font/family/mono token. Source: Docs/Design system/Figma tokens/unpacked/. CSS fallback stack; not a single Figma font family.",
+        "$value": "\"DM Mono\", ui-monospace, \"SF Mono\", Menlo, Consolas, monospace",
+        "$description": "Birdy font/family/mono token. Source: Docs/Design system/Figma tokens/unpacked/. CSS fallback stack; not a single Figma font family. DM Mono: keyboard shortcuts (Kbd) and other code-like text.",
         "$extensions": {
           "com.figma.variableId": "VariableID:5:75",
           "com.figma.codeSyntax": {

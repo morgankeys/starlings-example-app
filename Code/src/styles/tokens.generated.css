@@ -75,7 +75,7 @@
   --bd-font-underline-offset: 3px;
   --bd-font-family-display: "Bricolage Grotesque", "Instrument Sans", system-ui, sans-serif;
   --bd-font-family-ui: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --bd-font-family-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --bd-font-family-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --bd-font-size-xs: 12px;
   --bd-font-size-sm: 13px;
   --bd-font-size-md: 14px;
