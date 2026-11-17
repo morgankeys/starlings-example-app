@@ -55,11 +55,17 @@ Add tone overlays to project cards
 
 Do not write session-summary subjects: one commit describes one change, not everything a chat did.
 
-## Stop before push
+## Push proactively
 
-The agent creates the branch and the commits. The human pushes and opens the pull request.
+The agent creates the branch and the commits, then pushes the branch without asking, so work is never stranded in a local checkout. Push after each meaningful commit or set of commits with `git push -u origin HEAD`.
 
-Do not run `git push`, `gh pr create`, or anything else that writes to the remote unless the user asks in that turn. Invoking `/pr` is that ask — follow [`Agents/skills/pr/SKILL.md`](../skills/pr/SKILL.md). Without `/pr`, report the branch name and the commits so the user can take it from there.
+Still ask first, or wait for `/pr`, before:
+
+- opening a pull request (`gh pr create` or the equivalent). Invoking `/pr` is that ask — follow [`Agents/skills/pr/SKILL.md`](../skills/pr/SKILL.md);
+- pushing to the integration branch or the production branch;
+- force-pushing, deleting remote branches, or rewriting history someone else may have pulled.
+
+Once a branch has an open pull request, pushing further commits to it needs no extra ask. When you finish, report the branch name, the commits, and the pull request URL if there is one.
 
 ## Two chats editing at once
 

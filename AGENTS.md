@@ -70,9 +70,11 @@ moves and kit reuse.
    leave the "needs review" sentinel only when the reason is genuinely unclear.
 3. **Component styles are scoped and token-driven.** No inline styles, no hardcoded
    color, spacing, or radius.
-4. **Keep tracks of work organized, and stop before the remote.** Each track stays
-   recognizable in its branch, commits, and pull request. Never push or open a PR unless
-   asked; `/pr` is that ask.
+4. **Keep tracks of work organized, and push your own branch.** Each track stays
+   recognizable in its branch, commits, and pull request. Push the feature branch you are
+   working on after committing, without asking. Never push to the integration or
+   production branch, and never force-push or open a PR unless asked; `/pr` is the ask
+   to open one.
 5. **Sandbox, specimen, and sample pages never ship.** They render only on the local dev
    server. Never weaken whatever build check enforces this.
 6. **The token pipeline must preserve alpha.** Figma's variables export stores opacity in a
