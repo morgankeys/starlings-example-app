@@ -58,7 +58,7 @@
 }
 
 .group {
-  composes: bd-type-overline from global;
+  composes: bd-type-headings-overline from global;
   padding: var(--bd-space-2) var(--bd-space-2) var(--bd-space-1);
   color: var(--bd-color-text-muted);
 }

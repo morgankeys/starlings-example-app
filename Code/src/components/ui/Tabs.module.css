@@ -34,7 +34,7 @@
 }
 
 .count {
-  composes: bd-type-caption from global;
+  composes: bd-type-body-caption from global;
   padding: 0 var(--bd-space-1-5);
   border-radius: var(--bd-radius-pill);
   background: var(--bd-color-accent-neutral-tint);

@@ -33,7 +33,7 @@
 }
 
 .plan {
-  composes: bd-type-caption from global;
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
 }
 
@@ -57,7 +57,7 @@
 }
 
 .heading {
-  composes: bd-type-overline from global;
+  composes: bd-type-headings-overline from global;
   padding: var(--bd-space-1) var(--bd-space-2-5);
   color: var(--bd-color-text-muted);
 }
@@ -101,7 +101,7 @@
 }
 
 .count {
-  composes: bd-type-caption from global;
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
 }
 
@@ -146,7 +146,7 @@
 }
 
 .userTitle {
-  composes: bd-type-caption from global;
+  composes: bd-type-body-caption from global;
   overflow: hidden;
   color: var(--bd-color-text-muted);
   text-overflow: ellipsis;

@@ -20,7 +20,7 @@ captures, and the usage rules we should adopt before tightening validation.
 | Converter: elevation composition and type classes                        | Done; type classes generated in `Code/src/styles/type.generated.css` |
 | New Primitives export into the repo | Done (2026-11-17) |
 | Code migration to elevation, stroke, size and type tokens | Done: 9 shadows, 67 widths and offsets, 15 sizes, 107 rules on `composes`, 6 element or variant rules on the style's primitives |
-| Type style names                                                         | Provisional, pending owner review                                    |
+| Type style names | Approved (renamed in Figma by the owner) |
 | Validation and lint rules                                                | Next phase                                                           |
 
 ## Summary
@@ -226,32 +226,33 @@ Usage by primitive:
 
 - **Sizes:** `sm` 69, `xs` 30, `md` 9, `xl` 6, `lg` 5, `3xl` 3, `2xl` 2, `4xl` **0**.
 - **Weights:** `medium` 37, `semibold` 25, `regular` 2, `bold` 1 (logo only).
-- **Unused:** `font-family-mono` (Kbd uses the UI family), `font-size-4xl`,
-  `duration-slow`.
+- **Unused:** `font-size-4xl` and `duration-slow`. `font-family-mono` was unused until
+  Kbd adopted `label/mono`.
 
 ### Proposed type ramp
 
-These styles are derived from the combinations that actually occur. The adopted set (16
-styles, without `Mono/xs`) lives in [`type-styles.json`](type-styles.json). Each row replaces the
+These styles are derived from the combinations that actually occur. The adopted set (17 styles,
+renamed by the owner: display styles and overline under `headings/`, caption under `body/`)
+lives in [`type-styles.json`](type-styles.json). Each row replaces the
 ad hoc combinations listed under it.
 
 | Style             | Family  | Size   | Weight   | Line height | Tracking        | Replaces                                                                       |
 | ----------------- | ------- | ------ | -------- | ----------- | --------------- | ------------------------------------------------------------------------------ |
-| `Display/Page`    | display | 3xl 28 | semibold | tight       | tight           | PageHeader title, sign-in title                                                |
-| `Display/Panel`   | display | 2xl 22 | semibold | tight       | tight           | TaskPanel title                                                                |
-| `Display/Section` | display | xl 18  | semibold | tight       | tight           | Dialog title, assistant welcome, FilePanel name, doc `h2`                      |
-| `Display/Card`    | display | lg 16  | semibold | tight       | tight           | Project and team card names, FocusCard and thread-history headings             |
-| `Title/md`        | ui      | md 14  | semibold | snug        | normal          | Card title, notifications title, assistant title                               |
-| `Title/sm`        | ui      | sm 13  | semibold | snug        | normal          | Section titles in panels, groups and dialogs; board column heading; bulk count |
-| `Body/md`         | ui      | md 14  | regular  | normal      | normal          | `body`, dialog description, menu item                                          |
-| `Body/sm`         | ui      | sm 13  | regular  | normal      | normal          | Secondary text (about 50 uses)                                                 |
-| `Body/sm compact` | ui      | sm 13  | regular  | snug        | normal          | Notification excerpt, multi-line text in tight containers                      |
-| `Label/md`        | ui      | md 14  | medium   | tight       | normal          | Button                                                                         |
-| `Label/sm`        | ui      | sm 13  | medium   | snug        | normal          | Field label, segmented control, chips                                          |
-| `Label/xs`        | ui      | xs 12  | medium   | tight       | normal          | Badge, table header                                                            |
-| `Caption`         | ui      | xs 12  | regular  | snug        | normal          | Counts, metadata, tooltips (about 20 uses)                                     |
-| `Overline`        | ui      | xs 12  | semibold | tight       | wide, uppercase | Sidebar, menu, command palette and notification group labels                   |
-| `Mono/xs`         | mono    | xs 12  | medium   | tight       | normal          | Kbd, if it should be monospaced. Otherwise drop `font-family-mono`.            |
+| `headings/page`    | display | 3xl 28 | semibold | tight       | tight           | PageHeader title, sign-in title                                                |
+| `headings/panel`   | display | 2xl 22 | semibold | tight       | tight           | TaskPanel title                                                                |
+| `headings/section` | display | xl 18  | semibold | tight       | tight           | Dialog title, assistant welcome, FilePanel name, doc `h2`                      |
+| `headings/card`    | display | lg 16  | semibold | tight       | tight           | Project and team card names, FocusCard and thread-history headings             |
+| `title/md`        | ui      | md 14  | semibold | snug        | normal          | Card title, notifications title, assistant title                               |
+| `title/sm`        | ui      | sm 13  | semibold | snug        | normal          | Section titles in panels, groups and dialogs; board column heading; bulk count |
+| `body/md`         | ui      | md 14  | regular  | normal      | normal          | `body`, dialog description, menu item                                          |
+| `body/sm`         | ui      | sm 13  | regular  | normal      | normal          | Secondary text (about 50 uses)                                                 |
+| `body/sm-compact` | ui      | sm 13  | regular  | snug        | normal          | Notification excerpt, multi-line text in tight containers                      |
+| `label/md`        | ui      | md 14  | medium   | tight       | normal          | Button                                                                         |
+| `label/sm`        | ui      | sm 13  | medium   | snug        | normal          | Field label, segmented control, chips                                          |
+| `label/xs`        | ui      | xs 12  | medium   | tight       | normal          | Badge, table header                                                            |
+| `body/caption`         | ui      | xs 12  | regular  | snug        | normal          | Counts, metadata, tooltips (about 20 uses)                                     |
+| `headings/overline`        | ui      | xs 12  | semibold | tight       | wide, uppercase | Sidebar, menu, command palette and notification group labels                   |
+| `label/mono`         | mono    | xs 12  | medium   | tight       | normal          | Kbd keyboard shortcuts, in DM Mono            |
 
 The remaining one-offs (Logo wordmark, Avatar initials, FocusCard number) stay
 component-specific. They should still use primitives.
@@ -279,7 +280,7 @@ Family is the font name itself, not the CSS fallback stack.
   numerals meant as display. Everything interactive uses Instrument Sans.
 - **Do** use tight line height only for single-line text (titles, labels, badges). Use snug
   or normal for anything that can wrap.
-- **Do** use `Overline` (uppercase, wide tracking) only for group labels in navigation and
+- **Do** use `headings/overline` (uppercase, wide tracking) only for group labels in navigation and
   menus.
 - **Don't** reset heading defaults in components (`letter-spacing-normal` +
   `family-ui` on an `h3`). Apply the `Title/*` style instead.
@@ -312,7 +313,7 @@ Done in the library file on 2026-11-17.
 | `space/*`, `radius/*`, `font/size`, `font/weight`, `shadow/overlay` | Already captured; unchanged                                                                                                                                                                                                                                                                                                                                                                                                                |
 | New Primitives variables (17)                                       | `elevation/overlay-{sm,lg}/{y,blur}`; `stroke/{default,strong,focus-ring,focus-offset}`; `font/underline-offset`; `size/{control-xs,dot-sm,dot-md,progress-bar,skeleton-sm,skeleton-md,skeleton-lg,skeleton-inline}`. Each has scopes, WEB code syntax and a usage description. Primitives now has 77 variables.                                                                                                                           |
 | Effect styles (2)                                                   | `elevation/overlay-sm` and `elevation/overlay-lg`. The y offset, blur and color are bound to variables.                                                                                                                                                                                                                                                                                                                                    |
-| Text styles (16)                                                    | One per row of [`type-styles.json`](type-styles.json). Font size and weight are bound to `font/size/*` and `font/weight/*`. Line height and tracking are stored as percentages, and family as the font name, because Figma binds those fields to pixel values or font names and our variables hold ratios, em values and CSS stacks. Each description gives usage, tokens and the CSS class.                                               |
+| Text styles (17)                                                    | One per row of [`type-styles.json`](type-styles.json), including `label/mono` (DM Mono) added for Kbd. Font size and weight are bound to `font/size/*` and `font/weight/*`. Line height and tracking are stored as percentages, and family as the font name, because Figma binds those fields to pixel values or font names and our variables hold ratios, em values and CSS stacks. Each description gives usage, tokens and the CSS class.                                               |
 | Components                                                          | Text styles applied where they match code exactly: Badge (`label/xs`), Button (`label/md`, `label/sm`), Input and Input / Filled (`body/md`). Tooltip, Avatar and Kbd text now bind size and weight variables but keep their own line heights until code migrates. 56 borders bind `stroke/default` or `stroke/strong`. Badge and Kbd heights moved from `size/avatar-xs` to `size/control-xs`; Dot moved from `space/2` to `size/dot-md`. |
 
 The library also contains Button, Input, Avatar, Kbd, IconButton and Tooltip, which
@@ -337,8 +338,7 @@ These come after the Figma capture, in the validation phase.
      ramp exists in code.
 3. **Stylelint:** add `box-shadow` and the width properties to
    `declaration-strict-value`. Stop exempting `calc()` wholesale.
-4. **Removal candidates:** `font-size-4xl`, `font-family-mono` (unless Kbd adopts it) and
-   `duration-slow`. Remove them in Figma first, then regenerate.
+4. **Removal candidates:** `font-size-4xl` and `duration-slow`. Remove them in Figma first, then regenerate.
 
 ## Decisions
 
@@ -347,8 +347,10 @@ These come after the Figma capture, in the validation phase.
 2. **Type:** the reviewed source is [`type-styles.json`](type-styles.json). It produces Figma
    text styles bound to the primitive variables, and CSS classes `.bd-type-<style>` in
    `Code/src/styles/type.generated.css`, built by `npm run tokens`.
-3. **Type style names and Kbd:** pending owner review. Renaming is cheap: edit the JSON,
-   rerun `tokens`, rename the Figma styles.
+3. **Type style names and Kbd:** names approved, with display styles and overline grouped
+   under `headings/` and caption under `body/`. Kbd uses the new `label/mono` style in
+   DM Mono, loaded from Google Fonts and set as the first family in `font/family/mono`.
+   Table column headers use `label/sm` everywhere.
 4. **Stroke widths:** included.
 
 ## Appendix: type mapping
@@ -417,38 +419,38 @@ classes, they should stop implying a look: reset headings to inherit, so the cla
 | Toast              | `.description`                    | `body/sm`         | exact   | none                                                                |
 | WorkspaceSettings  | `.note`                           | `body/sm`         | exact   | none                                                                |
 | NotificationBell   | `.excerpt`                        | `body/sm-compact` | exact   | none                                                                |
-| ActivityFeed       | `.time`                           | `caption`         | exact   | none                                                                |
-| AssistantPanel     | `.context`                        | `caption`         | exact   | none                                                                |
-| AssistantPanel     | `.disclaimer`                     | `caption`         | exact   | none                                                                |
-| FileList           | `.meta`                           | `caption`         | exact   | none                                                                |
-| FilesPage          | `.sub`                            | `caption`         | exact   | none                                                                |
-| Menu               | `.shortcut`                       | `caption`         | exact   | none                                                                |
-| NotificationBell   | `.time`                           | `caption`         | exact   | none                                                                |
-| PeoplePage         | `.teams`                          | `caption`         | exact   | none                                                                |
-| ProjectsPage       | `.meta`                           | `caption`         | exact   | none                                                                |
-| QuickAdd           | `.hint`                           | `caption`         | exact   | none                                                                |
-| Sidebar            | `.plan`                           | `caption`         | exact   | none                                                                |
-| Sidebar            | `.count`                          | `caption`         | exact   | none                                                                |
-| Sidebar            | `.userTitle`                      | `caption`         | exact   | none                                                                |
-| Tabs               | `.count`                          | `caption`         | exact   | none                                                                |
-| TaskBoard          | `.meta`                           | `caption`         | exact   | none                                                                |
-| TaskPanel          | `.when`                           | `caption`         | exact   | none                                                                |
-| TaskRow            | `.meta`                           | `caption`         | exact   | none                                                                |
-| TeamsPage          | `.stat`                           | `caption`         | exact   | none                                                                |
-| ThreadHistory      | `.meta`                           | `caption`         | exact   | none                                                                |
-| Tooltip            | `.content`                        | `caption`         | changes | line height snug → normal                                           |
-| FocusCard          | `.title`                          | `display/card`    | exact   | none                                                                |
-| ProjectsPage       | `.name`                           | `display/card`    | changes | line height normal → tight; tracking normal → tight                 |
-| TeamsPage          | `.name`                           | `display/card`    | changes | line height normal → tight; tracking normal → tight                 |
-| ThreadHistory      | `.heading`                        | `display/card`    | exact   | none                                                                |
-| PageHeader         | `.title`                          | `display/page`    | exact   | none                                                                |
-| SignInPage         | `.title`                          | `display/page`    | exact   | none                                                                |
-| TaskPanel          | `.title`                          | `display/panel`   | changes | tracking normal → tight                                             |
-| AssistantPanel     | `.welcomeTitle`                   | `display/section` | exact   | none                                                                |
-| Dialog             | `.title`                          | `display/section` | exact   | none                                                                |
-| DocPreview         | `.doc h2`                         | `display/section` | changes | line height normal → tight                                          |
-| FilePanel          | `.name`                           | `display/section` | exact   | none                                                                |
-| PersonPage         | `.heading`                        | `display/section` | exact   | none                                                                |
+| ActivityFeed       | `.time`                           | `body/caption`         | exact   | none                                                                |
+| AssistantPanel     | `.context`                        | `body/caption`         | exact   | none                                                                |
+| AssistantPanel     | `.disclaimer`                     | `body/caption`         | exact   | none                                                                |
+| FileList           | `.meta`                           | `body/caption`         | exact   | none                                                                |
+| FilesPage          | `.sub`                            | `body/caption`         | exact   | none                                                                |
+| Menu               | `.shortcut`                       | `body/caption`         | exact   | none                                                                |
+| NotificationBell   | `.time`                           | `body/caption`         | exact   | none                                                                |
+| PeoplePage         | `.teams`                          | `body/caption`         | exact   | none                                                                |
+| ProjectsPage       | `.meta`                           | `body/caption`         | exact   | none                                                                |
+| QuickAdd           | `.hint`                           | `body/caption`         | exact   | none                                                                |
+| Sidebar            | `.plan`                           | `body/caption`         | exact   | none                                                                |
+| Sidebar            | `.count`                          | `body/caption`         | exact   | none                                                                |
+| Sidebar            | `.userTitle`                      | `body/caption`         | exact   | none                                                                |
+| Tabs               | `.count`                          | `body/caption`         | exact   | none                                                                |
+| TaskBoard          | `.meta`                           | `body/caption`         | exact   | none                                                                |
+| TaskPanel          | `.when`                           | `body/caption`         | exact   | none                                                                |
+| TaskRow            | `.meta`                           | `body/caption`         | exact   | none                                                                |
+| TeamsPage          | `.stat`                           | `body/caption`         | exact   | none                                                                |
+| ThreadHistory      | `.meta`                           | `body/caption`         | exact   | none                                                                |
+| Tooltip            | `.content`                        | `body/caption`         | changes | line height snug → normal                                           |
+| FocusCard          | `.title`                          | `headings/card`    | exact   | none                                                                |
+| ProjectsPage       | `.name`                           | `headings/card`    | changes | line height normal → tight; tracking normal → tight                 |
+| TeamsPage          | `.name`                           | `headings/card`    | changes | line height normal → tight; tracking normal → tight                 |
+| ThreadHistory      | `.heading`                        | `headings/card`    | exact   | none                                                                |
+| PageHeader         | `.title`                          | `headings/page`    | exact   | none                                                                |
+| SignInPage         | `.title`                          | `headings/page`    | exact   | none                                                                |
+| TaskPanel          | `.title`                          | `headings/panel`   | changes | tracking normal → tight                                             |
+| AssistantPanel     | `.welcomeTitle`                   | `headings/section` | exact   | none                                                                |
+| Dialog             | `.title`                          | `headings/section` | exact   | none                                                                |
+| DocPreview         | `.doc h2`                         | `headings/section` | changes | line height normal → tight                                          |
+| FilePanel          | `.name`                           | `headings/section` | exact   | none                                                                |
+| PersonPage         | `.heading`                        | `headings/section` | exact   | none                                                                |
 | Button             | `.button`                         | `label/md`        | exact   | none                                                                |
 | Button             | `.button[data-size='sm']`         | `label/sm`        | exact   | none                                                                |
 | DemoPanel          | `.trigger`                        | `label/sm`        | changes | line height normal → tight                                          |
@@ -461,7 +463,7 @@ classes, they should stop implying a look: reset headings to inherit, so the cla
 | SegmentedControl   | `.segment`                        | `label/sm`        | changes | line height normal → tight                                          |
 | SuggestedTasks     | `.chip`                           | `label/sm`        | changes | line height normal → tight                                          |
 | Badge              | `.badge`                          | `label/xs`        | exact   | none                                                                |
-| FilesPage          | `.table th`                       | `label/xs`        | changes | line height normal → tight                                          |
+| FilesPage | `.table th` | `label/sm` | changes | size xs → sm; line height normal → tight (matches the members table) |
 | NotificationBell   | `.badge`                          | `label/xs`        | changes | weight semibold → medium                                            |
 | Avatar             | `.avatar`                         | one-off           | —       | Component-specific; keep on primitives                              |
 | Avatar             | `.avatar[data-size='xs']`         | one-off           | —       | Component-specific; keep on primitives                              |
@@ -469,13 +471,13 @@ classes, they should stop implying a look: reset headings to inherit, so the cla
 | Avatar             | `.avatar[data-size='lg']`         | one-off           | —       | Component-specific; keep on primitives                              |
 | ComponentSpecimens | `.name`                           | one-off           | —       | Component-specific; keep on primitives                              |
 | FocusCard          | `.number`                         | one-off           | —       | Component-specific; keep on primitives                              |
-| Kbd                | `.kbd`                            | one-off           | —       | Component-specific; keep on primitives (Kbd: pending mono decision) |
+| Kbd | `.kbd` | `label/mono` | changes | family ui → mono; weight regular → medium |
 | Logo               | `.wordmark`                       | one-off           | —       | Component-specific; keep on primitives                              |
 | Logo               | `.logo[data-size='lg'] .wordmark` | one-off           | —       | Component-specific; keep on primitives                              |
-| CommandPalette     | `.group`                          | `overline`        | changes | line height normal → tight                                          |
-| Menu               | `.label`                          | `overline`        | changes | line height normal → tight                                          |
-| NotificationBell   | `.groupTitle`                     | `overline`        | exact   | none                                                                |
-| Sidebar            | `.heading`                        | `overline`        | changes | line height normal → tight                                          |
+| CommandPalette     | `.group`                          | `headings/overline`        | changes | line height normal → tight                                          |
+| Menu               | `.label`                          | `headings/overline`        | changes | line height normal → tight                                          |
+| NotificationBell   | `.groupTitle`                     | `headings/overline`        | exact   | none                                                                |
+| Sidebar            | `.heading`                        | `headings/overline`        | changes | line height normal → tight                                          |
 | AssistantPanel     | `.title`                          | `title/md`        | changes | line height normal → snug                                           |
 | Card               | `.title`                          | `title/md`        | changes | line height tight → snug                                            |
 | DocPreview         | `.doc h3`                         | `title/md`        | changes | line height normal → snug                                           |

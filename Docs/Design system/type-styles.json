@@ -1,7 +1,7 @@
 {
-  "$description": "Birdy type styles. The reviewed source for Figma text styles and the generated CSS classes in Code/src/styles/type.generated.css. Each field names a Primitives token: family → font/family/*, size → font/size/*, weight → font/weight/*, lineHeight → font/line-height/*, letterSpacing → font/letter-spacing/*. Style names match the Figma text style names; the CSS class is .bd-type-<name with / replaced by ->. Names are provisional pending owner review. See foundations-audit.md.",
+  "$description": "Birdy type styles. The reviewed source for Figma text styles and the generated CSS classes in Code/src/styles/type.generated.css. Each field names a Primitives token: family \u2192 font/family/*, size \u2192 font/size/*, weight \u2192 font/weight/*, lineHeight \u2192 font/line-height/*, letterSpacing \u2192 font/letter-spacing/*. Style names match the Figma text style names; the CSS class is .bd-type-<name with / replaced by ->. See foundations-audit.md.",
   "styles": {
-    "display/page": {
+    "headings/page": {
       "family": "display",
       "size": "3xl",
       "weight": "semibold",
@@ -9,7 +9,7 @@
       "letterSpacing": "tight",
       "usage": "Page titles (PageHeader, sign-in). One per page."
     },
-    "display/panel": {
+    "headings/panel": {
       "family": "display",
       "size": "2xl",
       "weight": "semibold",
@@ -17,7 +17,7 @@
       "letterSpacing": "tight",
       "usage": "Title of a docked panel or drawer, such as the task panel."
     },
-    "display/section": {
+    "headings/section": {
       "family": "display",
       "size": "xl",
       "weight": "semibold",
@@ -25,13 +25,22 @@
       "letterSpacing": "tight",
       "usage": "Dialog titles, panel section headings, welcome headings, document h2."
     },
-    "display/card": {
+    "headings/card": {
       "family": "display",
       "size": "lg",
       "weight": "semibold",
       "lineHeight": "tight",
       "letterSpacing": "tight",
       "usage": "Names and headings on cards and tiles (projects, teams, focus card)."
+    },
+    "headings/overline": {
+      "family": "ui",
+      "size": "xs",
+      "weight": "semibold",
+      "lineHeight": "tight",
+      "letterSpacing": "wide",
+      "textTransform": "uppercase",
+      "usage": "Group labels in navigation, menus and the command palette only."
     },
     "title/md": {
       "family": "ui",
@@ -89,6 +98,14 @@
       "letterSpacing": "normal",
       "usage": "Secondary text that wraps inside a tight row: notification excerpts."
     },
+    "body/caption": {
+      "family": "ui",
+      "size": "xs",
+      "weight": "regular",
+      "lineHeight": "normal",
+      "letterSpacing": "normal",
+      "usage": "Counts, timestamps, shortcuts and other small metadata."
+    },
     "label/md": {
       "family": "ui",
       "size": "md",
@@ -113,22 +130,13 @@
       "letterSpacing": "normal",
       "usage": "Badges and table column headers. Single line only."
     },
-    "caption": {
-      "family": "ui",
+    "label/mono": {
+      "family": "mono",
       "size": "xs",
-      "weight": "regular",
-      "lineHeight": "normal",
-      "letterSpacing": "normal",
-      "usage": "Counts, timestamps, shortcuts and other small metadata."
-    },
-    "overline": {
-      "family": "ui",
-      "size": "xs",
-      "weight": "semibold",
+      "weight": "medium",
       "lineHeight": "tight",
-      "letterSpacing": "wide",
-      "textTransform": "uppercase",
-      "usage": "Group labels in navigation, menus and the command palette only."
+      "letterSpacing": "normal",
+      "usage": "Keyboard shortcuts (Kbd) and other short code-like labels. Single line only."
     }
   }
 }

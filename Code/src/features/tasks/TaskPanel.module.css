@@ -25,7 +25,7 @@
 }
 
 .title {
-  composes: bd-type-display-panel from global;
+  composes: bd-type-headings-panel from global;
   width: 100%;
   margin: calc(-1 * var(--bd-space-1)) 0;
   padding: var(--bd-space-1);
@@ -215,7 +215,7 @@
 }
 
 .when {
-  composes: bd-type-caption from global;
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
 }
 

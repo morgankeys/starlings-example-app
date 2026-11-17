@@ -24,7 +24,7 @@
 }
 
 .name {
-  composes: bd-type-display-card from global;
+  composes: bd-type-headings-card from global;
   display: flex;
   align-items: center;
   gap: var(--bd-space-2);
@@ -45,6 +45,6 @@
 }
 
 .stat {
-  composes: bd-type-caption from global;
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
 }

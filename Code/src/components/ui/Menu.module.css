@@ -64,7 +64,7 @@
 }
 
 .shortcut {
-  composes: bd-type-caption from global;
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
 }
 
@@ -80,7 +80,7 @@
 }
 
 .label {
-  composes: bd-type-overline from global;
+  composes: bd-type-headings-overline from global;
   padding: var(--bd-space-1-5) var(--bd-space-2) var(--bd-space-1);
   color: var(--bd-color-text-muted);
 }

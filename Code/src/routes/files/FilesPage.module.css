@@ -62,7 +62,7 @@
   color: var(--bd-color-text-muted);
   text-align: left;
   font-family: var(--bd-font-family-ui);
-  font-size: var(--bd-font-size-xs);
+  font-size: var(--bd-font-size-sm);
   font-weight: var(--bd-font-weight-medium);
   line-height: var(--bd-font-line-height-tight);
   letter-spacing: var(--bd-font-letter-spacing-normal);
@@ -117,7 +117,7 @@
 }
 
 .sub {
-  composes: bd-type-caption from global;
+  composes: bd-type-body-caption from global;
   color: var(--bd-color-text-muted);
 }
 

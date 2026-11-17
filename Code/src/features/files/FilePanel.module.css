@@ -33,7 +33,7 @@
 }
 
 .name {
-  composes: bd-type-display-section from global;
+  composes: bd-type-headings-section from global;
   overflow-wrap: anywhere;
 }
 

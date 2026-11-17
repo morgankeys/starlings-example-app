@@ -41,7 +41,7 @@
 }
 
 .hint {
-  composes: bd-type-caption from global;
+  composes: bd-type-body-caption from global;
   display: inline-flex;
   align-items: center;
   gap: var(--bd-space-1);
