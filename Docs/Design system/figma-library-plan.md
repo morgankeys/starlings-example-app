@@ -7,7 +7,7 @@ Target: [Starlings Example — Birdy](https://www.figma.com/design/9Ap4SKUn0163n
 - **1. Inventory:** complete at the baseline above. The token sources and component table below define the initial inventory; inspect each implementation and usage again when building it.
 - **2. Variables:** created in the target file. `Color` has 50 COLOR variables in Light and Dark; `Primitives` has 57 FLOAT and 3 STRING variables in Baseline. All 160 mode values, types, names, and web syntax were compared with source. Color channels and alpha matched within 0.00001; four decimal FLOATs have Figma's small floating-point representation differences, listed below. No aliases were introduced.
 - **3. Export round trip:** passed on the provided exports. All 160 mode values were present with matching names and types; numeric values, RGB and alpha matched within 0.000001. The 21 translucent colors retained their intended alpha in generated CSS. The alpha guard now checks the opacity value as well as its presence; a deliberately altered opacity failed the guard in an isolated copy. The converter normalizes Figma's floating-point noise for typography, after which generated CSS matched the baseline byte for byte. `npm run build` and `npm run validate` passed; validation reported zero deviations.
-- **4. Components:** in progress. Spinner (three sizes), Dot (six colors), Badge (eleven tones), Button (30 variants), IconButton (12), Input and Input / Filled (5 states each), Avatar (24), Kbd and Tooltip exist in Figma. Spinner uses text/default as a representative currentColor and requires contextual color and motion fidelity checks. Badge's optional icon is not implemented yet. All remaining families and full fidelity review are pending.
+- **4. Components:** in progress. Figma now contains Spinner (3 sizes), Dot (6 colors), Badge (11 tones), Button (5 variants × 2 sizes × 3 states), Input and Input / Filled (5 states each), Avatar (4 sizes × 6 colors), IconButton (2 variants × 2 sizes × 3 states), Kbd, and Tooltip. Birdy plus icons are swappable in IconButton. A light/dark frame provides instance examples. These are initial components, not a completed library: Button still needs optional icons, loading and keyboard focus; Badge needs its optional icon; Input width and interaction behavior need checking; AvatarStack, tooltips on controls, and remaining families are pending. Spinner uses text/default as a representative currentColor and requires contextual color and motion fidelity checks. Kbd uses `Ctrl K` because the available Instrument Sans did not render the command glyph; verify a suitable Figma fallback for macOS.
 - **Foundations follow-up (2026-11-17):** elevation, stroke-width and extra size variables, 2 effect styles and 16 text styles were added, and existing components were rebound. See [`foundations-audit.md`](foundations-audit.md). The `Primitives` collection must be exported again to bring the 17 new variables into the repository.
 - **5. Fidelity and integration:** pending. Review Figma instances against the running app and update source documentation once the library is verified. Publishing and pushing are separate later actions.
 
@@ -48,6 +48,50 @@ The UI barrel is `Code/src/components/ui/index.ts`; each named component's TSX a
 
 Feature-specific task, file, sharing, assistant and route compositions are deferred beyond this initial shared library. Inventory them from `Code/src/features/` and `Code/src/routes/` in the later stage rather than treating every rendered feature as a primitive.
 
+## Execution authority and handoff
+
+The owner has authorized proactive work on the shared library: inspect Birdy code, make routine design decisions, edit the target Figma file, compare with the app, fix scoped issues, and update this plan without asking for routine implementation choices. Use Birdy sources rather than external design systems. Record meaningful choices, limitations and evidence below as work proceeds. Publishing the Figma library and merging a PR remain separate decisions; follow `Agents/context/git-workflow.md` for branches and remote writes.
+
+**Resume next:** complete Button and Badge icon support using Birdy's actual icon assets and an appropriate instance-swap interface. Then cover Button loading and keyboard focus, and check Spinner's contextual `currentColor` and motion. Inspect existing objects before editing, preserve their IDs where possible, and verify variants and bindings in both modes. Afterward continue with Field, Textarea, Select and Checkbox in dependency order. Use the Figma review frame [Birdy component review](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=19-74) and the local dev-only `/dev/components` specimens as starting points; expand coverage for cases they omit.
+
+**Repository handoff:** PR [#11](https://github.com/morgankeys/starlings-example-app/pull/11) landed the earlier token work on `main`. This plan is tracked on `docs/birdy-figma-library` (PR [#12](https://github.com/morgankeys/starlings-example-app/pull/12)), rebuilt on `main` after #11's squash merge. PR [#13](https://github.com/morgankeys/starlings-example-app/pull/13) adds the foundations audit, text and effect styles; it merges first and this branch rebases onto it. Recheck branch, PR and working-tree state before further Git operations. Figma changes live in the target file independently of Git.
+
+## Component checklist
+
+Status is evidence-based: **Created** means a Figma object exists; **structural** means its properties and bindings have been audited against code; **visual** means representative app and Figma instances were compared in both themes. “Sample” or “partial” does not pass the complete gate. Node links refer to the target file; update them if objects change.
+
+| Family | Created / Figma | Structural evidence | Visual evidence | Next work |
+| --- | --- | --- | --- | --- |
+| Spinner | [3 sizes](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=7-11) | Sample bindings checked | Arc inspected in both modes; app comparison pending | Contextual color, animation and fidelity |
+| Dot | [6 colors](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=8-8) | Sample bindings checked | Both-mode examples; app comparison pending | Audit all bindings and compare sizes/colors |
+| Badge | [11 tones](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=9-24) | Sample properties and bindings checked | Both-mode examples; app comparison pending | Optional icon, all variants and editable content |
+| Button / LinkButton | [30 variants](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=19-62) | Sample properties and bindings checked | Partial browser comparison; both-mode examples | Leading/trailing icons, loading, focus; compare remaining states |
+| IconButton | [12 variants](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=21-92) | Plus icon is swappable; full audit pending | Both-mode examples; app comparison pending | Other icons, contextual color, focus and tooltip |
+| Avatar / AvatarStack | [Avatar, 24 variants](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=20-78) | Full audit pending | Both-mode examples; app comparison pending | Stack, overflow, tooltip and full comparison |
+| Field / Input / Textarea / Select / Checkbox | [Input](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=19-73) and [filled Input](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=22-84), five states each | Sample Input bindings checked | Input both-mode examples; app comparison pending | Remaining controls, widths and interaction |
+| Breadcrumbs / Kbd / PageHeader | [Kbd](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=21-30) | Full audit pending | Kbd both-mode example; app comparison pending | Breadcrumbs, PageHeader, command glyph |
+| SegmentedControl / Tabs | Not started | Pending | Pending | Build from code |
+| Card | Not started | Pending | Pending | Build from code |
+| Menu | Not started | Pending | Pending | Build from code |
+| Popover / Tooltip / DatePicker | [Tooltip](https://www.figma.com/design/9Ap4SKUn0163nGwGI42yz7/Starlings-Example---Birdy?node-id=21-129) | Full audit pending | Tooltip screenshot only; app comparison pending | Popover, DatePicker and behavior review |
+| Dialog / SidePanel | Not started | Pending | Pending | Build from code |
+| Toast / Notice | Not started | Pending | Pending | Build from code |
+| EmptyState / ErrorState / Skeleton | Not started | Pending | Pending | Build from code |
+| Brand and reusable icons | Plus assets for IconButton only | Pending | Pending | Logo, task/file icons and other required assets |
+
+## Completion criteria and open decisions
+
+For each family, mark structural complete only after checking the code API against the Figma properties, supported variants and states, editable labels, optional content and icon swaps; audit relevant variable bindings and modes, with intentional fixed values explained. Mark visual complete only after comparing representative instances to browser specimens at matching scale in Light and Dark, covering the supported states and checking typography, dimensions, colors/opacity, icons and clipping. Record the comparison and limitations here. A family is complete only when both checks pass or a specific limitation has been explicitly accepted; a first screenshot alone is not a pass. Complete the entire agreed inventory before calling the library complete.
+
+| Decision or gap | Current status and next action |
+| --- | --- |
+| Spinner color and animation | Figma uses `text/default` for its arc; code uses contextual `currentColor` and rotates. Explore an editable contextual color and a faithful motion representation, then compare both modes and document any limitation. |
+| Button and Badge icons | Optional icon properties are missing. Add Birdy icon instances with swaps, sizing, visibility and appropriate contextual colors; verify layout and modes. |
+| Button loading and focus | Not yet represented. Match the code's loading behavior and keyboard focus styling without claiming unsupported interaction parity. |
+| Kbd command glyph | Instrument Sans did not render `⌘` in the current Figma environment. Find and verify a suitable fallback that preserves the code's appearance. |
+| Figma versus browser behavior | Tooltip trigger/fade, native controls, motion and responsive content may not map one-to-one. Document exact gaps and evidence instead of marking unsupported behavior complete. |
+| Code Connect and publishing | Assess mappings after component APIs stabilize; library publishing and PR merging are later separate decisions. |
+
 ## Export round-trip gate
 
 1. Export the `Color` and `Primitives` collections from Figma, one ZIP per collection, with the owner. Preserve the untouched baseline and work in an isolated repository copy.
@@ -60,3 +104,11 @@ Feature-specific task, file, sharing, assistant and route compositions are defer
 ## Component fidelity gate
 
 For each family, record source props, supported variants and states, corresponding Figma properties, dependency instances and bound variables. Compare browser specimens and Figma instances at matching size in Light and Dark: geometry, spacing, typography and available fonts, color/alpha, borders, icons, clipping, and the code-supported hover, focus, selected, error, disabled and loading states. Use extra targeted specimens for combinations absent from the existing page. Audit variant definitions, bindings and styles structurally; document behavior or unit conversions that Figma cannot directly represent. Follow the actual source rather than inventing states. Keep dev specimens out of production builds.
+
+### Progress notes
+
+- The review frame `Birdy component review` shows initial instances in both Color modes. Structural inspection checked sample Button, Input, Badge, Dot and Spinner bindings and variant definitions. It is not yet a complete fidelity audit.
+- Browser inspection of the local `/dev/components` page confirmed Button control heights, horizontal padding, gap, radius, typography and color roles. The Figma buttons were corrected to include the code's transparent one-pixel border, which affects their width. Remaining sizes, states, icons and interactions still need direct comparison.
+- Spinner's initially invisible leading arc was replaced with visible vector geometry and checked in both themes. Code uses `currentColor` and continuous rotation; the Figma default uses `text/default`, so nested contextual colors and animation remain unresolved.
+- IconButton includes plus icons as swappable instances; verify other icon choices, currentColor behavior, focus and tooltip against code. The sample Badge text property has a shared default across tones; labels remain editable.
+- Tooltip is a static content component; code supplies hover/focus triggering and fade behavior. Kbd's macOS command glyph fallback remains unresolved.
