@@ -70,5 +70,5 @@
 }
 
 .stack > * {
-  outline: 2px solid var(--bd-color-bg-raised);
+  outline: var(--bd-stroke-strong) solid var(--bd-color-bg-raised);
 }

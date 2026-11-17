@@ -1,10 +1,10 @@
 .kbd {
   display: inline-grid;
   place-items: center;
-  min-width: var(--bd-size-avatar-xs);
-  height: var(--bd-size-avatar-xs);
+  min-width: var(--bd-size-control-xs);
+  height: var(--bd-size-control-xs);
   padding: 0 var(--bd-space-1);
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-xs);
   background: var(--bd-color-bg-app);
   color: var(--bd-color-text-muted);

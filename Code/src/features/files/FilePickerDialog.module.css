@@ -54,6 +54,6 @@
 }
 
 .when {
+  composes: bd-type-body-sm from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }

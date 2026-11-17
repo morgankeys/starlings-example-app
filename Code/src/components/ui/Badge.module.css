@@ -1,14 +1,12 @@
 .badge {
+  composes: bd-type-label-xs from global;
   display: inline-flex;
   flex: none;
   align-items: center;
   gap: var(--bd-space-1);
-  height: var(--bd-size-avatar-xs);
+  height: var(--bd-size-control-xs);
   padding: 0 var(--bd-space-2);
   border-radius: var(--bd-radius-pill);
-  font-size: var(--bd-font-size-xs);
-  font-weight: var(--bd-font-weight-medium);
-  line-height: var(--bd-font-line-height-tight);
   white-space: nowrap;
 }
 
@@ -55,8 +53,8 @@
 .dot {
   display: inline-block;
   flex: none;
-  width: var(--bd-space-2);
-  height: var(--bd-space-2);
+  width: var(--bd-size-dot-md);
+  height: var(--bd-size-dot-md);
   border-radius: var(--bd-radius-pill);
 }
 

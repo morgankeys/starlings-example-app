@@ -27,9 +27,9 @@
 }
 
 .note {
+  composes: bd-type-body-sm from global;
   margin-top: var(--bd-space-3);
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .row {

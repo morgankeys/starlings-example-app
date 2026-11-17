@@ -11,11 +11,10 @@
 }
 
 .tab {
+  composes: bd-type-label-sm from global;
   padding: var(--bd-space-1) var(--bd-space-3);
   border-radius: var(--bd-radius-pill);
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
-  font-weight: var(--bd-font-weight-medium);
 }
 
 .tab:hover {
@@ -38,8 +37,8 @@
 }
 
 .count {
+  composes: bd-type-body-sm from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .controls {
@@ -50,7 +49,7 @@
 
 .table {
   width: 100%;
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-lg);
   background: var(--bd-color-bg-raised);
   border-spacing: 0;
@@ -59,17 +58,24 @@
 
 .table th {
   padding: var(--bd-space-2) var(--bd-space-3);
-  border-bottom: 1px solid var(--bd-color-border-default);
+  border-bottom: var(--bd-stroke-default) solid var(--bd-color-border-default);
   color: var(--bd-color-text-muted);
+  text-align: left;
+  font-family: var(--bd-font-family-ui);
   font-size: var(--bd-font-size-xs);
   font-weight: var(--bd-font-weight-medium);
-  text-align: left;
+  line-height: var(--bd-font-line-height-tight);
+  letter-spacing: var(--bd-font-letter-spacing-normal);
 }
 
 .table td {
   padding: var(--bd-space-1) var(--bd-space-3);
-  border-bottom: 1px solid var(--bd-color-border-default);
+  border-bottom: var(--bd-stroke-default) solid var(--bd-color-border-default);
+  font-family: var(--bd-font-family-ui);
   font-size: var(--bd-font-size-sm);
+  font-weight: var(--bd-font-weight-regular);
+  line-height: var(--bd-font-line-height-normal);
+  letter-spacing: var(--bd-font-letter-spacing-normal);
 }
 
 .table tbody tr:last-child td {
@@ -111,8 +117,8 @@
 }
 
 .sub {
+  composes: bd-type-caption from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-xs);
 }
 
 .lock,
@@ -156,7 +162,7 @@
 
 .tile {
   position: relative;
-  border: 1px solid var(--bd-color-border-default);
+  border: var(--bd-stroke-default) solid var(--bd-color-border-default);
   border-radius: var(--bd-radius-lg);
   background: var(--bd-color-bg-raised);
 }

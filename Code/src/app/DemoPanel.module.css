@@ -3,17 +3,16 @@
 }
 
 .trigger {
+  composes: bd-type-label-sm from global;
   display: inline-flex;
   align-items: center;
   gap: var(--bd-space-1-5);
   height: var(--bd-size-control-sm);
   padding: 0 var(--bd-space-3);
-  border: 1px dashed var(--bd-color-border-strong);
+  border: var(--bd-stroke-default) dashed var(--bd-color-border-strong);
   border-radius: var(--bd-radius-pill);
   background: var(--bd-color-bg-raised);
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
-  font-weight: var(--bd-font-weight-medium);
   cursor: pointer;
 }
 
@@ -40,8 +39,8 @@
 }
 
 .intro {
+  composes: bd-type-body-sm from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .section {
@@ -52,8 +51,7 @@
 }
 
 .label {
-  font-size: var(--bd-font-size-sm);
-  font-weight: var(--bd-font-weight-medium);
+  composes: bd-type-label-sm from global;
 }
 
 .row {

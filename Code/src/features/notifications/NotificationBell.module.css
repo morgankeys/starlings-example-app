@@ -5,6 +5,7 @@
 }
 
 .badge {
+  composes: bd-type-label-xs from global;
   position: absolute;
   top: calc(-1 * var(--bd-space-2));
   right: calc(-1 * var(--bd-space-2-5));
@@ -16,9 +17,6 @@
   border-radius: var(--bd-radius-pill);
   background: var(--bd-color-danger-bg);
   color: var(--bd-color-danger-text);
-  font-size: var(--bd-font-size-xs);
-  font-weight: var(--bd-font-weight-semibold);
-  line-height: var(--bd-font-line-height-tight);
 }
 
 .panel {
@@ -35,14 +33,11 @@
   justify-content: space-between;
   gap: var(--bd-space-2);
   padding: var(--bd-space-2) var(--bd-space-2) var(--bd-space-2) var(--bd-space-4);
-  border-bottom: 1px solid var(--bd-color-border-default);
+  border-bottom: var(--bd-stroke-default) solid var(--bd-color-border-default);
 }
 
 .title {
-  font-family: var(--bd-font-family-ui);
-  font-size: var(--bd-font-size-md);
-  font-weight: var(--bd-font-weight-semibold);
-  letter-spacing: var(--bd-font-letter-spacing-normal);
+  composes: bd-type-title-md from global;
 }
 
 .scroll {
@@ -62,13 +57,9 @@
 }
 
 .groupTitle {
+  composes: bd-type-overline from global;
   padding: var(--bd-space-2) var(--bd-space-2) var(--bd-space-1);
   color: var(--bd-color-text-muted);
-  font-family: var(--bd-font-family-ui);
-  font-size: var(--bd-font-size-xs);
-  font-weight: var(--bd-font-weight-semibold);
-  letter-spacing: var(--bd-font-letter-spacing-wide);
-  text-transform: uppercase;
 }
 
 .list {
@@ -103,8 +94,7 @@
 }
 
 .sentence {
-  font-size: var(--bd-font-size-md);
-  line-height: var(--bd-font-line-height-snug);
+  composes: bd-type-body-md-compact from global;
 }
 
 .actor,
@@ -118,24 +108,23 @@
 }
 
 .excerpt {
+  composes: bd-type-body-sm-compact from global;
   display: -webkit-box;
   overflow: hidden;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
-  line-height: var(--bd-font-line-height-snug);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
 
 .time {
+  composes: bd-type-caption from global;
   color: var(--bd-color-text-placeholder);
-  font-size: var(--bd-font-size-xs);
 }
 
 .dot {
   flex: none;
-  width: var(--bd-space-2);
-  height: var(--bd-space-2);
+  width: var(--bd-size-dot-md);
+  height: var(--bd-size-dot-md);
   margin-top: var(--bd-space-2);
   border-radius: var(--bd-radius-pill);
   background: var(--bd-color-link-default);

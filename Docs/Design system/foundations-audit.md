@@ -18,8 +18,8 @@ captures, and the usage rules we should adopt before tightening validation.
 | Audit (this document)                                                    | Done                                                                 |
 | Figma capture: variables, effect styles, text styles, component bindings | Done (see [Figma capture](#figma-capture))                           |
 | Converter: elevation composition and type classes                        | Done; type classes generated in `Code/src/styles/type.generated.css` |
-| New Primitives export into the repo                                      | **Waiting for an export of the `Primitives` collection**             |
-| Code migration to elevation, stroke, size and type tokens                | After the export                                                     |
+| New Primitives export into the repo | Done (2026-11-17) |
+| Code migration to elevation, stroke, size and type tokens | Done: 9 shadows, 67 widths and offsets, 15 sizes, 107 rules on `composes`, 6 element or variant rules on the style's primitives |
 | Type style names                                                         | Provisional, pending owner review                                    |
 | Validation and lint rules                                                | Next phase                                                           |
 
@@ -322,7 +322,7 @@ The library also contains Button, Input, Avatar, Kbd, IconButton and Tooltip, wh
 
 These come after the Figma capture, in the validation phase.
 
-1. **Code migration** (after the export): replace the 9 hardcoded shadows with
+1. **Code migration** (done): replace the 9 hardcoded shadows with
    `--bd-elevation-*`, raw border and outline widths with `--bd-stroke-*`, spacing tokens
    used as sizes with `--bd-size-*`, and component type declarations with `.bd-type-*`
    classes (applied in markup or with `composes: … from global`). Review the line-height

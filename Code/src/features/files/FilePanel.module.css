@@ -33,14 +33,21 @@
 }
 
 .name {
-  font-size: var(--bd-font-size-xl);
+  composes: bd-type-display-section from global;
   overflow-wrap: anywhere;
+}
+
+.meta {
+  composes: bd-type-body-sm from global;
+}
+
+.muted {
+  composes: bd-type-body-sm from global;
 }
 
 .meta,
 .muted {
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .ask {
@@ -60,10 +67,9 @@
 }
 
 .askText {
+  composes: bd-type-label-sm from global;
   flex: 1;
   color: var(--bd-color-ai-default);
-  font-size: var(--bd-font-size-sm);
-  font-weight: var(--bd-font-weight-medium);
 }
 
 .askActions {
@@ -88,9 +94,7 @@
 }
 
 .sectionTitle {
-  font-family: var(--bd-font-family-ui);
-  font-size: var(--bd-font-size-sm);
-  letter-spacing: var(--bd-font-letter-spacing-normal);
+  composes: bd-type-title-sm from global;
 }
 
 .noPreview {
@@ -99,7 +103,7 @@
   align-items: center;
   gap: var(--bd-space-3);
   padding: var(--bd-space-10) var(--bd-space-6);
-  border: 1px dashed var(--bd-color-border-strong);
+  border: var(--bd-stroke-default) dashed var(--bd-color-border-strong);
   border-radius: var(--bd-radius-md);
   color: var(--bd-color-text-muted);
   text-align: center;
@@ -137,11 +141,11 @@
 }
 
 .details {
+  composes: bd-type-body-sm from global;
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
   gap: var(--bd-space-2) var(--bd-space-4);
   margin: 0;
-  font-size: var(--bd-font-size-sm);
 }
 
 .details dt {

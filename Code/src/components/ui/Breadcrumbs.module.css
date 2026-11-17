@@ -3,13 +3,13 @@
 }
 
 .list {
+  composes: bd-type-body-sm from global;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--bd-space-1);
   list-style: none;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .item {

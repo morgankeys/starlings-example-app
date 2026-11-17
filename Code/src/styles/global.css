@@ -64,8 +64,8 @@ svg {
 }
 
 :focus-visible {
-  outline: 2px solid var(--bd-color-focus-ring);
-  outline-offset: 2px;
+  outline: var(--bd-stroke-focus-ring) solid var(--bd-color-focus-ring);
+  outline-offset: var(--bd-stroke-focus-offset);
 }
 
 ::selection {

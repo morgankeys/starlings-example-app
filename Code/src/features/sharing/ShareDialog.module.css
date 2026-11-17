@@ -17,9 +17,7 @@
 }
 
 .heading {
-  font-family: var(--bd-font-family-ui);
-  font-size: var(--bd-font-size-sm);
-  letter-spacing: var(--bd-font-letter-spacing-normal);
+  composes: bd-type-title-sm from global;
 }
 
 .list {
@@ -55,16 +53,16 @@
 }
 
 .sub {
+  composes: bd-type-body-sm from global;
   overflow: hidden;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .level {
+  composes: bd-type-body-sm from global;
   color: var(--bd-color-text-muted);
-  font-size: var(--bd-font-size-sm);
 }
 
 .teamIcon {
@@ -97,7 +95,7 @@
   display: flex;
   justify-content: space-between;
   padding-top: var(--bd-space-4);
-  border-top: 1px solid var(--bd-color-border-default);
+  border-top: var(--bd-stroke-default) solid var(--bd-color-border-default);
 }
 
 @media (width <= 560px) {

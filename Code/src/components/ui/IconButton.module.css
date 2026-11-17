@@ -5,7 +5,7 @@
   width: var(--bd-size-control-md);
   height: var(--bd-size-control-md);
   padding: 0;
-  border: 1px solid transparent;
+  border: var(--bd-stroke-default) solid transparent;
   border-radius: var(--bd-radius-sm);
   background: transparent;
   color: var(--bd-color-text-muted);
