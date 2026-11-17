@@ -1,7 +1,7 @@
 {
   "extends": ["stylelint-config-standard", "stylelint-config-css-modules"],
   "plugins": ["stylelint-declaration-strict-value"],
-  "ignoreFiles": ["src/styles/tokens.generated.css", "dist/**"],
+  "ignoreFiles": ["src/styles/tokens.generated.css", "src/styles/type.generated.css", "dist/**"],
   "rules": {
     "selector-class-pattern": null,
     "custom-property-pattern": [

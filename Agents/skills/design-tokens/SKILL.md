@@ -38,7 +38,11 @@ same names.
    several Figma collections export a file with the same name, `Baseline.tokens.json`, and
    would overwrite each other.
 2. **Build.** The converter reads the unpacked JSON and writes the generated token CSS,
-   whose header marks it as generated.
+   whose header marks it as generated. It also composes `elevation/<level>/{x,y,blur,spread}`
+   into one `--bd-elevation-<level>` shadow, and turns
+   `Docs/Design system/type-styles.json` (a reviewed source, not a Figma export) into
+   `.bd-type-*` classes in `type.generated.css`. A type style that names a missing token
+   fails the run.
 
 The unpacked JSON is **tracked in git** on purpose, so a token change shows up as a
 readable diff in the pull request. The generated CSS can be ignored or tracked; the

@@ -7,6 +7,7 @@
 //
 // Scope: every .css file under src/ plus inline `style={{…}}` props in .tsx files.
 //   - src/styles/tokens.generated.css  exempt (generated)
+//   - src/styles/type.generated.css    exempt (generated)
 //   - src/styles/global.css            the one global stylesheet
 //   - **/*.module.css                   scoped component styles
 //   - any other .css                    flagged as unscoped-style
@@ -17,7 +18,7 @@ import { CODE_DIR, PREFIX } from './lib/tokens-source.mjs';
 
 const SRC = path.join(CODE_DIR, 'src');
 const BACKLOG = path.resolve(CODE_DIR, '../Docs/Design system/deviations-backlog.md');
-const GENERATED = 'src/styles/tokens.generated.css';
+const GENERATED = new Set(['src/styles/tokens.generated.css', 'src/styles/type.generated.css']);
 const GLOBAL = 'src/styles/global.css';
 const SENTINEL = 'Unknown — needs review';
 const strict = process.argv.includes('--strict');
@@ -112,7 +113,7 @@ function checkDecl(file, decl, { component }) {
 
 function checkCss(file) {
   const rel = path.relative(CODE_DIR, file).split(path.sep).join('/');
-  if (rel === GENERATED) return;
+  if (GENERATED.has(rel)) return;
   const isModule = rel.endsWith('.module.css');
   const isGlobal = rel === GLOBAL;
   if (!isModule && !isGlobal) {

@@ -51,6 +51,14 @@ generated token file (`Code/src/styles/tokens.generated.css`), under the namespa
 - **Spacing**: `--bd-space-{0-5,1,1-5,2,2-5,3,4,5,6,8,10,12,16}` (4px scale)
 - **Sizes**: `--bd-size-*` for controls, icons, avatars and layout widths
 - **Motion**: `--bd-duration-{fast,normal,slow}`
+- **Elevation** (after the next Primitives export): `--bd-elevation-overlay-sm` for anchored
+  floating layers, `--bd-elevation-overlay-lg` for modal and docked layers. Never write
+  shadow geometry by hand.
+- **Stroke** (after the next Primitives export): `--bd-stroke-{default,strong,focus-ring,focus-offset}`
+- **Type styles**: `.bd-type-*` classes in `Code/src/styles/type.generated.css`, generated
+  from `Docs/Design system/type-styles.json`. Pick a style by role instead of assembling
+  font primitives. Usage dos and don'ts for spacing, radius, elevation and type are in
+  `Docs/Design system/foundations-audit.md`.
 
 Tints are for the fill behind their own accent (chips, badges, icon tiles) and never for
 large surfaces.

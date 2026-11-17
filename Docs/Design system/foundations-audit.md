@@ -9,7 +9,19 @@ captures, and the usage rules we should adopt before tightening validation.
   inline `style={{}}` props.
 - **Figma scope:** the library file's two variable collections and its components.
 - **Method:** a PostCSS pass over every declaration, plus a read of the Figma file's
-  variables, styles and component bindings. No files or Figma nodes were changed.
+  variables, styles and component bindings.
+
+## Status
+
+| Step                                                                     | State                                                                |
+| ------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| Audit (this document)                                                    | Done                                                                 |
+| Figma capture: variables, effect styles, text styles, component bindings | Done (see [Figma capture](#figma-capture))                           |
+| Converter: elevation composition and type classes                        | Done; type classes generated in `Code/src/styles/type.generated.css` |
+| New Primitives export into the repo                                      | **Waiting for an export of the `Primitives` collection**             |
+| Code migration to elevation, stroke, size and type tokens                | After the export                                                     |
+| Type style names                                                         | Provisional, pending owner review                                    |
+| Validation and lint rules                                                | Next phase                                                           |
 
 ## Summary
 
@@ -80,8 +92,8 @@ captured.** Only the misuses above need fixing.
 - **Do** use `gap` on flex or grid parents rather than margins on children. Use margins only
   for one-off optical offsets, and say why in a comment.
 - **Don't** use `space-*` for `width`, `height`, `top` or `left` sizing of an element. Use a
-  `size-*` token, and add one (for example `size/dot`, `size/indicator`,
-  `size/skeleton-line`) if none fits. Offsets for absolutely positioned children
+  `size-*` token (`size/dot-*`, `size/progress-bar`, `size/skeleton-*`,
+  `size/control-xs`), and add one if none fits. Offsets for absolutely positioned children
   (`top`, `right`) may use space tokens, because they are distances.
 - **Don't** borrow another component's size token (`size-avatar-xs` for Badge height). Add
   a shared `size/control-xs` (20px) instead.
@@ -163,23 +175,24 @@ effect styles**, and no built component has an effect. **Elevation is not captur
 
 ### Proposed tokens
 
-| Figma                               | CSS                      | Value                            |
-| ----------------------------------- | ------------------------ | -------------------------------- |
-| Effect style `Elevation/Overlay sm` | `--bd-shadow-overlay-sm` | `0 8px 24px` + `shadow/overlay`  |
-| Effect style `Elevation/Overlay lg` | `--bd-shadow-overlay-lg` | `0 16px 48px` + `shadow/overlay` |
+| Figma                               | CSS                         | Value                            |
+| ----------------------------------- | --------------------------- | -------------------------------- |
+| Effect style `elevation/overlay-sm` | `--bd-elevation-overlay-sm` | `0 8px 24px` + `shadow/overlay`  |
+| Effect style `elevation/overlay-lg` | `--bd-elevation-overlay-lg` | `0 16px 48px` + `shadow/overlay` |
 
 The effect styles bind their y offset, blur and color to variables, so the values stay
 round-trippable. Figma's variables export does not include effect styles. So the pipeline
-needs FLOAT variables (for example `shadow/overlay-sm/y` and `shadow/overlay-sm/blur`), and
-the converter must compose them into one `--bd-shadow-*` value. See [Decisions](#decisions-needed).
+has FLOAT variables `elevation/<level>/{y,blur}`, and the converter composes them into one
+`--bd-elevation-<level>` value. The color comes from `shadow/<level without its size suffix>`,
+so `overlay-sm` uses `--bd-color-shadow-overlay`.
 
 ### Dos and don'ts
 
 - **Do** separate resting surfaces with `border-default` and background steps (`bg-app`,
   `bg-raised`, `bg-sunken`), not shadows.
-- **Do** use `shadow-overlay-sm` for anchored floating layers: menus, popovers, toasts,
+- **Do** use `elevation-overlay-sm` for anchored floating layers: menus, popovers, toasts,
   floating action bars.
-- **Do** use `shadow-overlay-lg` for modal or docked layers that cover content: dialogs, the
+- **Do** use `elevation-overlay-lg` for modal or docked layers that cover content: dialogs, the
   command palette, drawers and panels on small screens.
 - **Do** pair every shadow with a border. In Dark mode the shadow is nearly invisible
   against the dusk background, and the border carries the edge.
@@ -218,7 +231,8 @@ Usage by primitive:
 
 ### Proposed type ramp
 
-These styles are derived from the combinations that actually occur. Each row replaces the
+These styles are derived from the combinations that actually occur. The adopted set (16
+styles, without `Mono/xs`) lives in [`type-styles.json`](type-styles.json). Each row replaces the
 ad hoc combinations listed under it.
 
 | Style             | Family  | Size   | Weight   | Line height | Tracking        | Replaces                                                                       |
@@ -283,38 +297,38 @@ This is outside the requested scope, but it is the same kind of raw value and it
 outlines in `global.css:67` and `MembersTab.module.css:91`, the Avatar ring, the tab
 underline, `outline-offset`, and `text-underline-offset: 3px` in Toast.
 
-Proposed: `stroke/default` 1, `stroke/strong` 2, `focus/ring-width` 2 and
-`focus/ring-offset` 2, as Primitives variables. In Figma these bind to Stroke weight.
+Added: `stroke/default` 1, `stroke/strong` 2, `stroke/focus-ring` 2 and
+`stroke/focus-offset` 2, plus `font/underline-offset` 3, as Primitives variables. In Figma
+the first three bind to Stroke weight; the offsets are hidden from pickers.
 
 ---
 
-## Figma capture checklist
+## Figma capture
 
-| Item                                                        | Status  | Action                                                                          |
-| ----------------------------------------------------------- | ------- | ------------------------------------------------------------------------------- |
-| `space/*` variables, Gap scope                              | Done    | None                                                                            |
-| `radius/*` variables, Corner radius scope                   | Done    | None                                                                            |
-| `font/size`, `font/weight` variables                        | Done    | None                                                                            |
-| `shadow/overlay` color                                      | Done    | None                                                                            |
-| Size tokens for dot, indicator, skeleton line, `control-xs` | Missing | Add to Primitives; rebind Dot, Badge and Kbd                                    |
-| Shadow geometry variables                                   | Missing | Add `shadow/overlay-sm/{y,blur}` and `shadow/overlay-lg/{y,blur}`               |
-| Effect styles                                               | Missing | `Elevation/Overlay sm` and `Elevation/Overlay lg`, bound to the variables above |
-| Text styles                                                 | Missing | 14 or 15 styles from the ramp, with size and weight bound                       |
-| Components use text styles                                  | Missing | Apply styles to text in Badge, Button, Input, Avatar, Kbd and Tooltip           |
-| Stroke-width variables                                      | Missing | Add, and bind on bordered components                                            |
-| Usage guidance in Figma                                     | Missing | Put the dos and don'ts in style and variable descriptions                       |
+Done in the library file on 2026-11-17.
 
-Note: the library already contains Button, Input, Avatar, Kbd, IconButton and Tooltip.
-`figma-library-plan.md` still lists only Spinner, Dot and Badge, and should be updated.
+| Item                                                                | Result                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `space/*`, `radius/*`, `font/size`, `font/weight`, `shadow/overlay` | Already captured; unchanged                                                                                                                                                                                                                                                                                                                                                                                                                |
+| New Primitives variables (17)                                       | `elevation/overlay-{sm,lg}/{y,blur}`; `stroke/{default,strong,focus-ring,focus-offset}`; `font/underline-offset`; `size/{control-xs,dot-sm,dot-md,progress-bar,skeleton-sm,skeleton-md,skeleton-lg,skeleton-inline}`. Each has scopes, WEB code syntax and a usage description. Primitives now has 77 variables.                                                                                                                           |
+| Effect styles (2)                                                   | `elevation/overlay-sm` and `elevation/overlay-lg`. The y offset, blur and color are bound to variables.                                                                                                                                                                                                                                                                                                                                    |
+| Text styles (16)                                                    | One per row of [`type-styles.json`](type-styles.json). Font size and weight are bound to `font/size/*` and `font/weight/*`. Line height and tracking are stored as percentages, and family as the font name, because Figma binds those fields to pixel values or font names and our variables hold ratios, em values and CSS stacks. Each description gives usage, tokens and the CSS class.                                               |
+| Components                                                          | Text styles applied where they match code exactly: Badge (`label/xs`), Button (`label/md`, `label/sm`), Input and Input / Filled (`body/md`). Tooltip, Avatar and Kbd text now bind size and weight variables but keep their own line heights until code migrates. 56 borders bind `stroke/default` or `stroke/strong`. Badge and Kbd heights moved from `size/avatar-xs` to `size/control-xs`; Dot moved from `space/2` to `size/dot-md`. |
+
+The library also contains Button, Input, Avatar, Kbd, IconButton and Tooltip, which
+`figma-library-plan.md` now lists.
 
 ## Pipeline and validation follow-ups
 
 These come after the Figma capture, in the validation phase.
 
-1. **Converter:** compose `shadow/<level>/{x,y,blur,spread}` into `--bd-shadow-<level>`.
-   Emit type styles in a form the code can use (see decision 2).
+1. **Code migration** (after the export): replace the 9 hardcoded shadows with
+   `--bd-elevation-*`, raw border and outline widths with `--bd-stroke-*`, spacing tokens
+   used as sizes with `--bd-size-*`, and component type declarations with `.bd-type-*`
+   classes (applied in markup or with `composes: … from global`). Review the line-height
+   changes listed in the appendix.
 2. **Validator rules to add** (keep the existing ids stable):
-   - `raw-shadow`: any `box-shadow` that is not a single `--bd-shadow-*` token, or `none`.
+   - `raw-shadow`: any `box-shadow` that is not a single `--bd-elevation-*` token, or `none`.
    - `raw-stroke-width`: a raw width in `border*`, `outline`, `outline-offset` or
      `text-underline-offset`.
    - `space-as-size`: a `--bd-space-*` token in `width`, `height`, `min-*` or `max-*`.
@@ -326,17 +340,149 @@ These come after the Figma capture, in the validation phase.
 4. **Removal candidates:** `font-size-4xl`, `font-family-mono` (unless Kbd adopts it) and
    `duration-slow`. Remove them in Figma first, then regenerate.
 
-## Decisions needed
+## Decisions
 
-1. **Elevation:** two levels (`overlay-sm` and `overlay-lg`)? And should Toast and
-   BulkActionBar share one radius?
-2. **Type in code:** Figma text styles don't round-trip through the variables export.
-   Options:
-   - **(a) Recommended.** Keep primitives as the only exported tokens. Write the ramp in a
-     small, reviewed `type-styles` source. Generate CSS classes or composite tokens from it.
-     The validator then checks code and Figma styles against that source.
-   - (b) Add a `Type` variable collection per role (size, weight, line height and so on).
-     This needs alias support in the converter.
-3. **Ramp naming:** are the names and scope above right, including whether Kbd should become
-   monospaced?
-4. **Stroke widths:** include them in this round of Figma work?
+1. **Elevation:** two levels, `overlay-sm` and `overlay-lg`. Toast (`md`) and BulkActionBar
+   (`lg`) keep different radii; both are already steps in the radius scale.
+2. **Type:** the reviewed source is [`type-styles.json`](type-styles.json). It produces Figma
+   text styles bound to the primitive variables, and CSS classes `.bd-type-<style>` in
+   `Code/src/styles/type.generated.css`, built by `npm run tokens`.
+3. **Type style names and Kbd:** pending owner review. Renaming is cheap: edit the JSON,
+   rerun `tokens`, rename the Figma styles.
+4. **Stroke widths:** included.
+
+## Appendix: type mapping
+
+Every rule that sets a font size, plus classes applied to `h1` to `h4`, resolved to its
+effective settings (explicit values, then heading or body defaults) and matched to a type
+style. "Changes" lists what adopting the style would alter. Most are line height only:
+labels move to tight, titles to snug.
+
+The `global.css` heading defaults (`h1` to `h4`) are not a style. Once components use the
+classes, they should stop implying a look: reset headings to inherit, so the class decides.
+
+| Component          | Selector                          | Style             | Match   | Change on adoption                                                  |
+| ------------------ | --------------------------------- | ----------------- | ------- | ------------------------------------------------------------------- |
+| CommandPalette     | `.input`                          | `body/lg`         | exact   | none                                                                |
+| Dialog             | `.description`                    | `body/md`         | exact   | none                                                                |
+| Menu               | `.item`                           | `body/md`         | exact   | none                                                                |
+| NotificationBell   | `.sentence`                       | `body/md-compact` | exact   | none                                                                |
+| AssistantPanel     | `.thinking`                       | `body/sm`         | exact   | none                                                                |
+| Breadcrumbs        | `.list`                           | `body/sm`         | exact   | none                                                                |
+| CommandPalette     | `.hint`                           | `body/sm`         | exact   | none                                                                |
+| CommandPalette     | `.empty`                          | `body/sm`         | exact   | none                                                                |
+| DatePicker         | `.custom`                         | `body/sm`         | exact   | none                                                                |
+| DemoPanel          | `.intro`                          | `body/sm`         | exact   | none                                                                |
+| DocPreview         | `.doc`                            | `body/sm`         | exact   | none                                                                |
+| Field              | `.hint, .error`                   | `body/sm`         | exact   | none                                                                |
+| FilePanel          | `.meta, .muted`                   | `body/sm`         | exact   | none                                                                |
+| FilePanel          | `.details`                        | `body/sm`         | exact   | none                                                                |
+| FilePickerDialog   | `.when`                           | `body/sm`         | exact   | none                                                                |
+| FilesPage          | `.count`                          | `body/sm`         | exact   | none                                                                |
+| FilesPage          | `.table td`                       | `body/sm`         | exact   | none                                                                |
+| FocusCard          | `.reason`                         | `body/sm`         | exact   | none                                                                |
+| HomePage           | `.teamCount`                      | `body/sm`         | exact   | none                                                                |
+| InviteMemberDialog | `.formError`                      | `body/sm`         | exact   | none                                                                |
+| MembersTab         | `.note`                           | `body/sm`         | exact   | none                                                                |
+| MembersTab         | `.muted`                          | `body/sm`         | exact   | none                                                                |
+| MembersTab         | `.error`                          | `body/sm`         | exact   | none                                                                |
+| MessageContent     | `.sub`                            | `body/sm`         | exact   | none                                                                |
+| PageHeader         | `.eyebrow`                        | `body/sm`         | exact   | none                                                                |
+| PeoplePage         | `.title, .teams`                  | `body/sm`         | exact   | none                                                                |
+| PersonPage         | `.details`                        | `body/sm`         | exact   | none                                                                |
+| PersonPage         | `.muted`                          | `body/sm`         | exact   | none                                                                |
+| ProjectsPage       | `.description`                    | `body/sm`         | exact   | none                                                                |
+| QuickAdd           | `.token`                          | `body/sm`         | exact   | none                                                                |
+| SettingsPage       | `.note`                           | `body/sm`         | exact   | none                                                                |
+| ShareDialog        | `.sub`                            | `body/sm`         | exact   | none                                                                |
+| ShareDialog        | `.level`                          | `body/sm`         | exact   | none                                                                |
+| SidePanel          | `.title`                          | `body/sm`         | exact   | none                                                                |
+| Sidebar            | `.empty`                          | `body/sm`         | exact   | none                                                                |
+| SignInPage         | `.divider`                        | `body/sm`         | exact   | none                                                                |
+| SignInPage         | `.personRole`                     | `body/sm`         | exact   | none                                                                |
+| States             | `.errorMessage`                   | `body/sm`         | exact   | none                                                                |
+| States             | `.notice`                         | `body/sm`         | exact   | none                                                                |
+| SuggestedTasks     | `.picker`                         | `body/sm`         | exact   | none                                                                |
+| TaskBoard          | `.count`                          | `body/sm`         | exact   | none                                                                |
+| TaskBoard          | `.empty`                          | `body/sm`         | exact   | none                                                                |
+| TaskBoard          | `.due`                            | `body/sm`         | exact   | none                                                                |
+| TaskPanel          | `.propLabel`                      | `body/sm`         | exact   | none                                                                |
+| TaskPanel          | `.muted`                          | `body/sm`         | exact   | none                                                                |
+| TaskPanel          | `.event`                          | `body/sm`         | exact   | none                                                                |
+| TaskPanel          | `.commentBody`                    | `body/sm`         | exact   | none                                                                |
+| TaskRow            | `.due`                            | `body/sm`         | exact   | none                                                                |
+| TasksView          | `.search input`                   | `body/sm`         | exact   | none                                                                |
+| TeamPage           | `.muted`                          | `body/sm`         | exact   | none                                                                |
+| TeamsPage          | `.description`                    | `body/sm`         | exact   | none                                                                |
+| Toast              | `.description`                    | `body/sm`         | exact   | none                                                                |
+| WorkspaceSettings  | `.note`                           | `body/sm`         | exact   | none                                                                |
+| NotificationBell   | `.excerpt`                        | `body/sm-compact` | exact   | none                                                                |
+| ActivityFeed       | `.time`                           | `caption`         | exact   | none                                                                |
+| AssistantPanel     | `.context`                        | `caption`         | exact   | none                                                                |
+| AssistantPanel     | `.disclaimer`                     | `caption`         | exact   | none                                                                |
+| FileList           | `.meta`                           | `caption`         | exact   | none                                                                |
+| FilesPage          | `.sub`                            | `caption`         | exact   | none                                                                |
+| Menu               | `.shortcut`                       | `caption`         | exact   | none                                                                |
+| NotificationBell   | `.time`                           | `caption`         | exact   | none                                                                |
+| PeoplePage         | `.teams`                          | `caption`         | exact   | none                                                                |
+| ProjectsPage       | `.meta`                           | `caption`         | exact   | none                                                                |
+| QuickAdd           | `.hint`                           | `caption`         | exact   | none                                                                |
+| Sidebar            | `.plan`                           | `caption`         | exact   | none                                                                |
+| Sidebar            | `.count`                          | `caption`         | exact   | none                                                                |
+| Sidebar            | `.userTitle`                      | `caption`         | exact   | none                                                                |
+| Tabs               | `.count`                          | `caption`         | exact   | none                                                                |
+| TaskBoard          | `.meta`                           | `caption`         | exact   | none                                                                |
+| TaskPanel          | `.when`                           | `caption`         | exact   | none                                                                |
+| TaskRow            | `.meta`                           | `caption`         | exact   | none                                                                |
+| TeamsPage          | `.stat`                           | `caption`         | exact   | none                                                                |
+| ThreadHistory      | `.meta`                           | `caption`         | exact   | none                                                                |
+| Tooltip            | `.content`                        | `caption`         | changes | line height snug → normal                                           |
+| FocusCard          | `.title`                          | `display/card`    | exact   | none                                                                |
+| ProjectsPage       | `.name`                           | `display/card`    | changes | line height normal → tight; tracking normal → tight                 |
+| TeamsPage          | `.name`                           | `display/card`    | changes | line height normal → tight; tracking normal → tight                 |
+| ThreadHistory      | `.heading`                        | `display/card`    | exact   | none                                                                |
+| PageHeader         | `.title`                          | `display/page`    | exact   | none                                                                |
+| SignInPage         | `.title`                          | `display/page`    | exact   | none                                                                |
+| TaskPanel          | `.title`                          | `display/panel`   | changes | tracking normal → tight                                             |
+| AssistantPanel     | `.welcomeTitle`                   | `display/section` | exact   | none                                                                |
+| Dialog             | `.title`                          | `display/section` | exact   | none                                                                |
+| DocPreview         | `.doc h2`                         | `display/section` | changes | line height normal → tight                                          |
+| FilePanel          | `.name`                           | `display/section` | exact   | none                                                                |
+| PersonPage         | `.heading`                        | `display/section` | exact   | none                                                                |
+| Button             | `.button`                         | `label/md`        | exact   | none                                                                |
+| Button             | `.button[data-size='sm']`         | `label/sm`        | exact   | none                                                                |
+| DemoPanel          | `.trigger`                        | `label/sm`        | changes | line height normal → tight                                          |
+| DemoPanel          | `.label`                          | `label/sm`        | changes | line height normal → tight                                          |
+| Field              | `.label`                          | `label/sm`        | changes | line height normal → tight                                          |
+| FilePanel          | `.askText`                        | `label/sm`        | changes | line height normal → tight                                          |
+| FilesPage          | `.tab`                            | `label/sm`        | changes | line height normal → tight                                          |
+| MembersTab         | `.table th`                       | `label/sm`        | changes | line height normal → tight                                          |
+| MessageContent     | `.chip`                           | `label/sm`        | changes | line height snug → tight                                            |
+| SegmentedControl   | `.segment`                        | `label/sm`        | changes | line height normal → tight                                          |
+| SuggestedTasks     | `.chip`                           | `label/sm`        | changes | line height normal → tight                                          |
+| Badge              | `.badge`                          | `label/xs`        | exact   | none                                                                |
+| FilesPage          | `.table th`                       | `label/xs`        | changes | line height normal → tight                                          |
+| NotificationBell   | `.badge`                          | `label/xs`        | changes | weight semibold → medium                                            |
+| Avatar             | `.avatar`                         | one-off           | —       | Component-specific; keep on primitives                              |
+| Avatar             | `.avatar[data-size='xs']`         | one-off           | —       | Component-specific; keep on primitives                              |
+| Avatar             | `.avatar[data-size='md']`         | one-off           | —       | Component-specific; keep on primitives                              |
+| Avatar             | `.avatar[data-size='lg']`         | one-off           | —       | Component-specific; keep on primitives                              |
+| ComponentSpecimens | `.name`                           | one-off           | —       | Component-specific; keep on primitives                              |
+| FocusCard          | `.number`                         | one-off           | —       | Component-specific; keep on primitives                              |
+| Kbd                | `.kbd`                            | one-off           | —       | Component-specific; keep on primitives (Kbd: pending mono decision) |
+| Logo               | `.wordmark`                       | one-off           | —       | Component-specific; keep on primitives                              |
+| Logo               | `.logo[data-size='lg'] .wordmark` | one-off           | —       | Component-specific; keep on primitives                              |
+| CommandPalette     | `.group`                          | `overline`        | changes | line height normal → tight                                          |
+| Menu               | `.label`                          | `overline`        | changes | line height normal → tight                                          |
+| NotificationBell   | `.groupTitle`                     | `overline`        | exact   | none                                                                |
+| Sidebar            | `.heading`                        | `overline`        | changes | line height normal → tight                                          |
+| AssistantPanel     | `.title`                          | `title/md`        | changes | line height normal → snug                                           |
+| Card               | `.title`                          | `title/md`        | changes | line height tight → snug                                            |
+| DocPreview         | `.doc h3`                         | `title/md`        | changes | line height normal → snug                                           |
+| NotificationBell   | `.title`                          | `title/md`        | changes | line height tight → snug                                            |
+| BulkActionBar      | `.count`                          | `title/sm`        | changes | line height normal → snug                                           |
+| FilePanel          | `.sectionTitle`                   | `title/sm`        | changes | line height tight → snug                                            |
+| ShareDialog        | `.heading`                        | `title/sm`        | changes | line height tight → snug                                            |
+| TaskBoard          | `.heading`                        | `title/sm`        | changes | line height tight → snug                                            |
+| TaskGroups         | `.heading`                        | `title/sm`        | changes | line height tight → snug                                            |
+| TaskPanel          | `.sectionTitle`                   | `title/sm`        | changes | line height tight → snug                                            |
