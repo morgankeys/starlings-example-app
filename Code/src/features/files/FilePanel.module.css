@@ -33,7 +33,7 @@
 }
 
 .name {
-  composes: bd-type-headings-section from global;
+  composes: bd-type-display-section from global;
   overflow-wrap: anywhere;
 }
 
@@ -94,7 +94,7 @@
 }
 
 .sectionTitle {
-  composes: bd-type-title-sm from global;
+  composes: bd-type-heading-sm from global;
 }
 
 .noPreview {

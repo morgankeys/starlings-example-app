@@ -25,7 +25,7 @@
 }
 
 .title {
-  composes: bd-type-headings-panel from global;
+  composes: bd-type-display-panel from global;
   width: 100%;
   margin: calc(-1 * var(--bd-space-1)) 0;
   padding: var(--bd-space-1);
@@ -130,7 +130,7 @@
 }
 
 .sectionTitle {
-  composes: bd-type-title-sm from global;
+  composes: bd-type-heading-sm from global;
   display: flex;
   align-items: center;
   gap: var(--bd-space-1-5);

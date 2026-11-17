@@ -14,7 +14,7 @@
 }
 
 .heading {
-  composes: bd-type-headings-section from global;
+  composes: bd-type-display-section from global;
 }
 
 .details {

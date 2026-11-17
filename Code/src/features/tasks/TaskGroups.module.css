@@ -11,7 +11,7 @@
 }
 
 .heading {
-  composes: bd-type-title-sm from global;
+  composes: bd-type-heading-sm from global;
   display: flex;
   align-items: center;
   gap: var(--bd-space-1-5);

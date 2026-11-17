@@ -7,7 +7,7 @@
 }
 
 .heading {
-  composes: bd-type-headings-card from global;
+  composes: bd-type-display-card from global;
   padding: 0 var(--bd-space-2);
 }
 

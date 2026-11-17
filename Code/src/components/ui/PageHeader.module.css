@@ -20,7 +20,7 @@
 }
 
 .title {
-  composes: bd-type-headings-page from global;
+  composes: bd-type-display-page from global;
 }
 
 .description {

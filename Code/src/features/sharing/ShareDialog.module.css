@@ -17,7 +17,7 @@
 }
 
 .heading {
-  composes: bd-type-title-sm from global;
+  composes: bd-type-heading-sm from global;
 }
 
 .list {

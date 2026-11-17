@@ -14,7 +14,7 @@
 }
 
 .count {
-  composes: bd-type-title-sm from global;
+  composes: bd-type-heading-sm from global;
   margin-right: var(--bd-space-2);
 }
 

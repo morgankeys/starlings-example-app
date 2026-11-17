@@ -17,7 +17,7 @@
 }
 
 .title {
-  composes: bd-type-title-md from global;
+  composes: bd-type-heading-md from global;
   display: flex;
   flex: 1;
   align-items: center;

@@ -1,7 +1,7 @@
 {
-  "$description": "Birdy type styles. The reviewed source for Figma text styles and the generated CSS classes in Code/src/styles/type.generated.css. Each field names a Primitives token: family \u2192 font/family/*, size \u2192 font/size/*, weight \u2192 font/weight/*, lineHeight \u2192 font/line-height/*, letterSpacing \u2192 font/letter-spacing/*. Style names match the Figma text style names; the CSS class is .bd-type-<name with / replaced by ->. See foundations-audit.md.",
+  "$description": "Birdy type styles. The reviewed source for Figma text styles and the generated CSS classes in Code/src/styles/type.generated.css. Groups: display (content names in Bricolage), heading (interface structure in Instrument Sans), body (reading text), label (controls and chips). Each field names a Primitives token: family \u2192 font/family/*, size \u2192 font/size/*, weight \u2192 font/weight/*, lineHeight \u2192 font/line-height/*, letterSpacing \u2192 font/letter-spacing/*. Style names match the Figma text style names; the CSS class is .bd-type-<name with / replaced by ->. See foundations-audit.md.",
   "styles": {
-    "headings/page": {
+    "display/page": {
       "family": "display",
       "size": "3xl",
       "weight": "semibold",
@@ -9,7 +9,7 @@
       "letterSpacing": "tight",
       "usage": "Page titles (PageHeader, sign-in). One per page."
     },
-    "headings/panel": {
+    "display/panel": {
       "family": "display",
       "size": "2xl",
       "weight": "semibold",
@@ -17,15 +17,15 @@
       "letterSpacing": "tight",
       "usage": "Title of a docked panel or drawer, such as the task panel."
     },
-    "headings/section": {
+    "display/section": {
       "family": "display",
       "size": "xl",
       "weight": "semibold",
       "lineHeight": "tight",
       "letterSpacing": "tight",
-      "usage": "Dialog titles, panel section headings, welcome headings, document h2."
+      "usage": "Dialog titles, welcome headings, document h2."
     },
-    "headings/card": {
+    "display/card": {
       "family": "display",
       "size": "lg",
       "weight": "semibold",
@@ -33,7 +33,23 @@
       "letterSpacing": "tight",
       "usage": "Names and headings on cards and tiles (projects, teams, focus card)."
     },
-    "headings/overline": {
+    "heading/md": {
+      "family": "ui",
+      "size": "md",
+      "weight": "semibold",
+      "lineHeight": "snug",
+      "letterSpacing": "normal",
+      "usage": "Interface headers at body size: Card header, popover and panel headers, empty-state titles."
+    },
+    "heading/sm": {
+      "family": "ui",
+      "size": "sm",
+      "weight": "semibold",
+      "lineHeight": "snug",
+      "letterSpacing": "normal",
+      "usage": "Sub-section titles inside panels, dialogs, groups and board columns."
+    },
+    "heading/overline": {
       "family": "ui",
       "size": "xs",
       "weight": "semibold",
@@ -41,22 +57,6 @@
       "letterSpacing": "wide",
       "textTransform": "uppercase",
       "usage": "Group labels in navigation, menus and the command palette only."
-    },
-    "title/md": {
-      "family": "ui",
-      "size": "md",
-      "weight": "semibold",
-      "lineHeight": "snug",
-      "letterSpacing": "normal",
-      "usage": "UI titles at body size: Card title, popover and panel headers, empty-state titles."
-    },
-    "title/sm": {
-      "family": "ui",
-      "size": "sm",
-      "weight": "semibold",
-      "lineHeight": "snug",
-      "letterSpacing": "normal",
-      "usage": "Small section titles inside panels, groups, dialogs and board columns."
     },
     "body/lg": {
       "family": "ui",

@@ -1,5 +1,5 @@
 .title {
-  composes: bd-type-title-md from global;
+  composes: bd-type-heading-md from global;
   display: inline-flex;
   align-items: center;
   gap: var(--bd-space-1-5);
@@ -41,7 +41,7 @@
 }
 
 .welcomeTitle {
-  composes: bd-type-headings-section from global;
+  composes: bd-type-display-section from global;
 }
 
 .welcomeText {
