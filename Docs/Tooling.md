@@ -51,7 +51,9 @@ screenshot. Ctrl+C captures the entire screen without opening the menu.
   `figma-capture` and expect nothing.
 - **Network:** the capture is Figma's html-to-design script, which the button fetches from
   `mcp.figma.com` as it loads.
-- Example: `Code/src/scripts/figma-capture.ts` in the example site.
+- Example: `Code/src/scripts/figma-capture.ts` in the example site. In this repo it is
+  wired in `Code/src/main.tsx`, and `Code/scripts/check-dev-pages.mjs` enforces its
+  absence from the build (see `Code/ARCHITECTURE.md`).
 
 ### Figma MCP server
 

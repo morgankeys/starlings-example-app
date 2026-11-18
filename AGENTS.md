@@ -45,6 +45,7 @@ column, read the right column first.
 | Design-system validation, the deviations backlog, or writing a `Rationale:` line | `Docs/Design system/design-in-code architecture.md` |
 | Adding a sandbox, test, specimen, or sample page, or anything under a `dev/` pages folder | `Agents/context/dev-only-pages.md` |
 | Choosing or adding a tool (token converter, linter, Figma capture) | `Docs/Tooling.md` |
+| Capturing a page into Figma (the dev-only Figma capture button) | `Code/ARCHITECTURE.md` (Figma capture button) |
 | Forking the kit or porting changes between kit and fork | `Agents/context/kit-structure.md` |
 | Reviewing `Docs/` and `Agents/` for drift against `Code/` | `Agents/prompts/review-drift.md` |
 | What Birdy is, its workflows, or the scope of the prototype | `Docs/Plan.md` |
