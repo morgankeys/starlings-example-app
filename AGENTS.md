@@ -32,7 +32,7 @@ column, read the right column first.
 
 | If your task involves... | Read this first |
 | --- | --- |
-| Creating a branch, committing, or separating tracks of work | `Agents/context/git-workflow.md` |
+| Creating a branch, committing, pushing, or separating tracks of work | `Agents/context/git-workflow.md` |
 | `/pr` — commit, push, and open a pull request | `Agents/skills/pr/SKILL.md` |
 | Repo settings, promoting to production, or branch cleanup | `Docs/github.md` |
 | Any work in `Code/` (editing, adding, or debugging code) | `Code/ARCHITECTURE.md` |
@@ -45,6 +45,7 @@ column, read the right column first.
 | Design-system validation, the deviations backlog, or writing a `Rationale:` line | `Docs/Design system/design-in-code architecture.md` |
 | Adding a sandbox, test, specimen, or sample page, or anything under a `dev/` pages folder | `Agents/context/dev-only-pages.md` |
 | Choosing or adding a tool (token converter, linter, Figma capture) | `Docs/Tooling.md` |
+| Capturing a page into Figma (the dev-only Figma capture button) | `Code/ARCHITECTURE.md` (Figma capture button) |
 | Forking the kit or porting changes between kit and fork | `Agents/context/kit-structure.md` |
 | Reviewing `Docs/` and `Agents/` for drift against `Code/` | `Agents/prompts/review-drift.md` |
 | What Birdy is, its workflows, or the scope of the prototype | `Docs/Plan.md` |
@@ -70,9 +71,8 @@ moves and kit reuse.
    leave the "needs review" sentinel only when the reason is genuinely unclear.
 3. **Component styles are scoped and token-driven.** No inline styles, no hardcoded
    color, spacing, or radius.
-4. **Keep tracks of work organized, and stop before the remote.** Each track stays
-   recognizable in its branch, commits, and pull request. Never push or open a PR unless
-   asked; `/pr` is that ask.
+4. **Keep tracks of work organized.** Each track stays recognizable in its branch,
+   commits, and pull request. Never open a PR unless asked; `/pr` is that ask.
 5. **Sandbox, specimen, and sample pages never ship.** They render only on the local dev
    server. Never weaken whatever build check enforces this.
 6. **The token pipeline must preserve alpha.** Figma's variables export stores opacity in a
@@ -80,6 +80,10 @@ moves and kit reuse.
    emit an alpha-bearing color for every token with `alpha < 1`, and the build must include
    a regression guard that fails when one loses its alpha. Never simplify, remove, or
    bypass that guard; fix the transform.
+7. **After every commit, run all checks, then push.** Run the full check set (the same as
+   CI, `e2e` included). When it passes, push the branch without waiting to be asked. Never
+   push red, to the integration or production branch, or with force. The steps are in
+   `Agents/context/git-workflow.md`.
 
 ## Operating notes
 

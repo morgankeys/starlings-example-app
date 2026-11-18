@@ -23,7 +23,7 @@ today.
    points at a file that exists.
 5. Fix the docs, not the code, unless the code is plainly wrong; if it is, report it
    instead of changing it in this task.
-6. Commit per `Agents/context/git-workflow.md` (type `docs`). Stop before push.
+6. Commit per `Agents/context/git-workflow.md` (type `docs`). Then run all checks and push.
 
 ## Done when
 

@@ -9,6 +9,7 @@ Keep each track of work recognizable in its branch, commits, and pull request.
 - When the checkout has another conversation's changes, or this chat is a different track, ask before mixing them. Separate with a new branch, separate commits, or by leaving the other work untouched.
 - Never commit directly to the integration branch (default `main`) or the production branch.
 - Branch from the integration branch and open pull requests into it.
-- Never push or open a pull request unless asked in that turn. Invoking `/pr` is that ask — follow `Agents/skills/pr/SKILL.md`.
+- After every commit, run all checks (the same set as CI, `e2e` included). When they pass, push the branch without waiting to be asked. Never push failing checks, to the integration or production branch, or with force.
+- Never open a pull request unless asked in that turn. Invoking `/pr` is that ask — follow `Agents/skills/pr/SKILL.md`.
 
-Branch naming, commit style, and worktrees live in `Agents/context/git-workflow.md`. Read it before creating a branch or committing.
+Branch naming, commit style, the check list, and worktrees live in `Agents/context/git-workflow.md`. Read it before creating a branch or committing.

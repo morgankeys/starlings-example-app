@@ -29,6 +29,7 @@ owner. Verify claims against the code before relying on them.
 | Dates | date-fns 4 | Helpers in `src/lib/dates.ts` |
 | Tests | Vitest + Testing Library (jsdom) | `*.test.ts(x)` next to the code |
 | Lint | Prettier, ESLint 9 (flat), Stylelint 16 + `stylelint-declaration-strict-value` | |
+| Figma capture | `figma-capture-button` 0.2.1 (dev dependency) | Dev server only; see [Figma capture button](#figma-capture-button) |
 
 ## Project structure
 
@@ -44,7 +45,8 @@ Code/
     ds-validate.mjs          `validate`: design-system validator and backlog writer
     lib/tokens-source.mjs    Shared reader for the token JSON
   src/
-    main.tsx                 Starts the mock backend, then renders <App>
+    main.tsx                 Starts the mock backend, then renders <App>; loads the
+                             Figma capture button on the dev server
     app/                     Providers, router, AppShell, Sidebar, TopBar, DemoPanel,
                              session (RequireSession, useSession), theme, panels (URL state)
     routes/                  One folder per page; dev/ holds dev-only pages
@@ -234,6 +236,20 @@ this).
 - The Demo panel is **not** a dev-only page: it ships with the prototype on purpose,
   because it's how the test bed gets demoed.
 
+## Figma capture button
+
+- On the dev server a pink Figma button sits in the bottom-right corner. Click it and
+  choose **Entire screen** or **Select element**, or press Ctrl+C to capture the whole
+  page, then paste into Figma with ⌘V to get editable layers. Esc closes the menu or
+  cancels picking. Drag it anywhere; the position is kept in `localStorage`.
+- `src/main.tsx` loads `figma-capture-button` with a dynamic import inside
+  `if (import.meta.env.DEV)`, so Vite drops it from production builds.
+  `scripts/check-dev-pages.mjs` also fails the build if `dist/` contains the string
+  `figma-capture`. (Verified: removing the `DEV` gate makes the guard exit 1.)
+- The button marks itself `data-h2d-ignore`, so it never appears in its own captures.
+- **Network:** the capture is Figma's html-to-design script, fetched from
+  `mcp.figma.com` when the button loads. Offline, the button shows but capture fails.
+
 ## Build & dev workflow
 
 `npm run build` runs, in order:
@@ -244,7 +260,7 @@ this).
    channel.
 3. `tsc -b`: type check.
 4. `vite build` → `dist/` (vendor chunks: react, query, radix, msw, icons).
-5. `check-dev-pages.mjs`.
+5. `check-dev-pages.mjs` (dev-only pages and the Figma capture button).
 
 Typical loops:
 
@@ -252,6 +268,8 @@ Typical loops:
   the backlog diff.
 - **Before committing component changes:** `npm run lint`, `npm run check`,
   `npm run validate`, `npm test`.
+- **After every commit:** run all checks, `e2e` included, then push. See
+  `Agents/context/git-workflow.md`.
 - **Before committing a change to a user flow:** also run `npm run e2e` (role `e2e`).
   Playwright specs in `e2e/` drive the real app on the dev server (port 5185, started
   automatically) against the mock backend, and prefer role and label locators. Config is
