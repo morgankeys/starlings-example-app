@@ -55,11 +55,39 @@ Add tone overlays to project cards
 
 Do not write session-summary subjects: one commit describes one change, not everything a chat did.
 
-## Stop before push
+## After every commit: run all checks, then push
 
-The agent creates the branch and the commits. The human pushes and opens the pull request.
+Every time you commit, run the full check set, then push the branch. Don't wait to be asked.
 
-Do not run `git push`, `gh pr create`, or anything else that writes to the remote unless the user asks in that turn. Invoking `/pr` is that ask — follow [`Agents/skills/pr/SKILL.md`](../skills/pr/SKILL.md). Without `/pr`, report the branch name and the commits so the user can take it from there.
+### 1. Run all checks
+
+Run them from `Code/`, in this order. It is the same set as CI (`.github/workflows/ci.yml`), and [`Code/README.md`](../../Code/README.md) maps each role to its command.
+
+1. `lint`
+2. `check`
+3. `build` (also runs the token, alpha, and dev-only guards)
+4. `validate` (deviations are warnings; a new one needs a `Rationale:` line in the backlog)
+5. `test`
+6. `git diff --exit-code`: `build` and `validate` must not leave tracked files changed. If they do, commit the regenerated files.
+7. `e2e`
+
+If the machine's Chromium doesn't match the pinned Playwright, `e2e` fails to launch the browser. That is an environment problem, not a test failure. Set the path from the Gotchas in `Code/README.md` and rerun before reporting.
+
+If a check fails, fix it in a new commit (don't amend) and run all the checks again. If you can't fix it, don't push. Tell the user which check failed and show its output.
+
+### 2. Push
+
+When every check passes, push the branch:
+
+```bash
+git push -u origin HEAD
+```
+
+- Never push to the integration branch or the production branch. Never force-push.
+- If the push is rejected because the remote has commits you lack, fetch and merge them (don't rebase or force-push a shared branch), run the checks again, then push.
+- Pushing updates the branch's open pull request, if it has one.
+
+Opening a pull request still needs an ask: invoking `/pr` is that ask. Follow [`Agents/skills/pr/SKILL.md`](../skills/pr/SKILL.md). Without it, tell the user the branch name, the commits, and the check results.
 
 ## Two chats editing at once
 

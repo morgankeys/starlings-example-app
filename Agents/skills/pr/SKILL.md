@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # /pr
 
-Invoking `/pr` is the explicit ask to commit, push, and open a pull request in this turn. It overrides the rule that otherwise stops before the remote.
+Invoking `/pr` is the explicit ask to open a pull request in this turn. Opening a pull request otherwise needs an ask. Committing still means running all checks and pushing first, per `Agents/context/git-workflow.md`.
 
 Read `Agents/context/git-workflow.md` for commit style and the name of the integration branch. Below, `<base>` is that branch (default `main`). Run the conflict check, then ship. Do not resolve conflicts in this skill — report them and continue.
 
@@ -93,7 +93,9 @@ git merge-tree --write-tree --name-only --messages HEAD origin/<branch>
 
 Skip candidates with no shared paths. If `git fetch` or `gh` fails, say the check did not run. Do not guess.
 
-## 3. Push and open the PR
+## 3. Run all checks, push, and open the PR
+
+Run all checks, as in `Agents/context/git-workflow.md`. If one fails and you can't fix it, stop and report it. Don't open the PR. Then push:
 
 ```bash
 git push -u origin HEAD

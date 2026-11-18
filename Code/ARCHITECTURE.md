@@ -268,6 +268,8 @@ Typical loops:
   the backlog diff.
 - **Before committing component changes:** `npm run lint`, `npm run check`,
   `npm run validate`, `npm test`.
+- **After every commit:** run all checks, `e2e` included, then push. See
+  `Agents/context/git-workflow.md`.
 - **Before committing a change to a user flow:** also run `npm run e2e` (role `e2e`).
   Playwright specs in `e2e/` drive the real app on the dev server (port 5185, started
   automatically) against the mock backend, and prefer role and label locators. Config is
